@@ -50,6 +50,7 @@ public class Person extends Entity
 	 * @param name	
 	 * @return
 	 */
+	//hi
 	public static boolean exists(String name){
 		for(Person p : people)
 			if(p.equals(name)) return true;
