@@ -11,6 +11,7 @@ import officeEntities.Group;
 import officeEntities.NoSuchGroupException;
 import officeEntities.NoSuchPersonException;
 import officeEntities.Person;
+import officeEntities.Room;
 
 /**
  * This is class extends {@link cpsc433.PredicateReader} just as required to in
@@ -435,47 +436,94 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_close(String room, String room2) {
-		// TODO Auto-generated method stub
-
-	}
+		if (Room.exists(room) && Room.exists(room2)){
+				Room.getEntityWithName(room).addcloseTo(Room.getEntityWithName(room2));
+				Room.getEntityWithName(room2).addcloseTo(Room.getEntityWithName(room));
+			}else if (!Room.exists(room) && Room.exists(room2)){
+				new Room(room).addcloseTo(Room.getEntityWithName(room2));
+				Room.getEntityWithName(room2).addcloseTo(Room.getEntityWithName(room));
+			}else if (Room.exists(room) && !Room.exists(room2)){
+				new Room(room2).addcloseTo(Room.getEntityWithName(room));
+				Room.getEntityWithName(room).addcloseTo(Room.getEntityWithName(room2));
+			}else{
+				Room new_room = new Room(room);
+				Room new_room2 = new Room(room2);
+				new_room.addcloseTo(new_room2);
+				new_room2.addcloseTo(new_room);
+			}
+		}
 	/**
 	 *TODO:Brandon 
 	 */
-	@Override
-	public boolean e_close(String room, String room2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	/**
+			@Override
+			public boolean e_close(String room, String room2) {
+				if(Room.exists(room) && Room.exists(room2)){
+					if(Room.getEntityWithName(room).iscloseTo(Room.getEntityWithName(room2)))
+						return true;
+				}
+				return false;
+			}
+
+			/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public void a_close(String room, TreeSet<Pair<ParamType, Object>> set) {
-		// TODO Auto-generated method stub
-
-	}
+		Iterator<Pair<ParamType, Object>> iterator = set.iterator();
+		if(!Room.exists(room)){
+			new Room(room);
+		}
+		String roomtoAdd;
+		while((iterator.hasNext())){
+			roomtoAdd = (String) iterator.next().getValue();
+			if (Room.exists(roomtoAdd)){
+				Room.getEntityWithName(room).addcloseTo(Room.getEntityWithName(roomtoAdd));
+				Room.getEntityWithName(roomtoAdd).addcloseTo(Room.getEntityWithName(room));
+			}else if (!Room.exists(roomtoAdd)){
+				new Room(roomtoAdd).addcloseTo(Room.getEntityWithName(room));
+				Room.getEntityWithName(room).addcloseTo(Room.getEntityWithName(roomtoAdd));
+			}
+		}
+		}
 	/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public boolean e_close(String room, TreeSet<Pair<ParamType, Object>> set) {
-		// TODO Auto-generated method stub
-		return false;
+		if (!Room.exists(room)){
+			return false;
+		} 
+		Iterator<Pair<ParamType, Object>> iterator = set.iterator();
+		String roomtoAdd;
+		while(iterator.hasNext()){
+			String roomtoCheck = (String) iterator.next().getValue();
+			if (!((Room.getEntityWithName(room)).iscloseTo(Room.getEntityWithName(roomtoCheck)))){
+				return false;
+			}
+		}
+		return true;
 	}
+
 	/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public void a_large_room(String r) {
-		// TODO Auto-generated method stub
-
+		if(!Room.exists(r)){
+			new Room(r, 2);
+		}else {
+			Room.getEntityWithName(r).setSize(2);
+		}
 	}
 	/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public boolean e_large_room(String r) {
-		// TODO Auto-generated method stub
+		if(Room.exists(r)){
+			if(Room.getEntityWithName(r).getSize() == 2)
+				return true;
+		}
 		return false;
 	}
 	/**
@@ -483,15 +531,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_medium_room(String r) {
-		// TODO Auto-generated method stub
-
+		if(!Room.exists(r)){
+			new Room(r, 1);
+		}else{
+			Room.getEntityWithName(r).setSize(1);
+		}
 	}
 	/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public boolean e_medium_room(String r) {
-		// TODO Auto-generated method stub
+		if(Room.exists(r)){
+			if(Room.getEntityWithName(r).getSize() == 1)
+				return true;
+		}		
 		return false;
 	}
 	/**
@@ -499,15 +553,21 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_small_room(String r) {
-		// TODO Auto-generated method stub
-
+		if(!Room.exists(r)){
+			new Room(r, 0);
+		}else{
+			Room.getEntityWithName(r).setSize(0);
+		}
 	}
 	/**
 	 *TODO:Brandon 
 	 */
 	@Override
 	public boolean e_small_room(String r) {
-		// TODO Auto-generated method stub
+		if(Room.exists(r)){
+			if(Room.getEntityWithName(r).getSize() == 0)
+				return true;
+		}		
 		return false;
 	}
 	/**
