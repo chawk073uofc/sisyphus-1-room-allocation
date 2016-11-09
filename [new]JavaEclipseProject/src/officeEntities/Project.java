@@ -17,6 +17,11 @@ public class Project extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Project(String name, largeProject) {
+		super(name);
+		this.largeProject = largeProject);
+	}
+	
 	public Project(String projectName, Person person) {
 		super(projectName);
 		members.add(person);
@@ -69,4 +74,16 @@ public class Project extends Entity {
 		largeProject = true;
 	}
 
+	/**
+	 * Returns true if the named project exsists.
+	 * @param groupName
+	 * @return boolean
+	 */
+	public static boolean exists(String projName){
+		for(Project p : projects)
+			if(p.equals(projName)) return true;
+		return false;
+	}
+	
+	
 }

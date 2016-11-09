@@ -18,6 +18,7 @@ public class Group extends Entity {
 		super(groupName);
 	}
 	
+	
 	/**
 	 * Constructor for class Group. Creates a group with the given name and assigns the given person
 	 * to the group's list of people.
@@ -66,5 +67,16 @@ public class Group extends Entity {
 	public boolean hasGroupHead(String personName) {
 		return groupHead.getName().equals(personName);
 	}
+	/**
+	 * Returns true if the named group exsists.
+	 * @param groupName
+	 * @return boolean
+	 */
+	public static boolean exists(String groupName){
+		for(Group g : groups)
+			if(g.equals(groupName)) return true;
+		return false;
+	}
+	
 
 }

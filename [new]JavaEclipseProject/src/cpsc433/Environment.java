@@ -556,50 +556,79 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 * TODO:Ali
+	 * Creats a group with groupName.
+	 * @param groupName
+	 * @return void
 	 */
 	@Override
-	public void a_group(String g) {
-		// TODO Auto-generated method stub
-
+	public void a_group(String groupName) {
+		if(!Group.exists(groupName))
+			new Group(groupName);		
+	}
+		
+	
+	/**
+	 * Returns true if a group with groupName exists.
+	 * @param groupName
+	 * @return boolean
+	 */
+	@Override
+	public boolean e_group(String groupName) {
+		return Group.exists(groupName);
+	}
+	
+	/**
+	 * Creates a project with given project name.
+	 * @param projName
+	 * @return void
+	 */
+	@Override
+	public void a_project(String projName) {
+		if(!Project.exists(projName))
+			new Project(projName);
+	}
+	
+	/**
+	 * Returns true if a project with projName exists.
+	 * @param projName
+	 * @return boolean
+	 */
+	@Override
+	public boolean e_project(String projName) {
+		return Project.exists(projName);
+	}
+	
+	/**
+	 * Adds a large project with given name.
+	 * If a project already exists with given name, 
+	 * it will check to see if that project is large.
+	 * If it is not large, it will set it to large.
+	 * 
+	 * @param projName
+	 * @return void
+	 */
+	@Override
+	public void a_large_project(String projName) {
+		if(!Project.exists(projName)){					//Check if project with project name exsists
+			new (projName, true);                       //if it doesn't then create a new proj and set it to large proj
+		} else {              //otherwise if a project with that name exsists, check to see if it is large
+			Project exsistingProject = Project.getEntityWithName(projName);
+			if(!exsistingProject.isLargeProject()){
+				exsistingProject.setLargeProject(); //if it is not large, set it to large
+			}
+		}
 	}
 	/**
-	 * TODO:Ali
+	 * Returns true if a project with projName exists and is large.
+	 * @param projName
+	 * @return boolean
 	 */
 	@Override
-	public boolean e_group(String g) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	/**
-	 * TODO:Ali
-	 */
-	@Override
-	public void a_project(String p) {
-		// TODO Auto-generated method stub
-
-	}
-	/**
-	 * TODO:Ali
-	 */
-	@Override
-	public boolean e_project(String p) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	/**
-	 * TODO:Ali
-	 */
-	@Override
-	public void a_large_project(String prj) {
-		// TODO Auto-generated method stub
-	}
-	/**
-	 * TODO:Ali
-	 */
-	@Override
-	public boolean e_large_project(String prj) {
-		// TODO Auto-generated method stub
+	public boolean e_large_project(String projName) {
+		if(Project.exists(projName)){
+			Project exsistingProject = Project.getEntityWithName(projName);
+			return exsistingProject.isLargeProject();
+		}
 		return false;
 	}
 }
