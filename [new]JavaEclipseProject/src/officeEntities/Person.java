@@ -73,6 +73,8 @@ public class Person extends Entity
 	 * @param attribute
 	 * @return
 	 */
+	
+	//hi
 	public boolean hasAttribute(String attribute) {
 		return attributes.contains(attribute);
 	}
