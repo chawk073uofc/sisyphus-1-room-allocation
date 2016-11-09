@@ -343,25 +343,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		} catch (NoSuchPersonException e) {
 			e.printStackTrace();
 		}
-
-		// try {
-		// String collegueName = (String)iterator.next().getValue();
-		// try{
-		//
-		// collegueToAdd = Person.getEntityWithName(collegueName);
-		// } catch (NoSuchPersonException e){
-		// collegueToAdd = new Person(collegueName);
-		//
-		// }
-		// Person.getEntityWithName(personName).addColleague(collegueToAdd);
-		// collegueToAdd.addColleague(Person.getEntityWithName(personName));
-		// } catch (NoSuchPersonException e) {
-		// Person newPerson = new Person(personName);
-		// newPerson.addColleague(collegueToAdd);
-		// collegueToAdd.addColleague(newPerson );
-
-		// System.err.println(p2s.first().getValue());
-
 	}
 
 	@Override
@@ -413,31 +394,30 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	}
 	/**
-	 * TODO:Branko
+	 * 
 	 */
 	@Override
 	public boolean e_assign_to(String p, String room) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 	/**
-	 *TODO:Brandon 
 	 */
 	@Override
-	public void a_room(String r) {
-		// TODO Auto-generated method stub
-
+	public void a_room(String roomName) {
+			if (!Room.exists(roomName))
+				new Room(roomName);
 	}
 	/**
-	 *TODO:Brandon 
 	 */
 	@Override
 	public boolean e_room(String r) {
-		// TODO Auto-generated method stub
-		return false;
+		return Room.exists(r);
 	}
+
 	/**
-	 *TODO:Brandon 
+	 *
 	 */
 	@Override
 	public void a_close(String room, String room2) {
@@ -458,19 +438,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			}
 		}
 	/**
-	 *TODO:Brandon 
+	 *
 	 */
-			@Override
-			public boolean e_close(String room, String room2) {
-				if(Room.exists(room) && Room.exists(room2)){
-					if(Room.getEntityWithName(room).iscloseTo(Room.getEntityWithName(room2)))
-						return true;
-				}
-				return false;
+		@Override
+		public boolean e_close(String room, String room2) {
+			if(Room.exists(room) && Room.exists(room2)){
+				if(Room.getEntityWithName(room).iscloseTo(Room.getEntityWithName(room2)))
+					return true;
 			}
+			return false;
+		}
 
-			/**
-	 *TODO:Brandon 
+	/**
+	 *
 	 */
 	@Override
 	public void a_close(String room, TreeSet<Pair<ParamType, Object>> set) {
@@ -491,7 +471,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 		}
 	/**
-	 *TODO:Brandon 
+	 *
 	 */
 	@Override
 	public boolean e_close(String room, TreeSet<Pair<ParamType, Object>> set) {
@@ -510,7 +490,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	/**
-	 *TODO:Brandon 
+	 *
 	 */
 	@Override
 	public void a_large_room(String r) {
@@ -521,7 +501,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 * 
 	 */
 	@Override
 	public boolean e_large_room(String r) {
@@ -532,7 +512,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 * 
 	 */
 	@Override
 	public void a_medium_room(String r) {
@@ -543,7 +523,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 * 
 	 */
 	@Override
 	public boolean e_medium_room(String r) {
@@ -554,7 +534,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 * 
 	 */
 	@Override
 	public void a_small_room(String r) {
@@ -565,7 +545,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 * 
 	 */
 	@Override
 	public boolean e_small_room(String r) {
