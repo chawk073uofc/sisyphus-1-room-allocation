@@ -1,5 +1,5 @@
 /**
- * I have added this comment to test git.
+ * I have added this comment.
  */
 package cpsc433;
 
