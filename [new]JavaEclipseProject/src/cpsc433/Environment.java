@@ -1,5 +1,10 @@
 /**
+<<<<<<< HEAD
  * I have added this comment.
+=======
+ * I have added this comment to test git.
+ * I have added this comment to test git.	
+>>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
  */
 package cpsc433;
 
