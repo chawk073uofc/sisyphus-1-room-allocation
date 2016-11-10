@@ -46,13 +46,15 @@ public class Person extends Entity
 	}
 
 	/**
-	 * Returns true if an Person object with the same name already exists. TODO: move to Entity??
+	 * Returns true if an Person object with the same name already exists.
 	 * @param name	
 	 * @return
 	 */
 	public static boolean exists(String name){
-		for(Person p : people)
-			if(p.equals(name)) return true;
+		for(Person p : people){
+			if(p.getName().equals(name));
+					return true;
+		}
 		return false;
 	}
 

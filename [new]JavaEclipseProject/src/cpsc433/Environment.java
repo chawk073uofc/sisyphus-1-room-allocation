@@ -75,9 +75,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * program abruptly.
 	 */
 	public void a_exit() {
-
-		// This is where we write to the output file?
-
 		System.exit(0);
 	}
 
@@ -87,6 +84,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_person(String name) {
+		System.out.println("\nin a_person\n");
 		if (!Person.exists(name))
 			new Person(name);
 	}
