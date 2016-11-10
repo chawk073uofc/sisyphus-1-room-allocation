@@ -50,7 +50,6 @@ public class Person extends Entity
 	 * @param name	
 	 * @return
 	 */
-	//hi2
 	public static boolean exists(String name){
 		for(Person p : people)
 			if(p.equals(name)) return true;
@@ -66,7 +65,7 @@ public class Person extends Entity
 	public static Person getEntityWithName(String name) throws NoSuchPersonException{
 		for(Person p : people)
 			if(p.equals(name)) return p;
-		
+		//person by given name not found
 		throw new NoSuchPersonException();
 	}
 	/**
@@ -74,29 +73,10 @@ public class Person extends Entity
 	 * @param attribute
 	 * @return
 	 */
-	
-	//hi
 	public boolean hasAttribute(String attribute) {
 		return attributes.contains(attribute);
 	}
 
-	/**
-	 * String representation of person. TODO: Print all roles??
-	 */
-	@Override
-	public String toString(){
-		return "";
-	}
-	
-	/**
-	 * TODO: Print the data relating to all people in the list of people by calling 
-	 * the toString() method of each person?
-	 * @return
-	 */
-	public static String getAllPersonData(){
-		return "";
-	}
-	
 	/**
 	 * Adds the group with the given name to the list of groups with which this person is associated. 
 	 * Creates the group if it does not exist.
@@ -132,5 +112,32 @@ public class Person extends Entity
 	
 	public boolean isColleague(Person colleague){
 		return colleagues.contains(colleague);
+	}
+	/**
+	 * String representation of person. String contains information about all the 
+	 * person's colleagues and attributes.
+	 */
+	@Override
+	public String toString(){
+		String personStr = "";
+		personStr += "person(" + this.getName() + ")\n";
+		for(String att: attributes)
+			personStr +=  att + "(" + this.getName() + ")\n";
+		for(Person coll : colleagues)
+			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")";
+		
+		return personStr;
+	}
+	/**
+	 * Builds a string representing all the Person objects instantiated by calling the
+	 * toString() method of each. 
+	 * @return
+	 */
+	public static String peopleInfoString(){
+		String peopleStr = "";
+		for(Person p : people)
+			peopleStr += p;
+			
+		return peopleStr;
 	}
 }

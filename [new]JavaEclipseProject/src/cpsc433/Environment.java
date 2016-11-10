@@ -566,7 +566,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			new Group(groupName);		
 	}
 		
-	
 	/**
 	 * Returns true if a group with groupName exists.
 	 * @param groupName
