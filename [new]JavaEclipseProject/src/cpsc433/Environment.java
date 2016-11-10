@@ -1,11 +1,4 @@
-/**
-<<<<<<< HEAD
- * I have added this comment.
-=======
- * I have added this comment to test git.
- * I have added this comment to test git.	
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
- */
+
 package cpsc433;
 
 import java.util.Iterator;
@@ -75,9 +68,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * program abruptly.
 	 */
 	public void a_exit() {
-
-		// This is where we write to the output file?
-
 		System.exit(0);
 	}
 
@@ -87,6 +77,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_person(String name) {
+		System.out.println("\nin a_person\n");
 		if (!Person.exists(name))
 			new Person(name);
 	}

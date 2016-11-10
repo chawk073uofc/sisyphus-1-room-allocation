@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import cpsc433.Entity;
 //import officeEntities.Person.PersonAttributeType;
 
+
 public class Person extends Entity 
 {
-	private static ArrayList<Person> people = new ArrayList<>(); //All instances of class Person currently instantiated.
+	private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
 
 	//All the possible attributes that a person can have.
 	//public static enum PersonAttributeType {researcher, secretary, manager, project_head, hacker, smoker}	
@@ -32,8 +33,8 @@ public class Person extends Entity
 	 */
 	public Person(String name, String attribute){
 		super(name);
-		people.add(this);
 		attributes.add(attribute);			
+		people.add(this);
 	}
 
 	/**
@@ -46,13 +47,15 @@ public class Person extends Entity
 	}
 
 	/**
-	 * Returns true if an Person object with the same name already exists. TODO: move to Entity??
+	 * Returns true if an Person object with the same name already exists.
 	 * @param name	
 	 * @return
 	 */
 	public static boolean exists(String name){
-		for(Person p : people)
-			if(p.equals(name)) return true;
+		for(Person p : people){
+			if(p.getName().equals(name));
+					return true;
+		}
 		return false;
 	}
 
@@ -141,3 +144,4 @@ public class Person extends Entity
 		return peopleStr;
 	}
 }
+
