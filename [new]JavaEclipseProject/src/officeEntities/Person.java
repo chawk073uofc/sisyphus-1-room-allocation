@@ -7,7 +7,7 @@ import cpsc433.Entity;
 
 public class Person extends Entity 
 {
-	private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
+	private static ArrayList<Person> people = new ArrayList<>(); //All instances of class Person currently instantiated.
 
 	//All the possible attributes that a person can have.
 	//public static enum PersonAttributeType {researcher, secretary, manager, project_head, hacker, smoker}	
