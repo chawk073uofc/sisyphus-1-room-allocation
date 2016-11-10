@@ -1,11 +1,4 @@
-/**
-<<<<<<< HEAD
- * I have added this comment.
-=======
- * I have added this comment to test git.
- * I have added this comment to test git.	
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
- */
+
 package cpsc433;
 
 import java.util.Iterator;
@@ -369,37 +362,59 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return true;
 	}
 	
-	/**
-	 * TODO:Branko
-	 */
+
 	@Override
-	public void a_works_with(String p, String p2) {
-		// TODO Auto-generated method stub
+	public void a_works_with(String personName, String collegueName) {
+		try {
+				if (Person.exists(personName) && Person.exists(collegueName)) {
+					Person.getEntityWithName(personName).addColleague(Person.getEntityWithName(collegueName));
+					Person.getEntityWithName(collegueName).addColleague(Person.getEntityWithName(personName));
+
+				} else if (Person.exists(personName) && !Person.exists(collegueName)) {
+					Person new_collegue = new Person(collegueName);
+					new_collegue.addColleague(Person.getEntityWithName(personName));
+					Person.getEntityWithName(personName).addColleague(Person.getEntityWithName(collegueName));
+
+				} else if (!Person.exists(personName) && Person.exists(collegueName)) {
+					Person new_person = new Person(personName);
+					new_person.addColleague(Person.getEntityWithName(collegueName));
+					Person.getEntityWithName(collegueName).addColleague(Person.getEntityWithName(personName));
+				} else if (!Person.exists(personName) && !Person.exists(collegueName)) {
+					Person new_person = new Person(personName);
+					Person new_collegue = new Person(collegueName);
+					new_person.addColleague(new_collegue);
+					new_collegue.addColleague(new_person);
+				}
+
+		} catch (NoSuchPersonException e) {
+			e.printStackTrace();
+		}
 
 	}
-	/**
-	 * TODO:Branko
-	 */
-	@Override
-	public boolean e_works_with(String p, String p2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	/**
-	 * TODO:Branko
-	 */
-	@Override
-	public void a_assign_to(String p, String room) throws Exception {
-		// TODO Auto-generated method stub
 
-	}
-	/**
-	 * 
-	 */
 	@Override
-	public boolean e_assign_to(String p, String room) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean e_works_with(String personName, String collegueName) {
+		try {
+			return Person.getEntityWithName(personName).isColleague(Person.getEntityWithName(collegueName));
+				
+		} catch (NoSuchPersonException e) {
+			return false;
+		}
+	}
+
+	@Override
+	public void a_assign_to(String personName, String room) throws Exception {
+		Room.getEntityWithName(room).addPerson(Person.getEntityWithName(personName));
+	}
+
+	@Override
+	public boolean e_assign_to(String personName, String room) {
+		try {
+			return Room.getEntityWithName(room).hasPerson(Person.getEntityWithName(personName));
+			
+		} catch (NoSuchPersonException e) {
+			return false;
+		}
 	}
 	
 	/**

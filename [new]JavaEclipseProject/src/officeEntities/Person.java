@@ -1,3 +1,4 @@
+
 package officeEntities;
 
 import java.util.ArrayList;
@@ -32,8 +33,8 @@ public class Person extends Entity
 	 */
 	public Person(String name, String attribute){
 		super(name);
-		people.add(this);
 		attributes.add(attribute);			
+		people.add(this);
 	}
 
 	/**
