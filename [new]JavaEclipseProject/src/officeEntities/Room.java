@@ -3,28 +3,39 @@ package officeEntities;
 import java.util.ArrayList;
 
 import cpsc433.Entity;
+import officeEntities.Room.RoomSize;
 
 public class Room extends Entity{
 	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
 	
 	private ArrayList<Person> members = new ArrayList<Person>();
 	private ArrayList<Room> closeTo = new ArrayList<Room>();
-	private int size; // 0 = small, 1 = medium, 2 = large
+	public static enum RoomSize {SMALL, MEDIUM, LARGE};
+	private RoomSize size = RoomSize.MEDIUM; 
 	
+	// 0 = small, 1 = medium, 2 = large
+	/**
+	 * Constructor for class Room. Creates a room with the given name. Default size is medium.
+	 * @param roomName
+	 */
 	public Room(String roomName){
 		super(roomName);
-		setSize(1);
+		//setSize(1);
 		rooms.add(this);
 	}
-	
-	public Room(String roomName, int roomSize) {
+	/**
+	 * Constructor for class Room. Creates a room with the given name and size.
+	 * @param roomName
+	 * @param roomSize
+	 */
+	public Room(String roomName, RoomSize roomSize) {
 		super(roomName);
-		setSize(roomSize); 
+		size = roomSize; 
 		rooms.add(this);
 	}
 	
 	/**
-	 * Returns true if an Person object with the same name already exists. TODO: move to Entity??
+	 * Returns true if a Room object with the same name already exists. 
 	 * @param name	
 	 * @return
 	 */
@@ -34,13 +45,13 @@ public class Room extends Entity{
 		return false;
 	}
 	
-	public boolean iscloseTo(Room checkRoom){
+	public boolean isCloseTo(Room checkRoom){
 		for (Room r: closeTo)
 			if(checkRoom.equals(r)) return true;
 		return false;
 	}
 	
-	public void addcloseTo(Room addRoom){
+	public void addCloseTo(Room addRoom){
 		if(!closeTo.contains(addRoom))
 			closeTo.add(addRoom);
 	}
@@ -51,16 +62,13 @@ public class Room extends Entity{
 				return r;
 		}
 		return null;
-	
 	}
 
-	public int getSize() {
+	public RoomSize getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(RoomSize size) {
 		this.size = size;
 	}
-	
-	
 }
