@@ -19,7 +19,7 @@ public class Project extends Entity {
 	
 	public Project(String name, Boolean largeProject) {
 		super(name);
-		this.largeProject = largeProject);
+		this.largeProject = largeProject;
 	}
 	
 	public Project(String projectName, Person person) {

@@ -15,7 +15,9 @@ import cpsc433.Predicate.ParamType;
 import officeEntities.Group;
 import officeEntities.NoSuchGroupException;
 import officeEntities.NoSuchPersonException;
+import officeEntities.NoSuchProjectException;
 import officeEntities.Person;
+import officeEntities.Project;
 import officeEntities.Room;
 
 /**
@@ -610,9 +612,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_large_project(String projName) {
 		if(!Project.exists(projName)){					//Check if project with project name exsists
-			new (projName, true);                       //if it doesn't then create a new proj and set it to large proj
+			new Project(projName, true);                       //if it doesn't then create a new proj and set it to large proj
 		} else {              //otherwise if a project with that name exsists, check to see if it is large
-			Project exsistingProject = Project.getEntityWithName(projName);
+			Project exsistingProject = null;
+			try {
+				exsistingProject = Project.getEntityWithName(projName);
+			} catch (NoSuchProjectException e) {
+				e.printStackTrace();
+			}
 			if(!exsistingProject.isLargeProject()){
 				exsistingProject.setLargeProject(); //if it is not large, set it to large
 			}
@@ -626,7 +633,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_large_project(String projName) {
 		if(Project.exists(projName)){
-			Project exsistingProject = Project.getEntityWithName(projName);
+			Project exsistingProject = null;
+			try {
+				exsistingProject = Project.getEntityWithName(projName);
+			} catch (NoSuchProjectException e) {
+				e.printStackTrace();
+			}
 			return exsistingProject.isLargeProject();
 		}
 		return false;
