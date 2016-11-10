@@ -71,4 +71,12 @@ public class Room extends Entity{
 	public void setSize(RoomSize size) {
 		this.size = size;
 	}
+	
+	public void addPerson(Person p){
+		members.add(p);
+	}
+	
+	public boolean hasPerson(Person p){
+		return members.contains(p);
+	}
 }
