@@ -41,7 +41,7 @@ public class Room extends Entity{
 	 */
 	public static boolean exists(String name){
 		for(Room r : rooms)
-			if(r.equals(name)) return true;
+			if(r.getName().equals(name)) return true;
 		return false;
 	}
 	
@@ -58,7 +58,7 @@ public class Room extends Entity{
 	
 	public static Room getEntityWithName(String roomName){
 		for(Room r : rooms){
-			if(r.equals(roomName)) 
+			if(r.getName().equals(roomName)) 
 				return r;
 		}
 		return null;

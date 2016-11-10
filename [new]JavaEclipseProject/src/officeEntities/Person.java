@@ -53,8 +53,9 @@ public class Person extends Entity
 	 */
 	public static boolean exists(String name){
 		for(Person p : people){
-			if(p.getName().equals(name));
+			if(p.getName().equals(name)){
 					return true;
+			}
 		}
 		return false;
 	}
@@ -66,9 +67,11 @@ public class Person extends Entity
 	 * @throws NoSuchPersonException
 	 */
 	public static Person getEntityWithName(String name) throws NoSuchPersonException{
-		for(Person p : people)
-			if(p.equals(name)) return p;
-		//person by given name not found
+		for(Person p : people){
+			if(p.getName().equals(name)){
+				return p; }
+		//person by given name not found	
+	}
 		throw new NoSuchPersonException();
 	}
 	/**
