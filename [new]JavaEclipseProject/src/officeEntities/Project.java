@@ -17,7 +17,7 @@ public class Project extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Project(String name, largeProject) {
+	public Project(String name, Boolean largeProject) {
 		super(name);
 		this.largeProject = largeProject);
 	}
