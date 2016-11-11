@@ -2,7 +2,12 @@ package cpsc433;
 
 import officeEntities.Group;
 import officeEntities.Person;
+import officeEntities.Project;
 import officeEntities.Room;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -72,11 +77,26 @@ public class SisyphusI {
 	 * TODO: create output file
 	 */
 	private void printIODemoInfo() {
-		
 		String p1 = Person.peopleInfoString();
 		String p2 = Room.roomInfoString();
 		String p3 = Group.groupInfoString();
-		System.out.println(p1 + p2 + p3);
+		String p4 = Project.projectInfoString();
+		System.out.println(p1 + p2 + p3 + p4);
+		try{
+		    PrintWriter writer = new PrintWriter(out);
+		    writer.println(p1);
+		    writer.println(p2);
+		    writer.println(p3);
+		    writer.println(p4);
+		    writer.close();
+		    System.out.println("File: " + out + " written!");
+		}catch(FileNotFoundException e){
+			File outFile = new File(out);
+			printIODemoInfo();
+		}
+		
+		
+		
 	}
 
 	/**
