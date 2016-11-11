@@ -7,10 +7,8 @@ import officeEntities.Room.RoomSize;
 
 public class Room extends Entity{
 	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
-	
 	private ArrayList<Person> occupants = new ArrayList<Person>();
 	private ArrayList<Room> closeTo = new ArrayList<Room>();
-	//public static enum RoomSize {SMALL, MEDIUM, LARGE};
 	private RoomSize size = RoomSize.MEDIUM; 
 	
 	/**
@@ -107,7 +105,10 @@ public class Room extends Entity{
 		
 		return roomsStr;
 	}
-	
+	/**
+	 * Represents all valid room sizes. Provides appropriate string representations of each. 
+	 *
+	 */
 	public enum RoomSize{
 		SMALL("small-room"), MEDIUM("medium-room"), LARGE("large-room");
 		private String displayName;
