@@ -1,5 +1,8 @@
 package cpsc433;
 
+import officeEntities.Person;
+import officeEntities.Room;
+
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
  * interpret the command line.
@@ -55,14 +58,24 @@ public class SisyphusI {
 
 		if (args.length>1) { // using command-line arguments
 			runCommandLineMode();
+			printIODemoInfo();
 			killShutdownHook();
 		}
 		else { // using interactive mode
 			runInteractiveMode();
+			printIODemoInfo();
 			killShutdownHook();
 		}
 	}
-	
+	/**
+	 * TODO: create output file
+	 */
+	private void printIODemoInfo() {
+		System.out.println(		Person.peopleInfoString()
+							+ 	Room.roomInfoString());
+		
+	}
+
 	/**
 	 * Return the environment object.  One should return an environment object that 
 	 * makes sense for YOUR solution to the problem: the environment could contain 

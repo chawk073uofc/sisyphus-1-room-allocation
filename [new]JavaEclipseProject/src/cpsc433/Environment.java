@@ -77,7 +77,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_person(String name) {
-		//System.out.println("\nin a_person\n");
 		if (!Person.exists(name))
 			new Person(name);
 	}
@@ -387,7 +386,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				}
 
 		} catch (NoSuchPersonException e) {
-			e.printStackTrace();
+			System.out.println("uhh");
 		}
 
 	}
