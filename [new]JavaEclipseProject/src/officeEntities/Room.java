@@ -8,12 +8,11 @@ import officeEntities.Room.RoomSize;
 public class Room extends Entity{
 	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
 	
-	private ArrayList<Person> members = new ArrayList<Person>();
+	private ArrayList<Person> occupants = new ArrayList<Person>();
 	private ArrayList<Room> closeTo = new ArrayList<Room>();
-	public static enum RoomSize {SMALL, MEDIUM, LARGE};
+	//public static enum RoomSize {SMALL, MEDIUM, LARGE};
 	private RoomSize size = RoomSize.MEDIUM; 
 	
-	// 0 = small, 1 = medium, 2 = large
 	/**
 	 * Constructor for class Room. Creates a room with the given name. Default size is medium.
 	 * @param roomName
@@ -73,10 +72,46 @@ public class Room extends Entity{
 	}
 	
 	public void addPerson(Person p){
-		members.add(p);
+		occupants.add(p);
 	}
 	
 	public boolean hasPerson(Person p){
-		return members.contains(p);
+		return occupants.contains(p);
+	}
+	/**
+	 * Returns a string with all the information relating to this room.
+	 * @return room_string 
+	 */
+	@Override
+	public String toString(){
+		String roomStr = "";
+		roomStr += "room(" + this.getName() + ")\n";
+		roomStr += this.size + "(" + this.getName() + ")\n";//TODO enum toString
+		for(Room rm : closeTo)
+			roomStr += "close(" +this.getName() + ", " + rm.getName() + ")\n";
+		for(Person p : occupants)
+			roomStr += "assigned-to(" + p.getName() + ", " + this.getName() + ")\n"; 
+		roomStr += "\n";
+		return roomStr;
+	}
+
+	/**
+	 * Returns a string with all the information relating to all the rooms.
+	 * @return
+	 */
+	public static String roomInfoString(){
+		String roomsStr = "";
+		for(Room rm : rooms)
+			roomsStr += rm;
+		roomsStr += "\n";
+		
+		return roomsStr;
+	}
+	
+	public enum RoomSize{
+		SMALL("small-room"), MEDIUM("medium-room"), LARGE("large-room");
+		private String displayName;
+		RoomSize(String displayName){this.displayName = displayName;}
+		@Override public String toString() {return displayName;}
 	}
 }

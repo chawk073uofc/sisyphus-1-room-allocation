@@ -3,21 +3,17 @@ package officeEntities;
 import java.util.ArrayList;
 
 import cpsc433.Entity;
-//import officeEntities.Person.PersonAttributeType;
 
 
 public class Person extends Entity 
 {
 	private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
 
-	//All the possible attributes that a person can have.
-	//public static enum PersonAttributeType {researcher, secretary, manager, project_head, hacker, smoker}	
-
 	private ArrayList<String> attributes = new ArrayList<String>(); //The attributes that this instance of Person has.
 	private ArrayList<Person> colleagues = new ArrayList<Person>(); //All the people this person works with.
 	private ArrayList<Group> groups = new ArrayList<Group>(); //All of the groups this person is assigned to.
 	private ArrayList<Project> projects = new ArrayList<Project>(); // All of the projects this person is assigned to.
-	
+	//TODO : add room field?
 	/**
 	 * Constructor for class person. Creates a Person object with a given name. 
 	 * @param name
@@ -70,9 +66,8 @@ public class Person extends Entity
 		for(Person p : people){
 			if(p.getName().equals(name)){
 				return p; }
-		//person by given name not found	
 	}
-		throw new NoSuchPersonException();
+		throw new NoSuchPersonException();//person by given name not found
 	}
 	/**
 	 * Returns true if the person has the given attribute (e.g. "secretary").
@@ -98,13 +93,16 @@ public class Person extends Entity
 	}
 	
 	/**
-	 * 
+	 * Adds the given person to this person's list of colleagues.  
 	 * @param value
 	 */
 	public void addColleague(Person colleague) {
 		if (!colleagues.contains(colleague)){
 			colleagues.add(colleague);
 		}
+	/**
+	 * Adds the project with the given name to this list of projects with which this person is associated. 	
+	 */
 	}
 	public void addProject(String projectName) {
 		try{
@@ -113,9 +111,12 @@ public class Person extends Entity
 		catch (NoSuchProjectException e){
 			new Project(projectName, this);
 		}
-		
 	}
-	
+	/**
+	 * Returns true if the given person is a colleague.
+	 * @param colleague
+	 * @return true if the given person is a colleague.
+	 */
 	public boolean isColleague(Person colleague){
 		return colleagues.contains(colleague);
 	}
@@ -131,7 +132,7 @@ public class Person extends Entity
 			personStr +=  att + "(" + this.getName() + ")\n";
 		for(Person coll : colleagues)
 			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")";
-		
+		personStr += "\n";
 		return personStr;
 	}
 	/**
@@ -143,7 +144,8 @@ public class Person extends Entity
 		String peopleStr = "";
 		for(Person p : people)
 			peopleStr += p;
-			
+		peopleStr += "\n";
+		
 		return peopleStr;
 	}
 }
