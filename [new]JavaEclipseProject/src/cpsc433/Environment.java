@@ -286,21 +286,39 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	@Override
-	public boolean e_project(String p, String prj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean e_project(String personName, String projName)  {
+		try {
+			Project projObj = Project.getEntityWithName(projName);
+			return projObj.hasMember(personName);
+		} catch (NoSuchProjectException e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void a_heads_project(String p, String prj) {
-		// TODO Auto-generated method stub
+	public void a_heads_project(String personName, String projName) {
+		try {
+			Project projectObj = Project.getEntityWithName(projName);
+			Person personObj = Person.getEntityWithName(personName);
+			projectObj.setProjectHead(personName);
+		} catch (NoSuchProjectException e) {
+			new	Project(projName);
+			a_heads_project(personName,projName);
+		} catch (NoSuchPersonException f) {
+			new	Person(personName);
+			a_heads_project(personName,projName);
+		}
 
 	}
 
 	@Override
-	public boolean e_heads_project(String p, String prj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean e_heads_project(String personName, String projName)  {
+		try {
+			Project projObj = Project.getEntityWithName(projName);
+			return projObj.hasProjectHead(personName);
+		} catch (NoSuchProjectException e) {
+			return false;
+		}
 	}
 
 
@@ -621,13 +639,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_large_project(String projName) {
 		if(!Project.exists(projName)){					//Check if project with project name exsists
-			new Project(projName, true);                       //if it doesn't then create a new proj and set it to large proj
-		} else {              //otherwise if a project with that name exsists, check to see if it is large
+			new Project(projName, true);                   
+		} else {              
 			Project exsistingProject = null;
 			try {
 				exsistingProject = Project.getEntityWithName(projName);
 			} catch (NoSuchProjectException e) {
-				e.printStackTrace();
+				exsistingProject = new Project(projName);
 			}
 			if(!exsistingProject.isLargeProject()){
 				exsistingProject.setLargeProject(); //if it is not large, set it to large

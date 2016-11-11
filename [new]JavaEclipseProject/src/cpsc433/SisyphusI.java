@@ -1,6 +1,7 @@
 package cpsc433;
 
 import officeEntities.Person;
+import officeEntities.Project;
 import officeEntities.Room;
 
 /**
@@ -72,7 +73,9 @@ public class SisyphusI {
 	 */
 	private void printIODemoInfo() {
 		System.out.println(		Person.peopleInfoString()
-							+ 	Room.roomInfoString());
+							+ 	Room.roomInfoString()
+							+	Project.projectInfoString()
+				);
 		
 	}
 

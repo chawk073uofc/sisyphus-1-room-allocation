@@ -106,10 +106,14 @@ public class Person extends Entity
 	}
 	public void addProject(String projectName) {
 		try{
-			projects.add(Project.getEntityWithName(projectName));
+			Project addingProj = Project.getEntityWithName(projectName);
+			projects.add(addingProj);
+			addingProj.addMember(this.getName());
 		}
 		catch (NoSuchProjectException e){
-			new Project(projectName, this);
+			Project newProject = new Project(projectName, this);
+			projects.add(newProject);
+			newProject.addMember(this.getName());
 		}
 	}
 	/**
