@@ -135,3 +135,41 @@ group(Katharina, YQT)
 heads-group(Thomas, YQT)
 
 
+project(RESPECT)
+project(Werner, RESPECT)
+project(Angi, RESPECT)
+
+project(EULISP)
+project(Jurgen, EULISP)
+project(Harry, EULISP)
+project(Thomas, EULISP)
+
+project(KRIPTON)
+project(Marc, KRIPTON)
+
+project(TUTOR2000)
+project(Andy, TUTOR2000)
+
+project("BABYLON Product")
+heads-project(Hans, "BABYLON Product")
+project(Michael, "BABYLON Product")
+project(Hans, "BABYLON Product")
+
+project("Autonomous Systems")
+project(Uwe, "Autonomous Systems")
+
+project(ASERTI)
+large-project(ASERTI)
+heads-project(Joachim, ASERTI)
+project(Joachim, ASERTI)
+
+project(MLT)
+large-project(MLT)
+heads-project(Katharina, MLT)
+project(Katharina, MLT)
+
+project("Babylon Product")
+large-project("Babylon Product")
+
+
+

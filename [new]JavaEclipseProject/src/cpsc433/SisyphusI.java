@@ -80,12 +80,14 @@ public class SisyphusI {
 		String p1 = Person.peopleInfoString();
 		String p2 = Room.roomInfoString();
 		String p3 = Group.groupInfoString();
-		System.out.println(p1 + p2 + p3);
+		String p4 = Project.projectInfoString();
+		System.out.println(p1 + p2 + p3 + p4);
 		try{
 		    PrintWriter writer = new PrintWriter(out);
 		    writer.println(p1);
 		    writer.println(p2);
 		    writer.println(p3);
+		    writer.println(p4);
 		    writer.close();
 		    System.out.println("File: " + out + " written!");
 		}catch(FileNotFoundException e){
