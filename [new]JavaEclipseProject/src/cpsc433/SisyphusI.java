@@ -71,6 +71,7 @@ public class SisyphusI {
 	 * TODO: create output file
 	 */
 	private void printIODemoInfo() {
+		
 		System.out.println(		Person.peopleInfoString()
 							+ 	Room.roomInfoString());
 		
