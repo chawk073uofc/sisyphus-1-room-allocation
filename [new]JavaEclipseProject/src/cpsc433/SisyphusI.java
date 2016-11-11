@@ -5,6 +5,10 @@ import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
  * interpret the command line.
@@ -77,6 +81,20 @@ public class SisyphusI {
 		String p2 = Room.roomInfoString();
 		String p3 = Group.groupInfoString();
 		System.out.println(p1 + p2 + p3);
+		try{
+		    PrintWriter writer = new PrintWriter(out);
+		    writer.println(p1);
+		    writer.println(p2);
+		    writer.println(p3);
+		    writer.close();
+		    System.out.println("File: " + out + " written!");
+		}catch(FileNotFoundException e){
+			File outFile = new File(out);
+			printIODemoInfo();
+		}
+		
+		
+		
 	}
 
 	/**
