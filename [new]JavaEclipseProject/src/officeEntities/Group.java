@@ -16,8 +16,10 @@ public class Group extends Entity {
 	 */
 	public Group(String groupName) {
 		super(groupName);
+		if (!groups.contains(this)){
+			groups.add(this);
+		}
 	}
-	
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name and assigns the given person
@@ -26,12 +28,15 @@ public class Group extends Entity {
 	 */
 	public Group(String groupName, Person person) {
 		super(groupName);
+		if(!groups.contains(this)){
+			groups.add(this);
+		}
 		members.add(person);
 	}
 
 	public static Group getEntityWithName(String groupName) throws NoSuchGroupException{
 		for(Group g : groups)
-			if(g.equals(groupName)) return g;
+			if(g.getName().equals(groupName)) return g;
 		throw new NoSuchGroupException();
 	}
 
@@ -73,22 +78,37 @@ public class Group extends Entity {
 	 * @return boolean
 	 */
 	public static boolean exists(String groupName){
-		for(Group g : groups)
-			if(g.equals(groupName)) return true;
-		return false;
+		for(Group g : groups){
+			if(g.getName().equals(groupName)){ return true; }
 	}
+		return false;
+}
 	
 	@Override
 	public String toString(){
 		String groupStr = "";
 		groupStr += "group(" + this.getName() + ")\n";
-		for(Person member: members){
-			groupStr += "group(" + this.getName() + ", " + member.getName() + ")\n";
+		for(Person member : members){
+			groupStr += "group(" + member.getName() + ", " + this.getName() + ")\n";
 		}
 		for(Person groupHead: groupHeads){
-			groupStr += "heads-group(" + this.getName() + ", " + groupHead.getName() + ")\n"; 
+			groupStr += "heads-group(" + groupHead.getName() + ", " + this.getName() + ")\n"; 
 		}
 		return groupStr;
 	}
+	
+	public static String groupInfoString(){
+		String groupStr = "";
+		for(Group g: groups){
+			groupStr += g;
+		}
+		groupStr += "\n";
+		return groupStr;
+	}
+	
+	public void addMember(Person person){
+		members.add(person);
+	}
+
 
 }
