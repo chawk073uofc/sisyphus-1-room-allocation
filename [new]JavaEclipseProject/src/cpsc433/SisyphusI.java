@@ -1,5 +1,6 @@
 package cpsc433;
 
+import officeEntities.Group;
 import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
@@ -72,11 +73,10 @@ public class SisyphusI {
 	 * TODO: create output file
 	 */
 	private void printIODemoInfo() {
-		System.out.println(		Person.peopleInfoString()
-							+ 	Room.roomInfoString()
-							+	Project.projectInfoString()
-				);
-		
+		String p1 = Person.peopleInfoString();
+		String p2 = Room.roomInfoString();
+		String p3 = Group.groupInfoString();
+		System.out.println(p1 + p2 + p3);
 	}
 
 	/**
