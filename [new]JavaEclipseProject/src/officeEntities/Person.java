@@ -101,7 +101,7 @@ public class Person extends Entity
 			colleagues.add(colleague);
 		}
 	/**
-	 * Adds the project with the given name to this list of projects with which this person is associated.\ 	
+	 * Adds the project with the given name to this list of projects with which this person is associated.\ 	asdf
 	 */
 	}
 	public void addProject(String projectName) {
