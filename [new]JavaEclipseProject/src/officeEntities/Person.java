@@ -136,7 +136,7 @@ public class Person extends Entity
 		for(String att: attributes)
 			personStr +=  att + "(" + this.getName() + ")\n";
 		for(Person coll : colleagues)
-			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")";
+			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")\n";
 		personStr += "\n";
 		return personStr;
 	}

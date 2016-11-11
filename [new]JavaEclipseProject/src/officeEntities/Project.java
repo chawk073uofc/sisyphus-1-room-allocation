@@ -138,7 +138,6 @@ public class Project extends Entity {
 				projStr += "large-project(" + this.getName() + ")\n";
 			}
 		}
-		System.out.println("Projectheads size: " + projectHeads.size());
 		for(Person projHead: projectHeads){
 			if(includeQuotes){
 				projStr += "heads-project("+ projHead.getName() + ", \"" + this.getName() + "\")\n";
