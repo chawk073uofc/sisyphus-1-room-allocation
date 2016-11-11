@@ -77,6 +77,6 @@ public class Group extends Entity {
 			if(g.equals(groupName)) return true;
 		return false;
 	}
-	
+	//test
 
 }
