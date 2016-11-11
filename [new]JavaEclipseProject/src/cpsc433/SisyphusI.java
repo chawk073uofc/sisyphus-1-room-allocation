@@ -2,6 +2,7 @@ package cpsc433;
 
 import officeEntities.Group;
 import officeEntities.Person;
+import officeEntities.Project;
 import officeEntities.Room;
 
 /**

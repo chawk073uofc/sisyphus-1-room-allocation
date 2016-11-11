@@ -102,15 +102,19 @@ public class Person extends Entity
 			colleagues.add(colleague);
 		}
 	/**
-	 * Adds the project with the given name to this list of projects with which this person is associated. 	
+	 * Adds the project with the given name to this list of projects with which this person is associated.\ 	asdf
 	 */
 	}
 	public void addProject(String projectName) {
 		try{
-			projects.add(Project.getEntityWithName(projectName));
+			Project addingProj = Project.getEntityWithName(projectName);
+			projects.add(addingProj);
+			addingProj.addMember(this.getName());
 		}
 		catch (NoSuchProjectException e){
-			new Project(projectName, this);
+			Project newProject = new Project(projectName, this);
+			projects.add(newProject);
+			newProject.addMember(this.getName());
 		}
 	}
 	/**
