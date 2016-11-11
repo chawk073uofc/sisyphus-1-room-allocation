@@ -9,6 +9,7 @@ import officeEntities.Group;
 import officeEntities.NoSuchGroupException;
 import officeEntities.NoSuchPersonException;
 import officeEntities.NoSuchProjectException;
+import officeEntities.NoSuchRoomException;
 import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
@@ -401,7 +402,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				}
 
 		} catch (NoSuchPersonException e) {
-			System.out.println("uhh");
 		}
 
 	}
@@ -417,8 +417,35 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	@Override
-	public void a_assign_to(String personName, String room) throws Exception {
-		Room.getEntityWithName(room).addPerson(Person.getEntityWithName(personName));
+	public void a_assign_to(String personName, String room)  {
+		
+		try {
+			if (Person.exists(personName) && Room.exists(room)) {
+				Person.getEntityWithName(personName).addRoomAssignment(Room.getEntityWithName(room));
+				Room.getEntityWithName(room).addOccupant(Person.getEntityWithName(personName));
+
+			} else if (Person.exists(personName) && !Room.exists(room)) {
+				Room newRoom = new Room(room);
+				newRoom.addOccupant(Person.getEntityWithName(personName));
+				Person.getEntityWithName(personName).addRoomAssignment(Room.getEntityWithName(room));
+
+			} else if (!Person.exists(personName) && Room.exists(room)) {
+				Person new_person = new Person(personName);
+				new_person.addRoomAssignment(Room.getEntityWithName(room));
+				Room.getEntityWithName(room).addOccupant(new_person);
+			} else if (!Person.exists(personName) && !Person.exists(room)) {
+				Person new_person = new Person(personName);
+				Room newRoom = new Room(room);
+				newRoom.addOccupant(new_person);
+				new_person.addRoomAssignment(newRoom);
+			}
+
+	} catch (NoSuchPersonException e) {
+		System.out.println("uhh");
+	} catch (NoSuchRoomException e) {
+		System.out.println("fail");
+	}
+		
 	}
 
 	@Override
@@ -426,7 +453,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		try {
 			return Room.getEntityWithName(room).hasPerson(Person.getEntityWithName(personName));
 			
-		} catch (NoSuchPersonException e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
@@ -450,31 +477,39 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_close(String room, String room2) {
-		if (Room.exists(room) && Room.exists(room2)){
-				Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(room2));
-				Room.getEntityWithName(room2).addCloseTo(Room.getEntityWithName(room));
-			}else if (!Room.exists(room) && Room.exists(room2)){
-				new Room(room).addCloseTo(Room.getEntityWithName(room2));
-				Room.getEntityWithName(room2).addCloseTo(Room.getEntityWithName(room));
-			}else if (Room.exists(room) && !Room.exists(room2)){
-				new Room(room2).addCloseTo(Room.getEntityWithName(room));
-				Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(room2));
-			}else{
-				Room new_room = new Room(room);
-				Room new_room2 = new Room(room2);
-				new_room.addCloseTo(new_room2);
-				new_room2.addCloseTo(new_room);
-			}
+		try{
+			if (Room.exists(room) && Room.exists(room2)){
+					Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(room2));
+					Room.getEntityWithName(room2).addCloseTo(Room.getEntityWithName(room));
+				}else if (!Room.exists(room) && Room.exists(room2)){
+					new Room(room).addCloseTo(Room.getEntityWithName(room2));
+					Room.getEntityWithName(room2).addCloseTo(Room.getEntityWithName(room));
+				}else if (Room.exists(room) && !Room.exists(room2)){
+					new Room(room2).addCloseTo(Room.getEntityWithName(room));
+					Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(room2));
+				}else{
+					Room new_room = new Room(room);
+					Room new_room2 = new Room(room2);
+					new_room.addCloseTo(new_room2);
+					new_room2.addCloseTo(new_room);
+				}
+		}catch (NoSuchRoomException e){
+			System.out.println("FAIL");
+		}
 		}
 	/**
 	 *
 	 */
 		@Override
 		public boolean e_close(String room, String room2) {
-			if(Room.exists(room) && Room.exists(room2)){
-				if(Room.getEntityWithName(room).isCloseTo(Room.getEntityWithName(room2)))
-					return true;
-			}
+			try{
+				if(Room.exists(room) && Room.exists(room2)){
+					if(Room.getEntityWithName(room).isCloseTo(Room.getEntityWithName(room2)))
+						return true;
+				}
+				}catch (NoSuchRoomException e){
+					return false;
+				}
 			return false;
 		}
 
@@ -488,15 +523,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			new Room(room);
 		}
 		String roomtoAdd;
-		while((iterator.hasNext())){
-			roomtoAdd = (String) iterator.next().getValue();
-			if (Room.exists(roomtoAdd)){
-				Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(roomtoAdd));
-				Room.getEntityWithName(roomtoAdd).addCloseTo(Room.getEntityWithName(room));
-			}else if (!Room.exists(roomtoAdd)){
-				new Room(roomtoAdd).addCloseTo(Room.getEntityWithName(room));
-				Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(roomtoAdd));
+		try{
+			while((iterator.hasNext())){
+				roomtoAdd = (String) iterator.next().getValue();
+				if (Room.exists(roomtoAdd)){
+					Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(roomtoAdd));
+					Room.getEntityWithName(roomtoAdd).addCloseTo(Room.getEntityWithName(room));
+				}else if (!Room.exists(roomtoAdd)){
+					new Room(roomtoAdd).addCloseTo(Room.getEntityWithName(room));
+					Room.getEntityWithName(room).addCloseTo(Room.getEntityWithName(roomtoAdd));
+				}
 			}
+		}catch (NoSuchRoomException e){
+			System.out.println("FAIL");
 		}
 		}
 	/**
@@ -507,6 +546,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		if (!Room.exists(room)){
 			return false;
 		} 
+		try{
 		Iterator<Pair<ParamType, Object>> iterator = set.iterator();
 		String roomtoAdd;
 		while(iterator.hasNext()){
@@ -514,6 +554,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			if (!((Room.getEntityWithName(room)).isCloseTo(Room.getEntityWithName(roomtoCheck)))){
 				return false;
 			}
+		}
+		}catch (NoSuchRoomException e){
+			return false;
 		}
 		return true;
 	}
@@ -523,11 +566,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_large_room(String roomName) {
-		if(!Room.exists(roomName)){
-			new Room(roomName, Room.RoomSize.LARGE);
-		}else {
+		try{
 			Room.getEntityWithName(roomName).setSize(Room.RoomSize.LARGE);
+		}catch (NoSuchRoomException e){
+			new Room(roomName, Room.RoomSize.LARGE);
 		}
+		
+//		if(!Room.exists(roomName)){
+//			new Room(roomName, Room.RoomSize.LARGE);
+//		}else {
+//			Room.getEntityWithName(roomName).setSize(Room.RoomSize.LARGE);
+//		}
 	}
 	/**
 	 * 
@@ -535,7 +584,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_large_room(String roomName) {
 		if(Room.exists(roomName)){
-			return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.LARGE;
+			try {
+				return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.LARGE;
+			} catch (NoSuchRoomException e) {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -545,10 +598,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_medium_room(String roomName) {
-		if(!Room.exists(roomName)){
-			new Room(roomName, Room.RoomSize.MEDIUM);
-		}else {
+		try{
 			Room.getEntityWithName(roomName).setSize(Room.RoomSize.MEDIUM);
+		}catch (NoSuchRoomException e){
+			new Room(roomName, Room.RoomSize.MEDIUM);
 		}
 	}
 	/**
@@ -557,7 +610,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_medium_room(String roomName) {
 		if(Room.exists(roomName)){
-			return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.MEDIUM;
+			try {
+				return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.MEDIUM;
+			} catch (NoSuchRoomException e) {
+				return false;
+			}
 		}
 		return false;
 	}
@@ -566,10 +623,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_small_room(String roomName) {
-		if(!Room.exists(roomName)){
-			new Room(roomName, Room.RoomSize.SMALL);
-		}else {
+		try{
 			Room.getEntityWithName(roomName).setSize(Room.RoomSize.SMALL);
+		}catch (NoSuchRoomException e){
+			new Room(roomName, Room.RoomSize.SMALL);
 		}
 	}
 	/**
@@ -578,7 +635,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_small_room(String roomName) {
 		if(Room.exists(roomName)){
-			return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.SMALL;
+			try {
+				return Room.getEntityWithName(roomName).getSize() == Room.RoomSize.SMALL;
+			} catch (NoSuchRoomException e) {
+				return false;
+			}
 		}
 		return false;
 	}

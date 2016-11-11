@@ -14,17 +14,19 @@ public class Project extends Entity {
 
 	public Project(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		projects.add(this);
 	}
 	
 	public Project(String name, Boolean largeProject) {
 		super(name);
 		this.largeProject = largeProject;
+		projects.add(this);
 	}
 	
 	public Project(String projectName, Person person) {
 		super(projectName);
 		members.add(person);
+		projects.add(this);
 	}
 	
 	public static Project getEntityWithName(String projectName) throws NoSuchProjectException{
@@ -81,7 +83,7 @@ public class Project extends Entity {
 	 */
 	public static boolean exists(String projName){
 		for(Project p : projects)
-			if(p.equals(projName)) return true;
+			if(p.getName().equals(projName)) return true;
 		return false;
 	}
 	

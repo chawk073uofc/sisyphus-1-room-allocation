@@ -53,12 +53,12 @@ public class Room extends Entity{
 			closeTo.add(addRoom);
 	}
 	
-	public static Room getEntityWithName(String roomName){
+	public static Room getEntityWithName(String roomName) throws NoSuchRoomException{
 		for(Room r : rooms){
 			if(r.getName().equals(roomName)) 
 				return r;
 		}
-		return null;
+		throw new NoSuchRoomException();
 	}
 
 	public RoomSize getSize() {
@@ -114,5 +114,10 @@ public class Room extends Entity{
 		private String displayName;
 		RoomSize(String displayName){this.displayName = displayName;}
 		@Override public String toString() {return displayName;}
+	}
+	public void addOccupant(Person personMovingIn) {
+		if(!occupants.contains(personMovingIn))
+			occupants.add(personMovingIn);
+		
 	}
 }
