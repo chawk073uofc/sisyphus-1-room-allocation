@@ -8,7 +8,7 @@ public class Group extends Entity {
 	private static ArrayList<Group> groups =new ArrayList<Group>(); //All instances of class Group currently instantiated.
 	
 	private ArrayList<Person> members = new ArrayList<Person>();
-	private Person groupHead; //TODO:can a group have more than one head?
+	private ArrayList<Person> groupHeads = new ArrayList<Person>(); //TODO:can a group have more than one head?
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name.
@@ -54,9 +54,9 @@ public class Group extends Entity {
 	 */
 	public void setGroupHead(String personName) {
 		try {
-			groupHead = Person.getEntityWithName(personName);
+			groupHeads.add(Person.getEntityWithName(personName));
 		} catch (NoSuchPersonException e) {
-			(new Person(personName)).addGroup(this.getName());
+			groupHeads.add(new Person(personName));
 		}
 	}
 	/**
@@ -65,7 +65,7 @@ public class Group extends Entity {
 	 * @return
 	 */
 	public boolean hasGroupHead(String personName) {
-		return groupHead.getName().equals(personName);
+		return !groupHeads.isEmpty();
 	}
 	/**
 	 * Returns true if the named group exsists.
@@ -77,6 +77,18 @@ public class Group extends Entity {
 			if(g.equals(groupName)) return true;
 		return false;
 	}
-	//test
+	
+	@Override
+	public String toString(){
+		String groupStr = "";
+		groupStr += "group(" + this.getName() + ")\n";
+		for(Person member: members){
+			groupStr += "group(" + this.getName() + ", " + member.getName() + ")\n";
+		}
+		for(Person groupHead: groupHeads){
+			groupStr += "heads-group(" + this.getName() + ", " + groupHead.getName() + ")\n"; 
+		}
+		return groupStr;
+	}
 
 }
