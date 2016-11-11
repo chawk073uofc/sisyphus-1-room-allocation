@@ -1,3 +1,4 @@
+//TODO: Branko comment this and related env methods
 package officeEntities;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class Group extends Entity {
 	/**
 	 * Constructor for class Group. Creates a group with the given name and assigns the given person
 	 * to the group's list of people.
-	 * @param groupName
+	 * @param groupName name of the group
 	 */
 	public Group(String groupName, Person person) {
 		super(groupName);

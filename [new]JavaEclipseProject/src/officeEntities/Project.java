@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import cpsc433.Entity;
 
+//TODO:Ail add comments
 public class Project extends Entity {
 	
 	private static ArrayList<Project> projects =new ArrayList<Project>();
