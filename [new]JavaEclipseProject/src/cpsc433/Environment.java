@@ -226,26 +226,22 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_group(String personName, String groupName) {
+		Group groupObj = null;
 		try {
-			Person new_person = Person.getEntityWithName(personName);
-			if (Group.exists(groupName)){
-				Group new_group = Group.getEntityWithName(groupName);
-				new_group.addMember(new_person);
-				new_person.addGroup(groupName);
-			}
-			else{
-				Group new_group  = new Group(groupName, Person.getEntityWithName(personName));
-				new_person.addGroup(new_group.getName());
-			}
-			
-		} catch (NoSuchPersonException e) {
-			Person new_person = new Person(personName);
-			new_person.addGroup(groupName);
+			groupObj = Group.getEntityWithName(groupName);
 		} catch (NoSuchGroupException e) {
-			System.err.println("Shouldnt get here");
+			groupObj  = new Group(groupName);
 		}
-
 		
+		try{
+			Person personObj = Person.getEntityWithName(personName);
+			groupObj.addMember(personObj);
+			personObj.addGroup(groupName);
+		} catch (NoSuchPersonException e) {
+			Person personObj = new Person(personName);
+			groupObj.addMember(personObj);
+			personObj.addGroup(groupName);
+		}
 	}
 
 	/**

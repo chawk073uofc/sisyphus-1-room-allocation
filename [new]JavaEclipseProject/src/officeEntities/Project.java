@@ -26,7 +26,7 @@ public class Project extends Entity {
 	
 	/**
 	 * Constructs the project and initializes the name.
-	 * Adds the project to project array.
+	 * Checks to see if project already exists. If it does, it does not add it to the list.
 	 * @param name
 	 */
 	public Project(String name) {
@@ -36,6 +36,7 @@ public class Project extends Entity {
 	}
 	/**
 	 * Constructs the project and initializes name and the large-project attribute
+	 * Checks to see if project already exists. If it does, it does not add it to the list.
 	 * @param name
 	 * @param largeProject
 	 */
@@ -46,6 +47,8 @@ public class Project extends Entity {
 	}
 	/**
 	 * Constructs the project and initializes name and a adds a member.
+	 * if project does not exist, it will create it and add the person as a member
+	 * If project already exists then it will just add the person to the members list
 	 * @param projectName
 	 * @param person
 	 */
@@ -66,6 +69,12 @@ public class Project extends Entity {
 		
 	}
 	
+	/**
+	 * Will return the project object if a project with a given name exists
+	 * @param projectName
+	 * @return
+	 * @throws NoSuchProjectException
+	 */
 	public static Project getEntityWithName(String projectName) throws NoSuchProjectException{
 		for(Project g : projects)
 			if(g.getName().equals(projectName)) return g;
@@ -119,7 +128,6 @@ public class Project extends Entity {
 			personObj.addProject(this.getName());
 		}
 		if(!members.contains(personObj)){
-
 			members.add(personObj);
 		}
 		if(!projectHeads.contains(personObj)){

@@ -1,13 +1,12 @@
-person(Uwe)
+person(gill)
 
 
 
 
 
+group(ge)
+heads-group(gill, ge)
 
-
-project(a)
-project(Uwe, a)
 
 
 
