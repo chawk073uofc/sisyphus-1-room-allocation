@@ -59,11 +59,19 @@ public class Group extends Entity {
 	 * @param personName
 	 */
 	public void setGroupHead(String personName) {
+		Person	personObj;
 		try {
-			groupHeads.add(Person.getEntityWithName(personName));
+			personObj = Person.getEntityWithName(personName);
 		} catch (NoSuchPersonException e) {
-			groupHeads.add(new Person(personName));
+			personObj= new Person(personName);
 		}
+		if(!groupHeads.contains(personObj)){
+			groupHeads.add(personObj);
+		}
+		if(!members.contains(personObj)){
+			members.add(personObj);
+		}
+		
 	}
 	/**
 	 * Returns true if the named person is the head of this group.

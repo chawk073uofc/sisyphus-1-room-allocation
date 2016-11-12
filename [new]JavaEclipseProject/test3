@@ -1,1 +1,7 @@
-heads-group(gill,ge)
+heads-group(Werner, YQT)
+
+group(TYP)
+group(hank,TYP)
+heads-group(hank,TYP)
+person(tim)
+group(tim, TYP)
