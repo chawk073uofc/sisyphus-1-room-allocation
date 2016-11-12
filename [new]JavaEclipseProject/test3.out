@@ -1,12 +1,4 @@
-person(Bill)
-
 person(Uwe)
-
-person(bob)
-
-person(Hans)
-
-person(bill)
 
 
 
@@ -15,17 +7,7 @@ person(bill)
 
 
 project(a)
-
-project("ab sd")
-large-project("ab sd")
-
-project("large projecttest")
-large-project("large projecttest")
-heads-project(bob, "large projecttest")
-
-project("BABYLON Product")
-heads-project(Hans, "BABYLON Product")
-heads-project(bill, "BABYLON Product")
+project(Uwe, a)
 
 
 

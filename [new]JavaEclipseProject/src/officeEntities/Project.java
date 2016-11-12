@@ -31,7 +31,8 @@ public class Project extends Entity {
 	 */
 	public Project(String name) {
 		super(name);
-		projects.add(this);
+		if(!exists(name)) projects.add(this);
+		
 	}
 	/**
 	 * Constructs the project and initializes name and the large-project attribute
@@ -41,7 +42,7 @@ public class Project extends Entity {
 	public Project(String name, Boolean largeProject) {
 		super(name);
 		this.largeProject = largeProject;
-		projects.add(this);
+		if(!exists(name)) projects.add(this);
 	}
 	/**
 	 * Constructs the project and initializes name and a adds a member.
@@ -51,8 +52,18 @@ public class Project extends Entity {
 	public Project(String projectName, Person person) {
 		super(projectName);
 		members.add(person);
-		projects.add(this);
-		person.addProject(projectName);
+		if(!exists(projectName)) {
+			projects.add(this);
+			person.addProject(projectName);
+		} else {
+			try{
+				getEntityWithName(projectName).addMember(person.getName());
+			} catch (Exception e) {
+				
+			}
+		}
+		
+		
 	}
 	
 	public static Project getEntityWithName(String projectName) throws NoSuchProjectException{
