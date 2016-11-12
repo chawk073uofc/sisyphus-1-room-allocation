@@ -293,16 +293,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	@Override
 	public void a_project(String personName, String projectName) {
+		Person personObj = null;
 		try {
-			Project pro = Project.getEntityWithName(projectName);
-			Person personObj = Person.getEntityWithName(personName);
-			personObj.addProject(projectName);
+			personObj = Person.getEntityWithName(personName);
+			new Project(projectName, personObj);
 		} catch (NoSuchPersonException e) {
-			new Person(personName).addProject(projectName);
-			a_project(personName, projectName);
-		} catch (NoSuchProjectException f){
-			new	Project(projectName);
-			a_project(personName, projectName);
+			personObj = new Person(personName);
+			new Project(projectName, personObj);
 		}
 
 	}
@@ -319,17 +316,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	@Override
 	public void a_heads_project(String personName, String projName) {
-		try {
-			Project projectObj = Project.getEntityWithName(projName);
-			Person personObj = Person.getEntityWithName(personName);
-			projectObj.setProjectHead(personName);
+		Project projectObj = null;
+		try{
+			projectObj = Project.getEntityWithName(projName);
 		} catch (NoSuchProjectException e) {
-			new	Project(projName);
-			a_heads_project(personName,projName);
-		} catch (NoSuchPersonException f) {
-			new	Person(personName);
-			a_heads_project(personName,projName);
+			projectObj = new Project(projName);
 		}
+		
+		projectObj.setProjectHead(personName);
 
 	}
 

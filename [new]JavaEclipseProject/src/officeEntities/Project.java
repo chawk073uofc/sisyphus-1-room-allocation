@@ -4,30 +4,55 @@ import java.util.ArrayList;
 
 import cpsc433.Entity;
 
-//TODO:Ail add comments
+/**
+ * Class: Project
+ * Extends: Entity
+ * 
+ * Represents the project entity. 
+ * 
+ */
 public class Project extends Entity {
-	
+	/**
+	 * static ArrayList<Project> projects: Holds all of the project Items
+	 * ArrayList<Person> members: Holds members for an instance of a project
+	 * ArrayList<Person> projectHeads: Holds the list of project heads
+	 * boolean largeProject: Holds the large-project attribute. Default: False
+	 */
 	private static ArrayList<Project> projects =new ArrayList<Project>();
-	
 	private ArrayList<Person> members = new ArrayList<Person>();
 	private ArrayList<Person> projectHeads = new ArrayList<Person>();
 	private boolean largeProject = false;
 
+	
+	/**
+	 * Constructs the project and initializes the name.
+	 * Adds the project to project array.
+	 * @param name
+	 */
 	public Project(String name) {
 		super(name);
 		projects.add(this);
 	}
-	
+	/**
+	 * Constructs the project and initializes name and the large-project attribute
+	 * @param name
+	 * @param largeProject
+	 */
 	public Project(String name, Boolean largeProject) {
 		super(name);
 		this.largeProject = largeProject;
 		projects.add(this);
 	}
-	
+	/**
+	 * Constructs the project and initializes name and a adds a member.
+	 * @param projectName
+	 * @param person
+	 */
 	public Project(String projectName, Person person) {
 		super(projectName);
 		members.add(person);
 		projects.add(this);
+		person.addProject(projectName);
 	}
 	
 	public static Project getEntityWithName(String projectName) throws NoSuchProjectException{
@@ -75,17 +100,21 @@ public class Project extends Entity {
 	 * @param personName
 	 */
 	public void setProjectHead(String personName) {
-		
-		try {
-			if(!members.contains(Person.getEntityWithName(personName))){
-				Person.getEntityWithName(personName).addProject(this.getName());
-			}
-			projectHeads.add(Person.getEntityWithName(personName));
-		} catch (NoSuchPersonException e) {
-			
-			new Person(personName);
-			setProjectHead(personName);
+		Person personObj = null;
+		try{
+			personObj = Person.getEntityWithName(personName);
+		} catch (NoSuchPersonException t){
+			personObj = new Person(personName);
+			personObj.addProject(this.getName());
 		}
+		if(!members.contains(personObj)){
+
+			members.add(personObj);
+		}
+		if(!projectHeads.contains(personObj)){
+			projectHeads.add(personObj);
+		}
+
 	}
 	/**
 	 * Returns true if the named person is the head of this project.
@@ -95,10 +124,10 @@ public class Project extends Entity {
 	public boolean hasProjectHead(String personName) {
 		try{
 			Person checkThisMember = Person.getEntityWithName(personName);
-			projectHeads.contains(checkThisMember);
+			return projectHeads.contains(checkThisMember);
 		} catch (NoSuchPersonException e) {
+			return false;
 		}
-		return false;
 	}
 	
 	public boolean isLargeProject(){
