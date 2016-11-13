@@ -75,6 +75,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Creates an instance of class Person with the given name, if one does not
 	 * already exist.
+	 * @param name the name of the person to create.
 	 */
 	@Override
 	public void a_person(String name) {
@@ -84,6 +85,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if an instance of class Person with the given name exist.
+	 * @param name the name of the person who may or may not exist
+	 * @return true if a person by the name given exists
 	 */
 	@Override
 	public boolean e_person(String name) {
@@ -94,6 +97,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a person with the given name already exists, add "secretary" to their
 	 * list of roles. Otherwise, create a new person object and add "secretary"
 	 * to their list of roles.
+	 * @param name the name of the secretary
 	 */
 	@Override
 	public void a_secretary(String name) {
@@ -106,6 +110,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if the named person exists and is a secretary.
+	 * @param name the name of the person who may or may not be a secretary
+	 * @return true if the given person is a secretary
 	 */
 	@Override
 	public boolean e_secretary(String name) {
@@ -120,6 +126,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a person with the given name already exists, add "researcher" to their
 	 * list of attributes. Otherwise, create a new person object and add
 	 * "researcher" to their list of attributes.
+	 * @param name the name of of the researcher
 	 */
 	@Override
 	public void a_researcher(String name) {
@@ -132,6 +139,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if the named person exists and is a researcher.
+	 * @param name the name of the person who may or may not be a researcher
+	 * @return true if the person with the name given is a researcher
 	 */
 	@Override
 	public boolean e_researcher(String name) {
@@ -146,6 +155,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a person with the given name already exists, add "manager" to their
 	 * list of attributes. Otherwise, create a new person object and add
 	 * "manager" to their list of attributes.
+	 * @param name the name of the manager
 	 */
 	@Override
 	public void a_manager(String name) {
@@ -158,6 +168,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if the named person exists and is a manager.
+	 * @param name the name of a person who may or may not be a manager
+	 * @return true if the given person is a manager
 	 */
 	@Override
 	public boolean e_manager(String name) {
@@ -172,6 +184,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a person with the given name already exists, add "smoker" to their
 	 * list of attributes. Otherwise, create a new person object and add
 	 * "smoker" to their list of attributes.
+	 * @param name the name of the smoker
+	 * 
 	 */
 	@Override
 	public void a_smoker(String name) {
@@ -184,6 +198,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if the named person exists and is a smoker.
+	 * @param name the name of the person who may or may not be a smoker
+	 * @return true if the given person is a smoker
 	 */
 	@Override
 	public boolean e_smoker(String name) {
@@ -198,6 +214,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a person with the given name already exists, add "hacker" to their
 	 * list of attributes. Otherwise, create a new person object and add
 	 * "hacker" to their list of attributes.
+	 * @param name the name of a smoker
 	 */
 	@Override
 	public void a_hacker(String name) {
@@ -210,6 +227,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	/**
 	 * Returns true if the named person exists and is a hacker.
+	 * @param name the name of the person who may or may not be a hacker
+	 * @return true if the given person exists and is a hacker
 	 */
 	@Override
 	public boolean e_hacker(String name) {
@@ -223,6 +242,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Assigns the given group to the given person. If either does not exist,
 	 * they are created.
+	 * @param personName the name of the person
+	 * @param groupName the name of the group
 	 */
 	@Override
 	public void a_group(String personName, String groupName) {
@@ -247,8 +268,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Returns true if the group with the name given has member by the name
 	 * given.
-	 * 
-	 * @return
+	 * @param personName the name of the person
+	 * @param groupName the name of the group
+	 * @return true if both person and group exist and the given person has been assigned to the given group
 	 */
 	@Override
 	public boolean e_group(String personName, String groupName) {
@@ -262,6 +284,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Assigns the given person to head the given group. If either does not
 	 * exist, they are created.
+	 * @param personName the name of the person
+	 * @param groupName the name of the group that the person heads
 	 */
 	@Override
 	public void a_heads_group(String personName, String groupName) {
@@ -278,7 +302,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * Returns true if the group with the name given exists and is headed by a
 	 * person by the name given.
 	 * 
-	 * @return
+	 * @param personName the name of the person
+	 * @param groupName the name of the group
+	 * @return true if both person and group exist and the given person heads the given group
 	 */
 	@Override
 	public boolean e_heads_group(String personName, String groupName) {

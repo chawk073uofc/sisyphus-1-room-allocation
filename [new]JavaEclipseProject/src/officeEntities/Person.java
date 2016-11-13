@@ -1,11 +1,16 @@
-//TODO: chris add comments
 package officeEntities;
 
 import java.util.ArrayList;
 
 import cpsc433.Entity;
 
-
+/**
+ * This class represents a person in the office allocation problem. It includes a list of the person's
+ * attributes (e.g. smoker, hacker, etc), a list of the people with whom the person works, and the office 
+ * the person works in as well as the groups and projects he is associated with.
+ * @author Chris Hawk
+ *
+ */
 public class Person extends Entity 
 {
 	private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
@@ -15,10 +20,9 @@ public class Person extends Entity
 	private ArrayList<Group> groups = new ArrayList<Group>(); //All of the groups this person is assigned to.
 	private ArrayList<Project> projects = new ArrayList<Project>(); // All of the projects this person is assigned to.
 	private Room homeRoom;
-	//TODO : add room field?
 	/**
 	 * Constructor for class person. Creates a Person object with a given name. 
-	 * @param name
+	 * @param name the name of the person
 	 */
 	public Person(String name) {
 		super(name);
@@ -27,7 +31,7 @@ public class Person extends Entity
 	/**
 	 * Constructor for class person. Creates a Person object with a given name and then assigns the given attribute to that person. 
 	 * @param name	name of person to be instantiated
-	 * @param attribute 
+	 * @param attribute the attribute to be added (e.g. secretary)
 	 */
 	public Person(String name, String attribute){
 		super(name);
@@ -36,8 +40,8 @@ public class Person extends Entity
 	}
 
 	/**
-	 * Adds a given attribute to a person's list of a if it is not already there. 
-	 * @param attribute
+	 * Adds the given attribute to the person's list of attributes if it is not already there. 
+	 * @param attribute	the attribute to be added (e.g. "smoker")
 	 */
 	public void addAttribute(String attribute) {
 		if(!attributes.contains(attribute))
@@ -46,8 +50,8 @@ public class Person extends Entity
 
 	/**
 	 * Returns true if an Person object with the same name already exists.
-	 * @param name	
-	 * @return
+	 * @param name	the name of a person who may or may not exist
+	 * @return true if a person with the given name has been breated
 	 */
 	public static boolean exists(String name){
 		for(Person p : people){
@@ -60,9 +64,9 @@ public class Person extends Entity
 
 	/**
 	 * Returns an object representing a person with a given name , if such person exists.
-	 * @param name
-	 * @return
-	 * @throws NoSuchPersonException
+	 * @param name the name of a person who may or may not exist
+	 * @return the person object which has the given name 
+	 * @throws NoSuchPersonException if a person by the given name is not found
 	 */
 	public static Person getEntityWithName(String name) throws NoSuchPersonException{
 		for(Person p : people){
@@ -73,8 +77,8 @@ public class Person extends Entity
 	}
 	/**
 	 * Returns true if the person has the given attribute (e.g. "secretary").
-	 * @param attribute
-	 * @return
+	 * @param attribute the attribute to check (e.g. "secretary")
+	 * @return true if the given attribute is included in the person's list of attributes.
 	 */
 	public boolean hasAttribute(String attribute) {
 		return attributes.contains(attribute);
@@ -96,14 +100,15 @@ public class Person extends Entity
 	
 	/**
 	 * Adds the given person to this person's list of colleagues.  
-	 * @param value
+	 * @param colleague the person to add to this person's list of colleagues
 	 */
 	public void addColleague(Person colleague) {
 		if (!colleagues.contains(colleague)){
 			colleagues.add(colleague);
 		}
 	/**
-	 * Adds the project with the given name to this list of projects with which this person is associated. 	
+	 * Adds the project with the given name to this list of projects with which this person is associated. 
+	 * @param projectName the name of the project to be added to the projects list.	
 	 */
 	}
 	public void addProject(String projectName) {
@@ -116,7 +121,7 @@ public class Person extends Entity
 	}
 	/**
 	 * Returns true if the given person is a colleague.
-	 * @param colleague
+	 * @param colleague the person who may or may not be a colleague of the given person
 	 * @return true if the given person is a colleague.
 	 */
 	public boolean isColleague(Person colleague){
@@ -125,6 +130,7 @@ public class Person extends Entity
 	/**
 	 * String representation of person. String contains information about all the 
 	 * person's colleagues and attributes.
+	 * @return a string representation of a person
 	 */
 	@Override
 	public String toString(){
@@ -140,7 +146,7 @@ public class Person extends Entity
 	/**
 	 * Builds a string representing all the Person objects instantiated by calling the
 	 * toString() method of each. 
-	 * @return
+	 * @return a string representing all known information about all people
 	 */
 	public static String peopleInfoString(){
 		String peopleStr = "";
@@ -150,8 +156,13 @@ public class Person extends Entity
 		
 		return peopleStr;
 	}
+	/**
+	 * Assignees this person to the given room .
+	 * @param homeRoom the office being assigned to this person.
+	 */
 	public void addRoomAssignment(Room homeRoom) {
 		this.homeRoom = homeRoom;
+		homeRoom.addOccupant(this);
 	}
 }
 
