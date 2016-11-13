@@ -432,6 +432,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 
+	/**
+	 * Assigns a person to a room.
+	 * @param personName the person to be added.
+	 * @param room the room the person will be added to.
+	 */
 	@Override
 	public void a_assign_to(String personName, String room)  {
 		
@@ -464,6 +469,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		
 	}
 
+	/**
+	 * Checks if the person resides in the room.
+	 * @param personName the person to check.
+	 * @param room the room to check.
+	 * @return true if the person is assigned to the room.
+	 */
 	@Override
 	public boolean e_assign_to(String personName, String room) {
 		try {
@@ -475,13 +486,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 	
 	/**
+	 * Adds the room.
+	 * @param roomName the name for the room to be added.
 	 */
 	@Override
 	public void a_room(String roomName) {
 			if (!Room.exists(roomName))
 				new Room(roomName);
 	}
+	
 	/**
+	 * Checks if the room exists.
+	 * @param r the name for the room to be checked.
+	 * @return true if the room exists.
 	 */
 	@Override
 	public boolean e_room(String r) {
@@ -489,7 +506,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	/**
-	 *
+	 * Asserts a room to be close to another room.
+	 * @param room a room to be assigned close to.
+	 * @param room2 another room to be assigned close to.
 	 */
 	@Override
 	public void a_close(String room, String room2) {
@@ -513,8 +532,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			System.out.println("FAIL");
 		}
 		}
+	
 	/**
-	 *
+	 * Checks if two rooms are close to each other.
+	 * @param room a room to be checked close to.
+	 * @param room2 the other room to be checked close to.
+	 * @return true if the rooms are close to each other.
 	 */
 		@Override
 		public boolean e_close(String room, String room2) {
@@ -530,7 +553,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 
 	/**
-	 *
+	 * Asserts the close to relation with a room and a set of rooms.
+	 * @param room the host room to be close to the set of rooms.
+	 * @param set the set of rooms to be close to the host room.
 	 */
 	@Override
 	public void a_close(String room, TreeSet<Pair<ParamType, Object>> set) {
@@ -554,8 +579,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			System.out.println("FAIL");
 		}
 		}
+	
 	/**
-	 *
+	 * Checks to see if a host room(room) is close to all of the rooms in a set of rooms.
+	 * @param room the host room to check if is close to all the rooms in set.
+	 * @param set the set of rooms to check against the host room.
 	 */
 	@Override
 	public boolean e_close(String room, TreeSet<Pair<ParamType, Object>> set) {
@@ -578,7 +606,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	/**
-	 *
+	 * Asserts a room to be large.
+	 * @param roomName name of the room.
 	 */
 	@Override
 	public void a_large_room(String roomName) {
@@ -587,15 +616,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}catch (NoSuchRoomException e){
 			new Room(roomName, Room.RoomSize.LARGE);
 		}
-		
-//		if(!Room.exists(roomName)){
-//			new Room(roomName, Room.RoomSize.LARGE);
-//		}else {
-//			Room.getEntityWithName(roomName).setSize(Room.RoomSize.LARGE);
-//		}
 	}
+	
 	/**
-	 * 
+	 * Checks to see if a room is large.
+	 * @param roomName name of the room to check.
+	 * @return true if the room is large.
 	 */
 	@Override
 	public boolean e_large_room(String roomName) {
@@ -610,7 +636,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 	
 	/**
-	 * 
+	 * Asserts a room to be medium.
+	 * @param roomName name of the room.
 	 */
 	@Override
 	public void a_medium_room(String roomName) {
@@ -620,8 +647,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			new Room(roomName, Room.RoomSize.MEDIUM);
 		}
 	}
+	
 	/**
-	 * 
+	 * Checks to see if a room is medium.
+	 * @param roomName name of the room to check.
+	 * @return true if the room is medium.
 	 */
 	@Override
 	public boolean e_medium_room(String roomName) {
@@ -634,8 +664,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 		return false;
 	}
+	
 	/**
-	 * 
+	 * Asserts a room to be small.
+	 * @param roomName name of the room.
 	 */
 	@Override
 	public void a_small_room(String roomName) {
@@ -645,8 +677,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			new Room(roomName, Room.RoomSize.SMALL);
 		}
 	}
+	
 	/**
-	 * 
+	 * Checks to see if a room is small.
+	 * @param roomName name of the room to check.
+	 * @return true if the room is small.
 	 */
 	@Override
 	public boolean e_small_room(String roomName) {
@@ -659,6 +694,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 		return false;
 	}
+	
 	/**
 	 * Creates a group with groupName.
 	 * @param groupName
