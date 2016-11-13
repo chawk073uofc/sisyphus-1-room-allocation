@@ -73,20 +73,18 @@ public class SisyphusI {
 			killShutdownHook();
 		}
 	}
-	/**
-	 * TODO: create output file
-	 */
+
 	private void printIODemoInfo() {
-		String p1 = Person.peopleInfoString();
-		String p2 = Room.roomInfoString();
-		String p3 = Group.groupInfoString();
-		String p4 = Project.projectInfoString();
+		String people = Person.peopleInfoString();
+		String rooms = Room.roomInfoString();
+		String groups = Group.groupInfoString();
+		String projects = Project.projectInfoString();
 		try{
 		    PrintWriter writer = new PrintWriter(out);
-		    writer.println(p1);
-		    writer.println(p2);
-		    writer.println(p3);
-		    writer.println(p4);
+		    writer.println(people);
+		    writer.println(rooms);
+		    writer.println(groups);
+		    writer.println(projects);
 		    writer.close();
 		}catch(FileNotFoundException e){
 			File outFile = new File(out);

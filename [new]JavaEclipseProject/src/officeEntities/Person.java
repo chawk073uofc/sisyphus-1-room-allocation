@@ -128,6 +128,14 @@ public class Person extends Entity
 		return colleagues.contains(colleague);
 	}
 	/**
+	 * Assignees this person to the given room.
+	 * @param homeRoom the office being assigned to this person.
+	 */
+	public void addRoomAssignment(Room homeRoom) {
+		this.homeRoom = homeRoom;
+		homeRoom.addOccupant(this);
+	}
+	/**
 	 * String representation of person. String contains information about all the 
 	 * person's colleagues and attributes.
 	 * @return a string representation of a person
@@ -155,14 +163,6 @@ public class Person extends Entity
 		peopleStr += "\n";
 		
 		return peopleStr;
-	}
-	/**
-	 * Assignees this person to the given room .
-	 * @param homeRoom the office being assigned to this person.
-	 */
-	public void addRoomAssignment(Room homeRoom) {
-		this.homeRoom = homeRoom;
-		homeRoom.addOccupant(this);
 	}
 }
 

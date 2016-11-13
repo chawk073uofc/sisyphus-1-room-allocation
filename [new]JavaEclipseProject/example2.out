@@ -79,18 +79,21 @@ close(r23, r20)
 
 
 group(g1)
+group(p11, g1)
 heads-group(p11, g1)
 group(g2)
 group(p12, g2)
 
 
 project(q1)
+project(p4, q1)
 
 project(q2)
 large-project(q2)
 
 project(q3)
 heads-project(p12, q3)
+project(p12, q3)
 
 
 

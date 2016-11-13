@@ -113,7 +113,7 @@ public class Room extends Entity{
 	 * @return true if the person exists in the room.
 	 */
 	public boolean hasPerson(Person p){
-		return occupants.contains(p);
+		return occupants.contains(p);		
 	}
 	
 	/**
