@@ -361,15 +361,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 
-
+	/**
+	 * Establishes that the given person works with all of the people in the given set, and vice versa.
+	 * @param personName the name of the person
+	 * @param p2s a set of people
+	 */
 	@Override
 	public void a_works_with(String personName, TreeSet<Pair<ParamType, Object>> p2s) {
 		Iterator<Pair<ParamType, Object>> iterator = p2s.iterator();
-		Person collegueToAdd = null;
 		try {
 			String collegueName;
 			while ((iterator.hasNext())) {
-				//System.err.println(iterator.next());
 				collegueName = (String) iterator.next().getValue();
 				if (Person.exists(personName) && Person.exists(collegueName)) {
 					Person.getEntityWithName(personName).addColleague(Person.getEntityWithName(collegueName));
@@ -395,6 +397,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 
+	/**
+	 * Returns true if the given person works with all people in the given set.
+	 * @param personName the name of the person
+	 * @param p2s a set of people
+	 * @return true if for all people in the set, the given person works with all of them
+	 */
 	@Override
 	public boolean e_works_with(String personName, TreeSet<Pair<ParamType, Object>> p2s) {
 		Iterator<Pair<ParamType, Object>> iterator = p2s.iterator();
@@ -488,9 +496,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			}
 
 	} catch (NoSuchPersonException e) {
-		System.out.println("uhh");
+		System.out.println("FAIL");
 	} catch (NoSuchRoomException e) {
-		System.out.println("fail");
+		System.out.println("FAIL");
 	}
 		
 	}
