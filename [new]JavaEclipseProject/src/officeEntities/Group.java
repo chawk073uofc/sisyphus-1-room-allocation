@@ -1,7 +1,13 @@
-//TODO: Branko comment this and related env methods
 package officeEntities;
 
 import java.util.ArrayList;
+
+/**
+ * This class represents a group in the office allocation problem. It includes a list of the group's
+ * members and heads along with methods to add members and to check membership. 
+ * @author Branko Bajic
+ *
+ */
 
 import cpsc433.Entity;
 
@@ -26,6 +32,7 @@ public class Group extends Entity {
 	 * Constructor for class Group. Creates a group with the given name and assigns the given person
 	 * to the group's list of people.
 	 * @param groupName name of the group
+	 * @param person name of the person
 	 */
 	public Group(String groupName, Person person) {
 		super(groupName);
@@ -35,6 +42,12 @@ public class Group extends Entity {
 		members.add(person);
 	}
 
+	/**
+	 * Returns an object representing a group with a given name , if such group exists.
+	 * @param name the name of a group which may or may not exist
+	 * @return the group object which has the given name 
+	 * @throws NoSuchGroupException if a group by the given name is not found
+	 */
 	public static Group getEntityWithName(String groupName) throws NoSuchGroupException{
 		for(Group g : groups)
 			if(g.getName().equals(groupName)) return g;
@@ -93,6 +106,11 @@ public class Group extends Entity {
 		return false;
 }
 	
+	/**
+	 * String representation of group. String contains information about all the 
+	 * group's members and heads.
+	 * @return a string representation of a group
+	 */	
 	@Override
 	public String toString(){
 		String groupStr = "";
@@ -106,6 +124,11 @@ public class Group extends Entity {
 		return groupStr;
 	}
 	
+	/**
+	 * Builds a string representing all the Group objects instantiated by calling the
+	 * toString() method of each. 
+	 * @return a string representing all known information about all groups
+	 */	
 	public static String groupInfoString(){
 		String groupStr = "";
 		for(Group g: groups){
@@ -115,9 +138,11 @@ public class Group extends Entity {
 		return groupStr;
 	}
 	
+	/**
+	 * Assigns a person to the group .
+	 * @param person the person being added
+	 */	
 	public void addMember(Person person){
 		members.add(person);
 	}
-
-
 }
