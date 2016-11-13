@@ -169,7 +169,7 @@ public class Project extends Entity {
 	}
 	
 	/**
-	 * Returns a string with all the information relating to this room.
+	 * Returns a string with all the information relating to this project.
 	 * @return room_string 
 	 */
 	@Override

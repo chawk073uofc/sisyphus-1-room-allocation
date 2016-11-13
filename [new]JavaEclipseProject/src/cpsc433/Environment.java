@@ -314,7 +314,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			return false;
 		}
 	}
-
+	/**
+	 * Adds a group with a given name and adds the person named as a member
+	 * If project exists, simply add person to it
+	 * If person doesn't exist create it and add it
+	 * @param personName the name of the person
+	 * @param projectName the name of the project
+	 * @return void
+	 */
 	@Override
 	public void a_project(String personName, String projectName) {
 		Person personObj = null;
@@ -327,7 +334,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 
 	}
-
+	/**
+	 * Returns true if the project with the name given exists and the person given is in it
+	 * @param personName the name of the person
+	 * @param projName the name of the project
+	 * @return true if both person and proj exist and the given person is in the the given proj
+	 */
 	@Override
 	public boolean e_project(String personName, String projName)  {
 		try {
@@ -337,7 +349,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			return false;
 		}
 	}
-
+	/**
+	 * Adds a group with a given name and adds the person named as the project head
+	 * If proj exists, simply add person to it and make him the head
+	 * If person doesn't exist create it and add it
+	 * @param personName the name of the person
+	 * @param projectName the name of the project
+	 * @return void
+	 */
 	@Override
 	public void a_heads_project(String personName, String projName) {
 		Project projectObj = null;
@@ -350,7 +369,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		projectObj.setProjectHead(personName);
 
 	}
-
+	/**
+	 * Returns true if the project with the name given exists and the person given heads it
+	 * @param personName the name of the person
+	 * @param projName the name of the project
+	 * @return true if both person and project exist and the given person heads the given project
+	 */
 	@Override
 	public boolean e_heads_project(String personName, String projName)  {
 		try {
