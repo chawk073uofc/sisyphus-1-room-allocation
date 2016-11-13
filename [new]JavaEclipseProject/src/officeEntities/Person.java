@@ -1,3 +1,4 @@
+//TODO: chris add comments
 package officeEntities;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class Person extends Entity
 	private ArrayList<Person> colleagues = new ArrayList<Person>(); //All the people this person works with.
 	private ArrayList<Group> groups = new ArrayList<Group>(); //All of the groups this person is assigned to.
 	private ArrayList<Project> projects = new ArrayList<Project>(); // All of the projects this person is assigned to.
+	private Room homeRoom;
 	//TODO : add room field?
 	/**
 	 * Constructor for class person. Creates a Person object with a given name. 
@@ -131,7 +133,7 @@ public class Person extends Entity
 		for(String att: attributes)
 			personStr +=  att + "(" + this.getName() + ")\n";
 		for(Person coll : colleagues)
-			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")";
+			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")\n";
 		personStr += "\n";
 		return personStr;
 	}
@@ -147,6 +149,9 @@ public class Person extends Entity
 		peopleStr += "\n";
 		
 		return peopleStr;
+	}
+	public void addRoomAssignment(Room homeRoom) {
+		this.homeRoom = homeRoom;
 	}
 }
 

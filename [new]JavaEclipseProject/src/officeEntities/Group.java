@@ -1,3 +1,4 @@
+//TODO: Branko comment this and related env methods
 package officeEntities;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class Group extends Entity {
 	private static ArrayList<Group> groups =new ArrayList<Group>(); //All instances of class Group currently instantiated.
 	
 	private ArrayList<Person> members = new ArrayList<Person>();
-	private Person groupHead; //TODO:can a group have more than one head?
+	private ArrayList<Person> groupHeads = new ArrayList<Person>(); //TODO:can a group have more than one head?
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name.
@@ -16,22 +17,27 @@ public class Group extends Entity {
 	 */
 	public Group(String groupName) {
 		super(groupName);
+		if (!groups.contains(this)){
+			groups.add(this);
+		}
 	}
-	
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name and assigns the given person
 	 * to the group's list of people.
-	 * @param groupName
+	 * @param groupName name of the group
 	 */
 	public Group(String groupName, Person person) {
 		super(groupName);
+		if(!groups.contains(this)){
+			groups.add(this);
+		}
 		members.add(person);
 	}
 
 	public static Group getEntityWithName(String groupName) throws NoSuchGroupException{
 		for(Group g : groups)
-			if(g.equals(groupName)) return g;
+			if(g.getName().equals(groupName)) return g;
 		throw new NoSuchGroupException();
 	}
 
@@ -53,11 +59,19 @@ public class Group extends Entity {
 	 * @param personName
 	 */
 	public void setGroupHead(String personName) {
+		Person	personObj;
 		try {
-			groupHead = Person.getEntityWithName(personName);
+			personObj = Person.getEntityWithName(personName);
 		} catch (NoSuchPersonException e) {
-			(new Person(personName)).addGroup(this.getName());
+			personObj= new Person(personName);
 		}
+		if(!groupHeads.contains(personObj)){
+			groupHeads.add(personObj);
+		}
+		if(!members.contains(personObj)){
+			members.add(personObj);
+		}
+		
 	}
 	/**
 	 * Returns true if the named person is the head of this group.
@@ -65,7 +79,7 @@ public class Group extends Entity {
 	 * @return
 	 */
 	public boolean hasGroupHead(String personName) {
-		return groupHead.getName().equals(personName);
+		return !groupHeads.isEmpty();
 	}
 	/**
 	 * Returns true if the named group exsists.
@@ -73,10 +87,37 @@ public class Group extends Entity {
 	 * @return boolean
 	 */
 	public static boolean exists(String groupName){
-		for(Group g : groups)
-			if(g.equals(groupName)) return true;
+		for(Group g : groups){
+			if(g.getName().equals(groupName)){ return true; }
+	}
 		return false;
+}
+	
+	@Override
+	public String toString(){
+		String groupStr = "";
+		groupStr += "group(" + this.getName() + ")\n";
+		for(Person member : members){
+			groupStr += "group(" + member.getName() + ", " + this.getName() + ")\n";
+		}
+		for(Person groupHead: groupHeads){
+			groupStr += "heads-group(" + groupHead.getName() + ", " + this.getName() + ")\n"; 
+		}
+		return groupStr;
 	}
 	
+	public static String groupInfoString(){
+		String groupStr = "";
+		for(Group g: groups){
+			groupStr += g;
+		}
+		groupStr += "\n";
+		return groupStr;
+	}
+	
+	public void addMember(Person person){
+		members.add(person);
+	}
+
 
 }

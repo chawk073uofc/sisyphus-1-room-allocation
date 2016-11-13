@@ -1,0 +1,21 @@
+person(Werner)
+
+person(hank)
+
+person(tim)
+
+
+
+
+
+group(YQT)
+group(Werner, YQT)
+heads-group(Werner, YQT)
+group(TYP)
+group(hank, TYP)
+group(tim, TYP)
+heads-group(hank, TYP)
+
+
+
+
