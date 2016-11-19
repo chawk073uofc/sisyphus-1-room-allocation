@@ -1,7 +1,7 @@
 
 package officeEntities;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 import cpsc433.Entity;
 import officeEntities.Room.RoomSize;
@@ -14,9 +14,9 @@ import officeEntities.Room.RoomSize;
  *
  */
 public class Room extends Entity{
-	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
-	private ArrayList<Person> occupants = new ArrayList<Person>();
-	private ArrayList<Room> closeTo = new ArrayList<Room>();
+	private static TreeSet<Room> rooms =new TreeSet<Room>(); //All instances of class Room currently instantiated.
+	private TreeSet<Person> occupants = new TreeSet<Person>();
+	private TreeSet<Room> closeTo = new TreeSet<Room>();
 	private RoomSize size = RoomSize.MEDIUM; 
 	
 	/**

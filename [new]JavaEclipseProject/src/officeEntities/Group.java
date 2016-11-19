@@ -1,6 +1,6 @@
 package officeEntities;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * This class represents a group in the office allocation problem. It includes a list of the group's
@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import cpsc433.Entity;
 
 public class Group extends Entity {
-	private static ArrayList<Group> groups =new ArrayList<Group>(); //All instances of class Group currently instantiated.
+	private static TreeSet<Group> groups =new TreeSet<Group>(); //All instances of class Group currently instantiated.
 	
-	private ArrayList<Person> members = new ArrayList<Person>();
-	private ArrayList<Person> groupHeads = new ArrayList<Person>(); //TODO:can a group have more than one head?
+	private TreeSet<Person> members = new TreeSet<Person>();
+	private TreeSet<Person> groupHeads = new TreeSet<Person>(); //TODO:can a group have more than one head?
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name.

@@ -1,6 +1,6 @@
 package officeEntities;
 
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 import cpsc433.Entity;
 
@@ -13,14 +13,14 @@ import cpsc433.Entity;
  */
 public class Project extends Entity {
 	/**
-	 * static ArrayList<Project> projects: Holds all of the project Items
-	 * ArrayList<Person> members: Holds members for an instance of a project
-	 * ArrayList<Person> projectHeads: Holds the list of project heads
+	 * static TreeSet<Project> projects: Holds all of the project Items
+	 * TreeSet<Person> members: Holds members for an instance of a project
+	 * TreeSet<Person> projectHeads: Holds the list of project heads
 	 * boolean largeProject: Holds the large-project attribute. Default: False
 	 */
-	private static ArrayList<Project> projects =new ArrayList<Project>();
-	private ArrayList<Person> members = new ArrayList<Person>();
-	private ArrayList<Person> projectHeads = new ArrayList<Person>();
+	private static TreeSet<Project> projects =new TreeSet<Project>();
+	private TreeSet<Person> members = new TreeSet<Person>();
+	private TreeSet<Person> projectHeads = new TreeSet<Person>();
 	private boolean largeProject = false;
 
 	
