@@ -1,6 +1,7 @@
 package officeEntities;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import cpsc433.Entity;
 
@@ -13,8 +14,8 @@ import cpsc433.Entity;
  */
 public class Person extends Entity 
 {
-	private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
-
+	//private static ArrayList<Person> people =new ArrayList<>(); //All instances of class Person currently instantiated.
+	private static TreeSet<Person> people = new TreeSet<>();
 	private ArrayList<String> attributes = new ArrayList<String>(); //The attributes that this instance of Person has.
 	private ArrayList<Person> colleagues = new ArrayList<Person>(); //All the people this person works with.
 	private ArrayList<Group> groups = new ArrayList<Group>(); //All of the groups this person is assigned to.

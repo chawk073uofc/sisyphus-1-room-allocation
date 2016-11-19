@@ -1,6 +1,8 @@
 secretary(p1)	 
 smoker(p2)	 
-hacker(p3)	 
+hacker(p3)	
+researcher(qqq1)
+ 
 project(p4,q1)	  
 large-project(q2)	// recently added (2016/11/04)
 works-with(p5,p6)	 

@@ -4,8 +4,11 @@ secretary(p1)
 person(p2)
 smoker(p2)
 
-person(p3)
+person(p3)			
 hacker(p3)
+
+person(qqq1)
+researcher(qqq1)
 
 person(p4)
 
