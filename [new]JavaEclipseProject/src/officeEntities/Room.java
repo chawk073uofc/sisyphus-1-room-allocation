@@ -1,6 +1,8 @@
 
 package officeEntities;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import cpsc433.Entity;
@@ -14,9 +16,9 @@ import officeEntities.Room.RoomSize;
  *
  */
 public class Room extends Entity{
-	private static TreeSet<Room> rooms =new TreeSet<Room>(); //All instances of class Room currently instantiated.
-	private TreeSet<Person> occupants = new TreeSet<Person>();
-	private TreeSet<Room> closeTo = new TreeSet<Room>();
+	private static Map<String,Room> rooms =new HashMap<>(); //All instances of class Room currently instantiated.
+	private Map<String, Person> occupants = new HashMap<>();
+	private Map<String, Room> closeTo = new HashMap<>();
 	private RoomSize size = RoomSize.MEDIUM; 
 	
 	/**
@@ -25,7 +27,7 @@ public class Room extends Entity{
 	 */
 	public Room(String roomName){
 		super(roomName);
-		rooms.add(this);
+		rooms.put(roomName,this);
 	}
 	/**
 	 * Constructor for class Room. Creates a room with the given name and size.
@@ -35,7 +37,7 @@ public class Room extends Entity{
 	public Room(String roomName, RoomSize roomSize) {
 		super(roomName);
 		size = roomSize; 
-		rooms.add(this);
+		rooms.put(roomName, this);
 	}
 	
 	/**
@@ -44,9 +46,7 @@ public class Room extends Entity{
 	 * @return true if a Room object with the same name already exists.
 	 */
 	public static boolean exists(String name){
-		for(Room r : rooms)
-			if(r.getName().equals(name)) return true;
-		return false;
+		return rooms.containsKey(name);
 	}
 	
 	/**
@@ -55,18 +55,16 @@ public class Room extends Entity{
 	 * @return true if a room object is close to the calling room object.
 	 */
 	public boolean isCloseTo(Room checkRoom){
-		for (Room r: closeTo)
-			if(checkRoom.equals(r)) return true;
-		return false;
+		return closeTo.containsKey(checkRoom.getName());//O(1)
 	}
 	
 	/**
 	 * Adds a Room object to the calling Room object's close to array.
-	 * @param addRoom room to add to closeTo array.
+	 * @param neighbour room to add to closeTo array.
 	 */
-	public void addCloseTo(Room addRoom){
-		if(!closeTo.contains(addRoom))
-			closeTo.add(addRoom);
+	public void addCloseTo(Room neighbour){
+		if(!closeTo.containsKey(neighbour.getName())) //O(1)
+			closeTo.put(neighbour.getName(), neighbour);//O(1)
 	}
 	
 	/**
@@ -76,11 +74,10 @@ public class Room extends Entity{
 	 * @throws NoSuchRoomException if the room does not exist.
 	 */
 	public static Room getEntityWithName(String roomName) throws NoSuchRoomException{
-		for(Room r : rooms){
-			if(r.getName().equals(roomName)) 
-				return r;
-		}
-		throw new NoSuchRoomException();
+		Room rm = rooms.get(roomName);//O(1)
+		if(rm == null)
+			throw new NoSuchRoomException();
+		return rm;
 	}
 
 	/**
@@ -104,7 +101,7 @@ public class Room extends Entity{
 	 * @param p the person to add.
 	 */
 	public void addPerson(Person p){
-		occupants.add(p);
+		occupants.put(p.getName(), p);
 	}
 	
 	/**
@@ -113,7 +110,7 @@ public class Room extends Entity{
 	 * @return true if the person exists in the room.
 	 */
 	public boolean hasPerson(Person p){
-		return occupants.contains(p);		
+		return occupants.containsKey(p.getName());		
 	}
 	
 	/**
@@ -125,9 +122,9 @@ public class Room extends Entity{
 		String roomStr = "";
 		roomStr += "room(" + this.getName() + ")\n";
 		roomStr += this.size + "(" + this.getName() + ")\n";//TODO enum toString
-		for(Room rm : closeTo)
+		for(Room rm : closeTo.values())
 			roomStr += "close(" +this.getName() + ", " + rm.getName() + ")\n";
-		for(Person p : occupants)
+		for(Person p : occupants.values())
 			roomStr += "assigned-to(" + p.getName() + ", " + this.getName() + ")\n"; 
 		roomStr += "\n";
 		return roomStr;
@@ -139,7 +136,7 @@ public class Room extends Entity{
 	 */
 	public static String roomInfoString(){
 		String roomsStr = "";
-		for(Room rm : rooms)
+		for(Room rm : rooms.values())
 			roomsStr += rm;
 		roomsStr += "\n";
 		
@@ -162,8 +159,8 @@ public class Room extends Entity{
 	 * @param personMovingIn the person to be put into the room.
 	 */
 	public void addOccupant(Person personMovingIn) {
-		if(!occupants.contains(personMovingIn))
-			occupants.add(personMovingIn);	
+		if(!occupants.containsKey(personMovingIn.getName()))//O(1)
+			occupants.put(personMovingIn.getName(), personMovingIn);	//O(1)
 	}
 	
 }

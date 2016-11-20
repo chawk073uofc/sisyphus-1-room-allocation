@@ -1,5 +1,7 @@
 package officeEntities;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 /**
@@ -12,10 +14,9 @@ import java.util.TreeSet;
 import cpsc433.Entity;
 
 public class Group extends Entity {
-	private static TreeSet<Group> groups =new TreeSet<Group>(); //All instances of class Group currently instantiated.
-	
-	private TreeSet<Person> members = new TreeSet<Person>();
-	private TreeSet<Person> groupHeads = new TreeSet<Person>(); //TODO:can a group have more than one head?
+	private static Map<String, Group> groups =new HashMap<>(); //All instances of class Group currently instantiated.
+	private Map<String, Person> members = new HashMap<>();
+	private Map<String, Person> groupHeads = new HashMap<>(); 
 	
 	/**
 	 * Constructor for class Group. Creates a group with the given name.
@@ -23,8 +24,8 @@ public class Group extends Entity {
 	 */
 	public Group(String groupName) {
 		super(groupName);
-		if (!groups.contains(this)){
-			groups.add(this);
+		if (!exists(groupName)){
+			groups.put(groupName, this);
 		}
 	}
 	
@@ -36,10 +37,10 @@ public class Group extends Entity {
 	 */
 	public Group(String groupName, Person person) {
 		super(groupName);
-		if(!groups.contains(this)){
-			groups.add(this);
+		if(!groups.containsKey(this.getName())){  //O(1)
+			groups.put(groupName, this); //O(1)
 		}
-		members.add(person);
+		members.put(person.getName(), person);
 	}
 
 	/**
@@ -49,9 +50,10 @@ public class Group extends Entity {
 	 * @throws NoSuchGroupException if a group by the given name is not found
 	 */
 	public static Group getEntityWithName(String groupName) throws NoSuchGroupException{
-		for(Group g : groups)
-			if(g.getName().equals(groupName)) return g;
-		throw new NoSuchGroupException();
+		Group g = groups.get(groupName); //O(1)
+		if (g == null)
+			throw new NoSuchGroupException();
+		return g;
 	}
 
 	/**
@@ -60,11 +62,7 @@ public class Group extends Entity {
 	 * @return
 	 */
 	public boolean hasMember(String personName) {
-		for(Person m: members){
-			if(m.getName().equals(personName))
-				return true;
-		}
-		return false;
+		return members.containsKey(personName);//O(1)
 	}
 	/**
 	 * Assigns the person with the given name to be the head of this group. Creates a person 
@@ -78,11 +76,11 @@ public class Group extends Entity {
 		} catch (NoSuchPersonException e) {
 			personObj= new Person(personName);
 		}
-		if(!groupHeads.contains(personObj)){
-			groupHeads.add(personObj);
+		if(!groupHeads.containsKey(personObj.getName())){
+			groupHeads.put(personObj.getName(), personObj);
 		}
-		if(!members.contains(personObj)){
-			members.add(personObj);
+		if(!members.containsKey(personObj.getName())){
+			members.put(personObj.getName(), personObj);
 		}
 		
 	}
@@ -100,12 +98,8 @@ public class Group extends Entity {
 	 * @return boolean
 	 */
 	public static boolean exists(String groupName){
-		for(Group g : groups){
-			if(g.getName().equals(groupName)){ return true; }
-	}
-		return false;
+		return groups.containsKey(groupName); //O(1)
 }
-	
 	/**
 	 * String representation of group. String contains information about all the 
 	 * group's members and heads.
@@ -115,15 +109,14 @@ public class Group extends Entity {
 	public String toString(){
 		String groupStr = "";
 		groupStr += "group(" + this.getName() + ")\n";
-		for(Person member : members){
+		for(Person member : members.values()){
 			groupStr += "group(" + member.getName() + ", " + this.getName() + ")\n";
 		}
-		for(Person groupHead: groupHeads){
+		for(Person groupHead: groupHeads.values()){
 			groupStr += "heads-group(" + groupHead.getName() + ", " + this.getName() + ")\n"; 
 		}
 		return groupStr;
 	}
-	
 	/**
 	 * Builds a string representing all the Group objects instantiated by calling the
 	 * toString() method of each. 
@@ -131,18 +124,17 @@ public class Group extends Entity {
 	 */	
 	public static String groupInfoString(){
 		String groupStr = "";
-		for(Group g: groups){
+		for(Group g: groups.values()){
 			groupStr += g;
 		}
 		groupStr += "\n";
 		return groupStr;
 	}
-	
 	/**
 	 * Assigns a person to the group .
 	 * @param person the person being added
 	 */	
 	public void addMember(Person person){
-		members.add(person);
+		members.put(person.getName(), person);
 	}
 }
