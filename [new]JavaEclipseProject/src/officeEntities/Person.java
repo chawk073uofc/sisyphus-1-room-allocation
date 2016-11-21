@@ -160,5 +160,9 @@ public class Person extends Entity
 		
 		return peopleStr;
 	}
+	
+	public static int numberOfPeople() {
+		return people.size();
+	}
 }
 
