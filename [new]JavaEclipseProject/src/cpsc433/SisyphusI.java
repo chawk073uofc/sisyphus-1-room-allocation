@@ -8,6 +8,9 @@ import officeEntities.Room;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -151,6 +154,29 @@ public class SisyphusI {
 			System.out.println("Number of people exceeds building capacity");
 		else{
 			System.out.println("Beginning search.");
+			Map<String, Person> unassignedPpl = new HashMap<>();
+			unassignedPpl = Person.getPersonList();
+			Map<String, Person> groupHeadList = Group.getAllGroupHeads();
+
+			while (!groupHeadList.isEmpty()){
+				
+			}
+			
+			//While there are unassigned people and there is time left
+				//for all group heads
+				
+					//Select random group head head
+					
+						//assign them a large room empty room (if one is availabel)
+						//remove this room from pool a avilabel rooms
+						//calculate f_leaf for this node
+				//for all managers 
+					//same
+				//for all project head
+					//same
+				//---if we run out of rooms before all managers, heads are assigned, cancel search
+				//
+			
 		}
 	}
 	

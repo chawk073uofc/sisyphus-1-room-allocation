@@ -137,4 +137,20 @@ public class Group extends Entity {
 	public void addMember(Person person){
 		members.put(person.getName(), person);
 	}
+	public static Map<String, Group> getGroups(){
+		return groups;
+	}
+	
+	public static Map<String, Person> getAllGroupHeads(){
+		Map<String, Person> returnMap = new HashMap<>();
+		//returnMap.putAll(groups);
+		for (Map.Entry<String, Group> entry : groups.entrySet()) {
+			returnMap.putAll(entry.getValue().getGroupHeads());
+			// TODO: remove duplicates
+		}
+		return returnMap;
+	}
+	public Map<String, Person> getGroupHeads(){
+		return groupHeads;
+	}
 }
