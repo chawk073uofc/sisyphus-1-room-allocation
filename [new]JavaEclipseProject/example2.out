@@ -1,0 +1,102 @@
+person(p1)
+secretary(p1)
+
+person(p2)
+smoker(p2)
+
+person(p3)
+hacker(p3)
+
+person(p4)
+
+person(p5)
+works-with(p5, p6)
+
+person(p6)
+works-with(p6, p5)
+
+person(p7)
+works-with(p7, p10)
+works-with(p7, p8)
+works-with(p7, p9)
+
+person(p8)
+works-with(p8, p7)
+
+person(p9)
+works-with(p9, p7)
+
+person(p10)
+works-with(p10, p7)
+
+person(p20)
+
+person(p12)
+
+person(p11)
+
+person(p33)
+
+person(qqq1)
+researcher(qqq1)
+
+
+
+room(r2)
+medium-room(r2)
+close(r2, r1)
+
+room(r21)
+medium-room(r21)
+close(r21, r20)
+
+room(r3)
+large-room(r3)
+
+room(p33)
+medium-room(p33)
+
+room(r20)
+medium-room(r20)
+close(r20, r20)
+close(r20, r21)
+close(r20, r22)
+close(r20, r23)
+
+room(r4)
+medium-room(r4)
+assigned-to(p20, r4)
+
+room(r23)
+medium-room(r23)
+close(r23, r20)
+
+room(r22)
+medium-room(r22)
+close(r22, r20)
+
+room(r1)
+medium-room(r1)
+close(r1, r2)
+
+
+
+group(g1)
+group(p11, g1)
+heads-group(p11, g1)
+group(g2)
+group(p12, g2)
+
+
+project(q1)
+project(p4, q1)
+
+project(q2)
+large-project(q2)
+
+project(q3)
+heads-project(p12, q3)
+project(p12, q3)
+
+
+

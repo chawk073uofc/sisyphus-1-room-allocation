@@ -1,0 +1,22 @@
+person(p1)
+works-with(p1, p2)
+works-with(p1, p3)
+works-with(p1, p4)
+
+person(p2)
+works-with(p2, p1)
+
+person(p3)
+works-with(p3, p1)
+
+person(p4)
+works-with(p4, p1)
+
+
+
+
+
+
+
+
+

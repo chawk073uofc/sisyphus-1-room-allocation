@@ -1,5 +1,17 @@
 package cpsc433;
 
+import officeEntities.Group;
+import officeEntities.Person;
+import officeEntities.Project;
+import officeEntities.Room;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
  * interpret the command line.
@@ -55,14 +67,37 @@ public class SisyphusI {
 
 		if (args.length>1) { // using command-line arguments
 			runCommandLineMode();
+			printIODemoInfo();
 			killShutdownHook();
 		}
 		else { // using interactive mode
 			runInteractiveMode();
+			printIODemoInfo();
 			killShutdownHook();
 		}
 	}
-	
+
+	private void printIODemoInfo() {
+		String people = Person.peopleInfoString();
+		String rooms = Room.roomInfoString();
+		String groups = Group.groupInfoString();
+		String projects = Project.projectInfoString();
+		try{
+		    PrintWriter writer = new PrintWriter(out);
+		    writer.println(people);
+		    writer.println(rooms);
+		    writer.println(groups);
+		    writer.println(projects);
+		    writer.close();
+		}catch(FileNotFoundException e){
+			File outFile = new File(out);
+			printIODemoInfo();
+		}
+		
+		
+		
+	}
+
 	/**
 	 * Return the environment object.  One should return an environment object that 
 	 * makes sense for YOUR solution to the problem: the environment could contain 
@@ -115,6 +150,34 @@ public class SisyphusI {
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
+		if(Person.numberOfPeople() > Room.buildingCapacity())
+			System.out.println("Number of people exceeds building capacity");
+		else{
+			System.out.println("Beginning search.");
+			Map<String, Person> unassignedPpl = new HashMap<>();
+			unassignedPpl = Person.getPersonList();
+			Map<String, Person> groupHeadList = Group.getAllGroupHeads();
+
+			while (!groupHeadList.isEmpty()){
+				
+			}
+			
+			//While there are unassigned people and there is time left
+				//for all group heads
+				
+					//Select random group head head
+					
+						//assign them a large room empty room (if one is availabel)
+						//remove this room from pool a avilabel rooms
+						//calculate f_leaf for this node
+				//for all managers 
+					//same
+				//for all project head
+					//same
+				//---if we run out of rooms before all managers, heads are assigned, cancel search
+				//
+			
+		}
 	}
 	
 	protected void printResults() {

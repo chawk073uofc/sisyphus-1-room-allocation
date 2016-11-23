@@ -1,0 +1,17 @@
+person(Werner)
+
+
+
+
+
+group(YQT)
+group(Werner, YQT)
+heads-group(Werner, YQT)
+
+
+project(YQT)
+heads-project(Werner, YQT)
+project(Werner, YQT)
+
+
+
