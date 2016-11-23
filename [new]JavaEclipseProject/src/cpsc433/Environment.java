@@ -1,11 +1,4 @@
-/**
-<<<<<<< HEAD
- * I have added this comment.
-=======
- * I have added this comment to test git.
- * I have added this comment to test git.	
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
- */
+
 package cpsc433;
 
 import java.util.Iterator;
@@ -25,7 +18,7 @@ import officeEntities.Room;
  * {@link cpsc433.PredicateReader} and use that one.
  * <p>
  * I have defined this class as a singleton.
- * 
+ *
  * <p>
  * Copyright: Copyright (c) 2003-16, Department of Computer Science, University
  * of Calgary. Permission to use, copy, modify, distribute and sell this
@@ -52,7 +45,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * A getter for the global instance of this class. If an instance of this
 	 * class does not already exist, it will be created.
-	 * 
+	 *
 	 * @return The singleton (global) instance.
 	 */
 	public static Environment get() {
@@ -243,7 +236,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Returns true if the group with the name given has member by the name
 	 * given.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -271,7 +264,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Returns true if the group with the name given exists and is headed by a
 	 * person by the name given.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -387,13 +380,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * TODO:Branko
 	 */
 	@Override
 	public void a_works_with(String p, String p2) {
-		// TODO Auto-generated method stub
+
 
 	}
 	/**
@@ -421,7 +414,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_room(String r) {
@@ -429,7 +422,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public boolean e_room(String r) {
@@ -437,7 +430,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_close(String room, String room2) {
@@ -458,7 +451,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			}
 		}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 			@Override
 			public boolean e_close(String room, String room2) {
@@ -470,7 +463,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			}
 
 			/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_close(String room, TreeSet<Pair<ParamType, Object>> set) {
@@ -491,13 +484,13 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 		}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public boolean e_close(String room, TreeSet<Pair<ParamType, Object>> set) {
 		if (!Room.exists(room)){
 			return false;
-		} 
+		}
 		Iterator<Pair<ParamType, Object>> iterator = set.iterator();
 		String roomtoAdd;
 		while(iterator.hasNext()){
@@ -510,7 +503,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_large_room(String r) {
@@ -521,7 +514,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public boolean e_large_room(String r) {
@@ -532,7 +525,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_medium_room(String r) {
@@ -543,18 +536,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public boolean e_medium_room(String r) {
 		if(Room.exists(r)){
 			if(Room.getEntityWithName(r).getSize() == 1)
 				return true;
-		}		
+		}
 		return false;
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public void a_small_room(String r) {
@@ -565,14 +558,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 	/**
-	 *TODO:Brandon 
+	 *TODO:Brandon
 	 */
 	@Override
 	public boolean e_small_room(String r) {
 		if(Room.exists(r)){
 			if(Room.getEntityWithName(r).getSize() == 0)
 				return true;
-		}		
+		}
 		return false;
 	}
 	/**
