@@ -10,7 +10,6 @@ import java.util.TreeSet;
  * @author Branko Bajic
  *
  */
-
 import cpsc433.Entity;
 
 public class Group extends Entity {
