@@ -163,4 +163,12 @@ public class Room extends Entity{
 			occupants.put(personMovingIn.getName(), personMovingIn);	//O(1)
 	}
 	
+	public static int buildingCapacity() {
+		return rooms.size() * 2;
+	}
+	
+	public static int numberOfRooms() {
+		return rooms.size();
+	}
+	
 }

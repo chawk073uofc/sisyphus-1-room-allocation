@@ -160,5 +160,32 @@ public class Person extends Entity
 		
 		return peopleStr;
 	}
+	
+	public static int numberOfPeople() {
+		return people.size();
+	}
+	public Room getRoom(){
+		return homeRoom;
+	}
+	
+	public Map<String,Project> getProjects(){
+		return projects;
+	}
+	
+	public static Map<String, Person> getPersonList(){
+		return people;
+	}
+	
+	/**
+	 * Computes the total soft constraint penalty score for the person.
+	 * @return an integer representing the total penalty
+	 */
+	public int computePenalty(){
+		int penalty = 0;
+		
+		
+		
+		return penalty;
+	}
 }
 
