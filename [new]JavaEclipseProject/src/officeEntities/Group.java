@@ -155,4 +155,8 @@ public class Group extends Entity {
 	public Map<String, Person> getGroupHeads(){
 		return groupHeads;
 	}
+	
+	public Map<String, Person> getMembers(){
+		return members;
+	}
 }

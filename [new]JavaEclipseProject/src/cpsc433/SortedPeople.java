@@ -58,6 +58,7 @@ public class SortedPeople {
 	/**
 	 * Removes and returns the next highest-ranking person. 
 	 */
+<<<<<<< HEAD
 	public Person next(){
 		if(!groupHeads.isEmpty()){
 			for(Person p: groupHeads.values())
@@ -100,6 +101,10 @@ public class SortedPeople {
 			return true;
 		else
 			return false;
+	}
+	
+	public boolean hasNext(){
+		return !isEmpty();
 	}
 }
 
