@@ -843,6 +843,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// THE SOFT CONSTRAINTS //
 	
 	// group heads should have a large room //

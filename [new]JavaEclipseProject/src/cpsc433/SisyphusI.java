@@ -4,6 +4,8 @@ import officeEntities.Group;
 import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
+import officeEntities.Room.RoomSize;
+import cpsc433.SearchControl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -157,18 +159,33 @@ public class SisyphusI {
 			Map<String, Person> unassignedPpl = new HashMap<>();
 			unassignedPpl = Person.getPersonList();
 			Map<String, Person> groupHeadList = Group.getAllGroupHeads();
+//			Person p1 = new Person("A");
+//			Person p2 = new Person("B");
+//			Person p3 = new Person("C");
+//			Room r1 = new Room("r1");
+//			Room r2 = new Room("r2");
+//			r1.addOccupant(p1);
+//			r2.addOccupant(p2);
+//			r2.addOccupant(p3);
+//			r2.setSize(RoomSize.SMALL);
+//			p1.addRoomAssignment(r1);
+//			p2.addRoomAssignment(r2);
+//			p3.addRoomAssignment(r2);
+//			p3.addColleague(p2);
+//			p2.addColleague(p3);
+//			System.out.println(SearchControl.f_leaf(p2, p1, p3));
 
-			while (!groupHeadList.isEmpty()){
-				
-			}
+//			while (!groupHeadList.isEmpty()){
+//				
+//			}
 			
 			//While there are unassigned people and there is time left
 				//for all group heads
 				
 					//Select random group head head
 					
-						//assign them a large room empty room (if one is availabel)
-						//remove this room from pool a avilabel rooms
+						//assign them a large room empty room (if one is available)
+						//remove this room from pool a available rooms
 						//calculate f_leaf for this node
 				//for all managers 
 					//same

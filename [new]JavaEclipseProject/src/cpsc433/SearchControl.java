@@ -17,7 +17,7 @@ public class SearchControl {
 	//constraint2
 	//...
 	
-	public int f_leaf(Person personName, Person... people){
+	public static int f_leaf(Person personName, Person... people){
 		int penalty = 0;
 		penalty += Environment.getPenalty1(personName);
 		penalty += Environment.getPenalty2(personName);
