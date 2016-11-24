@@ -184,11 +184,32 @@ public class Person extends Entity
 	 * @return an integer representing the total penalty
 	 */
 	public int computePenalty(){
-		int penalty = 0;
-		
-		
-		
+		int penalty = 0;	
 		return penalty;
 	}
+	
+	public String getMostImportantAttribute(){ 
+		for(String attribute: attributes){ 
+			switch (attribute){ 
+			case "group-head": 
+				return "group-head"; 
+				case "project-head": 
+					return "project-head"; 	
+					case "manager": 
+						return "manager"; 
+						case "secretary": 	
+							return "secretary"; 
+							case "smoker": 	
+								return "smoker"; 
+								case "hacker": 		
+									return "hacker"; 
+									case "researcher": 
+										return "researcher"; 
+										
+			} 	
+			} 
+		return "person";
+	}
+	
 }
 

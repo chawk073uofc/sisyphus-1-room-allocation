@@ -10,7 +10,6 @@ import java.util.TreeSet;
  * @author Branko Bajic
  *
  */
-
 import cpsc433.Entity;
 
 public class Group extends Entity {
@@ -82,6 +81,9 @@ public class Group extends Entity {
 		if(!members.containsKey(personObj.getName())){
 			members.put(personObj.getName(), personObj);
 		}
+		
+		//add group-head to person's attribute list
+		personObj.addAttribute("group-head");
 		
 	}
 	/**
