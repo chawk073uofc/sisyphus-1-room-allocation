@@ -176,7 +176,7 @@ public class SisyphusI {
 //			System.out.println(SearchControl.f_leaf(p2, p1, p3));
 
 //			while (!groupHeadList.isEmpty()){
-//				
+//				//...
 //			}
 			
 			//While there are unassigned people and there is time left
