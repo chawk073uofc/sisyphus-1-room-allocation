@@ -82,6 +82,9 @@ public class Group extends Entity {
 			members.put(personObj.getName(), personObj);
 		}
 		
+		//add group-head to person's attribute list
+		personObj.addAttribute("group-head");
+		
 	}
 	/**
 	 * Returns true if the named person is the head of this group.

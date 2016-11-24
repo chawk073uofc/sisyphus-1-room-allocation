@@ -176,16 +176,38 @@ public class Person extends Entity
 		return people;
 	}
 	
-	/**
-	 * Computes the total soft constraint penalty score for the person.
-	 * @return an integer representing the total penalty
-	 */
-	public int computePenalty(){
-		int penalty = 0;
-		
-		
-		
-		return penalty;
+	
+	//people are organized by the following "ranking" from highest to least
+	//group-head
+	//project-head
+	//manager
+	//secretary
+	//smoker
+	//hacker
+	//researcher
+	//person <--- a person who has not attributes
+	public String getMostImportantAttribute(){
+		for(String attribute: attributes){
+			switch (attribute){
+			case "group-head":
+				return "group-head";
+			case "project-head":
+				return "project-head";
+			case "manager":
+				return "manager";
+			case "secretary":
+				return "secretary";
+			case "smoker":
+				return "smoker";
+			case "hacker":
+				return "hacker";
+			case "researcher":
+				return "researcher";
+			
+			}
+		}
+		return "person";
+
 	}
 }
 
