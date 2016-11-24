@@ -176,6 +176,9 @@ public class Person extends Entity
 		return people;
 	}
 	
+	public Map<String, Group> getGroups(){
+		return groups;
+	}
 	/**
 	 * Computes the total soft constraint penalty score for the person.
 	 * @return an integer representing the total penalty

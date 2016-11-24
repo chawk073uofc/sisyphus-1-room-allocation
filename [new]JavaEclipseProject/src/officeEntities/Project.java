@@ -214,4 +214,8 @@ public class Project extends Entity {
 		projStr += "\n";
 		return projStr;
 	}
+	
+	public Map<String, Person> getMembers(){
+		return members;
+	}
 }
