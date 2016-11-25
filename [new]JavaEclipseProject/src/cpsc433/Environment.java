@@ -858,7 +858,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	// group heads should have a large room //
 	public static int getPenalty1(Person p){
-		Map<String, Group> p_groups = p.getGroups();
+		Map<String, Group> p_groups = p.getGroups(); 
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
 				if (p.getRoom().getSize() != RoomSize.LARGE){

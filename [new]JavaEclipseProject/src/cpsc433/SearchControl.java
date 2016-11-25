@@ -5,6 +5,9 @@ import officeEntities.Room.RoomSize;
 import officeEntities.Person;
 import officeEntities.Project;
 import cpsc433.Environment;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class SearchControl {
@@ -16,7 +19,13 @@ public class SearchControl {
 		//return penalty if violated
 	//constraint2
 	//...
-	
+	/**
+	 * Returns the total penalty associated with a state (partial or complete building assignment)
+	 * by determining which soft constraints are violated. 
+	 * @param personName
+	 * @param people
+	 * @return
+	 */
 	public static int f_leaf(Person personName, Person... people){
 		int penalty = 0;
 		penalty += Environment.getPenalty1(personName);
@@ -37,6 +46,25 @@ public class SearchControl {
 			penalty += Environment.getPenalty15(personName, p);
 			penalty += Environment.getPenalty16(personName, p);
 		}	
+		return penalty;
+	}
+	
+	/**
+	 * Version of f_leaf to be called when the root node of the search tree is not empty
+	 * (input file contains room assignments).
+	 * @param array
+	 * @return
+	 */
+	public static int f_leaf(Person[] people) {
+		ArrayList<Person> peopleAL= new ArrayList<>(Arrays.asList(people));
+		int penalty = 0;
+		for(int i=0; i<people.length; i++){
+			Person p = peopleAL.get(i);
+			ArrayList<Person> peopleALCpy = new ArrayList<>();
+			peopleALCpy.remove(i);
+			Person[] everythingBut_p = (Person[]) peopleALCpy.toArray();
+			penalty += f_leaf(p, everythingBut_p);
+		}
 		return penalty;
 	}
 }

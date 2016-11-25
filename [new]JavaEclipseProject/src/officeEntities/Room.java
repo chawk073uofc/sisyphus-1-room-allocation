@@ -170,6 +170,27 @@ public class Room extends Entity{
 	public static int numberOfRooms() {
 		return rooms.size();
 	}
+	/**
+	 * Returns true if no more people may be added to the room and false otherwise. 
+	 * @return true if no more people may be added to the room.
+	 */
+	public boolean isFull(){
+		if (occupants.size() == 2 || occupantIsBoss())
+			return true;
+		else
+			return false;
+	}
+	/**
+	 * Returns true if the person is a group-head, project-head, or manager and therefore
+	 * needs their own room. 
+	 * @return true if the person is a boss
+	 */
+	private boolean occupantIsBoss() {
+		Person occupant = (Person) occupants.values().toArray()[0];
+		return occupant.hasAttribute("group-head") 
+				|| occupant.hasAttribute("project-head") 
+				|| occupant.hasAttribute("manager");
+	}
 
 	
 }

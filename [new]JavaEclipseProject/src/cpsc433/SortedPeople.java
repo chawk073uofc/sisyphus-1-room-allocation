@@ -1,109 +1,133 @@
 package cpsc433;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import officeEntities.Person;
-
+/**
+ * This class is essentially a custom data structure which allows the the group of office 
+ * workers to be iterated over in an order that is convenient for the Or-tree search algorithm.
+ * 
+ * People are organized by the following "ranking" from highest to lowest. The rank of
+ * a person represents the importance of allocating that person an office early in the
+ * search process. The higher the rank, the earlier they will be assigned an office. Since individuals
+ * may have many attributes, they are categorized according to the most important attribute they possess. 
+ * 
+ *	8)	group-head
+ *	7)	project-head
+ *	6)	manager
+ *	5)	secretary
+ *	4)	smoker
+ *	3)	hacker
+ *	2)	researcher
+ *	1)	person <--- a person who has no attributes
+ * 
+ */
 public class SortedPeople {
-	//people are organized by the following "ranking" from highest to least
-		//group-head
-		//project-head
-		//manager
-		//secretary
-		//smoker
-		//hacker
-		//researcher
-		//person <--- a person who has not attributes
 	
-	private Map<String, Person> groupHeads= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> projHeads= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> managers= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> secretaries= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> hackers= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> researchers= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> smokers= new HashMap<>(); //people who's highest rank is group head
-	private Map<String, Person> noAttributes= new HashMap<>(); //people who's highest rank is group head
-
+	
+	private ArrayList<Person> groupHeads= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> projHeads= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> managers= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> secretaries= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> hackers= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> researchers= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> smokers= new ArrayList<>(); //people who's highest rank is group head
+	private ArrayList<Person> noAttributes= new ArrayList<>(); //people who's highest rank is group head
+	/**
+	 * Constructor for class SortedPeopel. Creates an empty SortedPeople object
+	 */
+	public SortedPeople(){
+		
+	}
+	/**
+	 * Constructor for class SortedPeople. Sorts given HashMap of people by placing them in the
+	 * appropriate category.
+	 * @param personHash
+	 */
 	public SortedPeople(HashMap<String,Person> personHash) {
-		for(Person p : personHash.values()){
-			String rankingAttribute = p.getMostImportantAttribute();
-				switch (rankingAttribute){
-				case "group-head":
-					groupHeads.put(p.getName(), p);
-					break;
-				case "project-head":
-					projHeads.put(p.getName(), p);
-					break;
-				case "manager":
-					managers.put(p.getName(), p);
-					break;
-				case "secretary":
-					secretaries.put(p.getName(), p);
-					break;
-				case "smoker":
-					smokers.put(p.getName(), p);
-					break;
-				case "hacker":
-					hackers.put(p.getName(), p);
-					break;
-				case "researcher":
-					researchers.put(p.getName(), p);
-					break;
-				default:
-					noAttributes.put(p.getName(), p);
-			}					
-		}
+		for(Person p : personHash.values())
+			add(p);
+	}
+	
+	/**
+	 * Adds a person to the SortedPeople data structure. 
+	 * @param newlyAssinged
+	 */
+	public void add(Person p) {
+		String rankingAttribute = p.getMostImportantAttribute();
+		switch (rankingAttribute){
+		case "group-head":
+			groupHeads.add(p);
+			break;
+		case "project-head":
+			projHeads.add(p);
+			break;
+		case "manager":
+			managers.add(p);
+			break;
+		case "secretary":
+			secretaries.add(p);
+			break;
+		case "smoker":
+			smokers.add(p);
+			break;
+		case "hacker":
+			hackers.add(p);
+			break;
+		case "researcher":
+			researchers.add(p);
+			break;
+		default:
+			noAttributes.add(p);
+	}					
+		
 	}
 	/**
 	 * Removes and returns the next highest-ranking person. 
 	 */
 	public Person next(){
-		if(!groupHeads.isEmpty()){
-			for(Person p: groupHeads.values())
-				return p;
-			}
-		else if(!projHeads.isEmpty()){
-			for(Person p: projHeads.values())
-				return p;
-			}
-		else if(!managers.isEmpty()){
-			for(Person p: managers.values())
-				return p;
-			}
-		else if(!secretaries.isEmpty()){
-			for(Person p: secretaries.values())
-				return p;
-			}
-		else if(!smokers.isEmpty()){
-			for(Person p: smokers.values())
-				return p;
-			}
-		else if(!hackers.isEmpty()){
-			for(Person p: hackers.values())
-				return p;
-			}
-		else if(!researchers.isEmpty()){
-			for(Person p: researchers.values())
-				return p;
-			}
-		else if(!noAttributes.isEmpty()){
-			for(Person p: noAttributes.values())
-				return p;
-			}
-	
-		return null;
+		if(!groupHeads.isEmpty()) return groupHeads.remove(0);
+		else if(!projHeads.isEmpty()) return projHeads.remove(0);
+		else if(!managers.isEmpty()) return managers.remove(0);
+		else if(!secretaries.isEmpty()) return secretaries.remove(0);
+		else if(!smokers.isEmpty()) return smokers.remove(0);
+		else if(!hackers.isEmpty()) return hackers.remove(0);
+		else if(!researchers.isEmpty()) return researchers.remove(0);
+		else if(!noAttributes.isEmpty()) return noAttributes.remove(0);
+		else return null;
 	}
+			
 	
+	/**
+	 * Checks if all the lists are empty.
+	 * @return true if all the lists are empty
+	 */
 	public boolean isEmpty(){
 		if (next()==null)
 			return true;
 		else
 			return false;
 	}
-	
+	/**
+	 * Checks if there are people in the data structure.
+	 * @return true if there is at least one person in one of the lists
+	 */
 	public boolean hasNext(){
 		return !isEmpty();
+	}
+	public Person[] toArray() {
+		Person[] personArr = new Person[this.size()];
+		for(int i = 0; this.hasNext(); i++)
+			personArr[i] = this.next();
+		return personArr;
+		}
+	
+	
+	public int size(){
+		return groupHeads.size() + projHeads.size() + managers.size() + secretaries.size()
+				+ hackers.size() + researchers.size() + noAttributes.size();
 	}
 }
 
