@@ -156,10 +156,9 @@ public class SisyphusI {
 			System.out.println("Number of people exceeds building capacity");
 		else{
 			System.out.println("Beginning search.");
-			Map<String, Person> unassignedPpl = new HashMap<>();
-		
-			unassignedPpl = Person.getPersonList();
-			Map<String, Person> groupHeadList = Group.getAllGroupHeads();
+			ONode root = new ONode(new SortedPeople((HashMap<String, Person>) Person.getPersonList()));
+			OTree oTree = new OTree(root);
+			
 //			Person p1 = new Person("A");
 //			Person p2 = new Person("B");
 //			Person p3 = new Person("C");

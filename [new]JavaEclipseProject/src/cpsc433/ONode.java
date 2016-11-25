@@ -51,6 +51,11 @@ public class ONode extends DefaultMutableTreeNode {
 		assigned.add(newlyAssinged);
 	}
 	
+	@Override
+	public boolean isLeaf(){
+		return unassigned.isEmpty();
+	}
+	
 	public int get_f_leaf(){
 		return f_leaf_value;
 	}
