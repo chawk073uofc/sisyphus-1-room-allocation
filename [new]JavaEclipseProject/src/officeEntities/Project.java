@@ -134,6 +134,8 @@ public class Project extends Entity {
 		if(!projectHeads.containsKey(personObj.getName())){
 			projectHeads.put(personObj.getName(), personObj);
 		}
+		//add project-head to person's attribute list
+		personObj.addAttribute("project-head");
 	}
 	/**
 	 * Returns true if the named person is the head of this project.
@@ -213,5 +215,9 @@ public class Project extends Entity {
 			projStr += proj;
 		projStr += "\n";
 		return projStr;
+	}
+	
+	public Map<String, Person> getMembers(){
+		return members;
 	}
 }

@@ -170,5 +170,6 @@ public class Room extends Entity{
 	public static int numberOfRooms() {
 		return rooms.size();
 	}
+
 	
 }
