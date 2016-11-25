@@ -155,6 +155,7 @@ public class SisyphusI {
 		else{
 			System.out.println("Beginning search.");
 			Map<String, Person> unassignedPpl = new HashMap<>();
+		
 			unassignedPpl = Person.getPersonList();
 			Map<String, Person> groupHeadList = Group.getAllGroupHeads();
 
