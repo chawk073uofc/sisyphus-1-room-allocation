@@ -19,7 +19,7 @@ public class Room extends Entity{
 	private static Map<String,Room> rooms =new HashMap<>(); //All instances of class Room currently instantiated.
 	private Map<String, Person> occupants = new HashMap<>();
 	private Map<String, Room> closeTo = new HashMap<>();
-	private RoomSize size = RoomSize.MEDIUM; 
+	private RoomSize size;
 	
 	/**
 	 * Constructor for class Room. Creates a room with the given name. Default size is medium.
@@ -27,6 +27,7 @@ public class Room extends Entity{
 	 */
 	public Room(String roomName){
 		super(roomName);
+		size = RoomSize.MEDIUM; //default size
 		rooms.put(roomName,this);
 	}
 	/**
@@ -49,6 +50,19 @@ public class Room extends Entity{
 		return rooms.containsKey(name);
 	}
 	
+	@Override
+	public int compareTo(Entity r){
+	    if (r instanceof Room) {
+	    		Room rm = (Room) r;
+	    		if(this.size.ordinal() < rm.size.ordinal())
+	    			return -1;
+	    		else if(this.size.ordinal() > rm.size.ordinal())
+	    			return 1;
+	    		else	
+	    			return 0;
+			}
+		    else throw new java.lang.ClassCastException();
+		}
 	/**
 	 * Returns true if a room object is close to the calling room object.
 	 * @param checkRoom room to check close to relation with.
@@ -191,6 +205,9 @@ public class Room extends Entity{
 				|| occupant.hasAttribute("project-head") 
 				|| occupant.hasAttribute("manager");
 	}
-
+	
+	public static HashMap<String, Room> getRooms(){
+		return (HashMap<String, Room>) rooms;
+	}
 	
 }

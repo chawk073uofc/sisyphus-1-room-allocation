@@ -11,8 +11,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -158,8 +161,11 @@ public class SisyphusI {
 			System.out.println("Beginning search.");
 			ONode root = new ONode(new SortedPeople((HashMap<String, Person>) Person.getPersonList()));
 			OTree oTree = new OTree(root);
-			
-//			Person p1 = new Person("A");
+			PriorityQueue<Room> rooms = new PriorityQueue<Room>(((HashMap<String,Room>) Room.getRooms()).values()); 
+			while(((Iterator<Room>) rooms).hasNext()){
+				System.out.println("dd");
+			}
+			//			Person p1 = new Person("A");
 //			Person p2 = new Person("B");
 //			Person p3 = new Person("C");
 //			Room r1 = new Room("r1");

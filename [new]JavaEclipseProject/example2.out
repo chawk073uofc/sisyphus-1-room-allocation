@@ -16,9 +16,9 @@ person(p6)
 works-with(p6, p5)
 
 person(p7)
-works-with(p7, p10)
 works-with(p7, p8)
 works-with(p7, p9)
+works-with(p7, p10)
 
 person(p8)
 works-with(p8, p7)
@@ -32,8 +32,10 @@ works-with(p10, p7)
 person(p20)
 
 person(p12)
+project-head(p12)
 
 person(p11)
+group-head(p11)
 
 person(p33)
 
@@ -58,10 +60,10 @@ medium-room(p33)
 
 room(r20)
 medium-room(r20)
-close(r20, r20)
 close(r20, r21)
-close(r20, r22)
+close(r20, r20)
 close(r20, r23)
+close(r20, r22)
 
 room(r4)
 medium-room(r4)

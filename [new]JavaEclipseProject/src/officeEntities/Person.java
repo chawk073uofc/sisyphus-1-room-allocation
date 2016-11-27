@@ -40,6 +40,14 @@ public class Person extends Entity
 		people.put(name,	 this);
 		//people.add(this);
 	}
+	
+//	@Override
+//	public int compareTo(Entity p){
+//    if (p instanceof Person) {
+//			return 1;
+//		}
+//	    else throw new java.lang.ClassCastException();
+//	}
 
 	/**
 	 * Adds the given attribute to the person's list of attributes if it is not already there. 
@@ -188,7 +196,7 @@ public class Person extends Entity
 		return penalty;
 	}
 	
-	public String getMostImportantAttribute(){ 
+	public String getRankingAttribute(){ 
 		for(String attribute: attributes){ 
 			switch (attribute){ 
 			case "group-head": 

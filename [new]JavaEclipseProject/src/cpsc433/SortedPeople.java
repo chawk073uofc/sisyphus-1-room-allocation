@@ -2,6 +2,7 @@ package cpsc433;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import officeEntities.Person;
@@ -24,7 +25,7 @@ import officeEntities.Person;
  *	1)	person <--- a person who has no attributes
  * 
  */
-public class SortedPeople {
+public class SortedPeople implements Iterator<Person>{
 	
 	
 	private ArrayList<Person> groupHeads= new ArrayList<>(); //people who's highest rank is group head
@@ -56,7 +57,7 @@ public class SortedPeople {
 	 * @param newlyAssinged
 	 */
 	public void add(Person p) {
-		String rankingAttribute = p.getMostImportantAttribute();
+		String rankingAttribute = p.getRankingAttribute();
 		switch (rankingAttribute){
 		case "group-head":
 			groupHeads.add(p);
