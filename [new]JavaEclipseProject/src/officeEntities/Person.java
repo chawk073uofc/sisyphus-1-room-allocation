@@ -197,6 +197,7 @@ public class Person extends Entity
 	}
 	
 	public String getRankingAttribute(){ 
+		String rankingAttribute = "";
 		for(String attribute: attributes){ 
 			switch (attribute){ 
 			case "group-head": 

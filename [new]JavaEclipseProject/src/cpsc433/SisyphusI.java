@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -159,12 +161,22 @@ public class SisyphusI {
 			System.out.println("Number of people exceeds building capacity");
 		else{
 			System.out.println("Beginning search.");
-			ONode root = new ONode(new SortedPeople((HashMap<String, Person>) Person.getPersonList()));
+			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
+			
+		 //NOT WORKING - should print all people in decending order of most important attribute
+			while(sortedPpl.hasNext())
+				System.out.println(sortedPpl.next());
+			
+			
+		//ALSO NOT WORKING -should print all large then medium then small rooms
+			TreeSet<Room> rooms = new TreeSet((Room.getRooms()).values());
+			Iterator<Room> roomIterator = rooms.descendingIterator();
+			while (roomIterator.hasNext())
+				System.out.println(roomIterator.next());
+
+			
+			ONode root = new ONode(sortedPpl);
 			OTree oTree = new OTree(root);
-			PriorityQueue<Room> rooms = new PriorityQueue<Room>(((HashMap<String,Room>) Room.getRooms()).values()); 
-			while(((Iterator<Room>) rooms).hasNext()){
-				System.out.println("dd");
-			}
 			//			Person p1 = new Person("A");
 //			Person p2 = new Person("B");
 //			Person p3 = new Person("C");

@@ -135,7 +135,7 @@ public class Room extends Entity{
 	public String toString(){
 		String roomStr = "";
 		roomStr += "room(" + this.getName() + ")\n";
-		roomStr += this.size + "(" + this.getName() + ")\n";//TODO enum toString
+		roomStr += this.size + "(" + this.getName() + ")\n";
 		for(Room rm : closeTo.values())
 			roomStr += "close(" +this.getName() + ", " + rm.getName() + ")\n";
 		for(Person p : occupants.values())
