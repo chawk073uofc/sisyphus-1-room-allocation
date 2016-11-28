@@ -197,11 +197,13 @@ public class Person extends Entity
 	}
 	
 	public Attribute getRankingAttribute(){ 
-		Attribute highest;
-		for(Attribute : attributes){
-			
+		Attribute highest = Attribute.PERSON;
+		for(Attribute a: attributes){
+			if (highest.ordinal() < a.ordinal()){
+				highest = a;
+			}
 		}
-		return null;
+		return highest;
 	}
 	
 }

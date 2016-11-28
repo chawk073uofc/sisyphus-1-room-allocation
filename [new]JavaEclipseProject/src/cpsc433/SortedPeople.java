@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import officeEntities.Attribute;
 import officeEntities.Person;
 /**
  * This class is essentially a custom data structure which allows the the group of office 
@@ -61,27 +62,27 @@ public class SortedPeople implements Iterator<Person>{
 	 * @param newlyAssinged
 	 */
 	public void add(Person p) {
-		String rankingAttribute = p.getRankingAttribute();
+		Attribute rankingAttribute = Attribute.SECRETARY;
 		switch (rankingAttribute){
-		case "group-head":
+		case GROUP_HEAD:
 			groupHeads.add(p);
 			break;
-		case "project-head":
+		case PROJECT_HEAD:
 			projHeads.add(p);
 			break;
-		case "manager":
+		case MANAGER:
 			managers.add(p);
 			break;
-		case "secretary":
+		case SECRETARY:
 			secretaries.add(p);
 			break;
-		case "smoker":
+		case SMOKER:
 			smokers.add(p);
 			break;
-		case "hacker":
+		case HACKER:
 			hackers.add(p);
 			break;
-		case "researcher":
+		case RESEARCHER:
 			researchers.add(p);
 			break;
 		default:

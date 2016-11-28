@@ -83,7 +83,7 @@ public class Group extends Entity {
 		}
 		
 		//add group-head to person's attribute list
-		personObj.addAttribute("group-head");
+		personObj.addAttribute(Attribute.GROUP_HEAD);
 		
 	}
 	/**
