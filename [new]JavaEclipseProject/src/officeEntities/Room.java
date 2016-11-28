@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import cpsc433.Entity;
 import officeEntities.Room.RoomSize;
+
 /**
  * This class represents a room in the office allocation problem. It organizes important data
  * such as a list of the people currently assigned to this room and another list of rooms that are 
@@ -13,6 +14,7 @@ import officeEntities.Room.RoomSize;
  * @author Brandon Sieu
  *
  */
+
 public class Room extends Entity{
 	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
 	private ArrayList<Person> occupants = new ArrayList<Person>();
