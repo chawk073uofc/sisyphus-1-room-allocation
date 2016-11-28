@@ -16,7 +16,7 @@ import cpsc433.Entity;
 public class Person extends Entity 
 {
 	private static Map<String,Person> people = new HashMap<>(); //All instances of class Person currently instantiated.
-	private TreeSet<String> attributes = new TreeSet<String>(); //The attributes that this instance of Person has.
+	private TreeSet<Attribute> attributes = new TreeSet<Attribute>(); //The attributes that this instance of Person has.
 	private Map<String,Person> colleagues = new HashMap<>(); //All the people this person works with.
 	private Map<String, Group> groups = new HashMap<>(); //All of the groups this person is assigned to.
 	private Map<String,Project> projects = new HashMap<>(); // All of the projects this person is assigned to.
@@ -32,11 +32,11 @@ public class Person extends Entity
 	/**
 	 * Constructor for class person. Creates a Person object with a given name and then assigns the given attribute to that person. 
 	 * @param name	name of person to be instantiated
-	 * @param attribute the attribute to be added (e.g. secretary)
+	 * @param personAttribute the attribute to be added (e.g. secretary)
 	 */
-	public Person(String name, String attribute){
+	public Person(String name, Attribute personAttribute){
 		super(name);
-		attributes.add(attribute);	
+		attributes.add(personAttribute);	
 		people.put(name,	 this);
 		//people.add(this);
 	}
@@ -51,11 +51,11 @@ public class Person extends Entity
 
 	/**
 	 * Adds the given attribute to the person's list of attributes if it is not already there. 
-	 * @param attribute	the attribute to be added (e.g. "smoker")
+	 * @param personAttribute	the attribute to be added (e.g. "smoker")
 	 */
-	public void addAttribute(String attribute) {
-		if(!attributes.contains(attribute))
-			attributes.add(attribute);
+	public void addAttribute(Attribute personAttribute) {
+		if(!attributes.contains(personAttribute))
+			attributes.add(personAttribute);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class Person extends Entity
 	public String toString(){
 		String personStr = "";
 		personStr += "person(" + this.getName() + ")\n";
-		for(String att: attributes)
+		for(Attribute att: attributes)
 			personStr +=  att + "(" + this.getName() + ")\n";
 		for(Person coll : colleagues.values())
 			personStr += "works-with(" + this.getName() + ", " + coll.getName() + ")\n";

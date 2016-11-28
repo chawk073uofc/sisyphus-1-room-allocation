@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import cpsc433.Predicate.ParamType;
+import officeEntities.Attribute;
 import officeEntities.Group;
 import officeEntities.NoSuchGroupException;
 import officeEntities.NoSuchPersonException;
@@ -106,9 +107,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_secretary(String name) {
 		try {
-			Person.getEntityWithName(name).addAttribute("secretary");
+			Person.getEntityWithName(name).addAttribute(Attribute.SECRETARY);
 		} catch (NoSuchPersonException e) {
-			new Person(name, "secretary");
+			new Person(name, Attribute.SECRETARY);
 		}
 	}
 
@@ -135,9 +136,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_researcher(String name) {
 		try {
-			Person.getEntityWithName(name).addAttribute("researcher");
+			Person.getEntityWithName(name).addAttribute(Attribute.RESEARCHER);
 		} catch (NoSuchPersonException e) {
-			new Person(name, "researcher");
+			new Person(name, Attribute.RESEARCHER);
 		}
 	}
 
@@ -164,9 +165,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_manager(String name) {
 		try {
-			Person.getEntityWithName(name).addAttribute("manager");
+			Person.getEntityWithName(name).addAttribute(Attribute.MANAGER);
 		} catch (NoSuchPersonException e) {
-			new Person(name, "manager");
+			new Person(name, Attribute.MANAGER);
 		}
 	}
 
@@ -194,9 +195,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_smoker(String name) {
 		try {
-			Person.getEntityWithName(name).addAttribute("smoker");
+			Person.getEntityWithName(name).addAttribute(Attribute.SMOKER);
 		} catch (NoSuchPersonException e) {
-			new Person(name, "smoker");
+			new Person(name, Attribute.SMOKER);
 		}
 	}
 
@@ -223,9 +224,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public void a_hacker(String name) {
 		try {
-			Person.getEntityWithName(name).addAttribute("hacker");
+			Person.getEntityWithName(name).addAttribute(Attribute.HACKER);
 		} catch (NoSuchPersonException e) {
-			new Person(name, "hacker");
+			new Person(name, Attribute.HACKER);
 		}
 	}
 
