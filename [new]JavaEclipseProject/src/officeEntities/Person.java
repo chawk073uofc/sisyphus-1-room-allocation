@@ -196,28 +196,12 @@ public class Person extends Entity
 		return penalty;
 	}
 	
-	public String getRankingAttribute(){ 
-		String rankingAttribute = "";
-		for(String attribute: attributes){ 
-			switch (attribute){ 
-			case "group-head": 
-				return "group-head"; 
-				case "project-head": 
-					return "project-head"; 	
-					case "manager": 
-						return "manager"; 
-						case "secretary": 	
-							return "secretary"; 
-							case "smoker": 	
-								return "smoker"; 
-								case "hacker": 		
-									return "hacker"; 
-									case "researcher": 
-										return "researcher"; 
-										
-			} 	
-			} 
-		return "person";
+	public Attribute getRankingAttribute(){ 
+		Attribute highest;
+		for(Attribute : attributes){
+			
+		}
+		return null;
 	}
 	
 }
