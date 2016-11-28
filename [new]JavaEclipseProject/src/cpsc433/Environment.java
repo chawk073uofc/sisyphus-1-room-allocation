@@ -1,7 +1,10 @@
 
 package cpsc433;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeSet;
 
 import cpsc433.Predicate.ParamType;
@@ -13,6 +16,7 @@ import officeEntities.NoSuchRoomException;
 import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
+import officeEntities.Room.RoomSize;
 
 /**
  * This is class extends {@link cpsc433.PredicateReader} just as required to in
@@ -314,7 +318,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			return false;
 		}
 	}
-
+	/**
+	 * Adds a group with a given name and adds the person named as a member
+	 * If project exists, simply add person to it
+	 * If person doesn't exist create it and add it
+	 * @param personName the name of the person
+	 * @param projectName the name of the project
+	 * @return void
+	 */
 	@Override
 	public void a_project(String personName, String projectName) {
 		Person personObj = null;
@@ -327,7 +338,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 
 	}
-
+	/**
+	 * Returns true if the project with the name given exists and the person given is in it
+	 * @param personName the name of the person
+	 * @param projName the name of the project
+	 * @return true if both person and proj exist and the given person is in the the given proj
+	 */
 	@Override
 	public boolean e_project(String personName, String projName)  {
 		try {
@@ -337,7 +353,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			return false;
 		}
 	}
-
+	/**
+	 * Adds a group with a given name and adds the person named as the project head
+	 * If proj exists, simply add person to it and make him the head
+	 * If person doesn't exist create it and add it
+	 * @param personName the name of the person
+	 * @param projectName the name of the project
+	 * @return void
+	 */
 	@Override
 	public void a_heads_project(String personName, String projName) {
 		Project projectObj = null;
@@ -350,7 +373,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		projectObj.setProjectHead(personName);
 
 	}
-
+	/**
+	 * Returns true if the project with the name given exists and the person given heads it
+	 * @param personName the name of the person
+	 * @param projName the name of the project
+	 * @return true if both person and project exist and the given person heads the given project
+	 */
 	@Override
 	public boolean e_heads_project(String personName, String projName)  {
 		try {
@@ -361,15 +389,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 
-
+	/**
+	 * Establishes that the given person works with all of the people in the given set, and vice versa.
+	 * @param personName the name of the person
+	 * @param p2s a set of people
+	 */
 	@Override
 	public void a_works_with(String personName, TreeSet<Pair<ParamType, Object>> p2s) {
 		Iterator<Pair<ParamType, Object>> iterator = p2s.iterator();
-		Person collegueToAdd = null;
 		try {
 			String collegueName;
 			while ((iterator.hasNext())) {
-				//System.err.println(iterator.next());
 				collegueName = (String) iterator.next().getValue();
 				if (Person.exists(personName) && Person.exists(collegueName)) {
 					Person.getEntityWithName(personName).addColleague(Person.getEntityWithName(collegueName));
@@ -395,6 +425,12 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		}
 	}
 
+	/**
+	 * Returns true if the given person works with all people in the given set.
+	 * @param personName the name of the person
+	 * @param p2s a set of people
+	 * @return true if for all people in the set, the given person works with all of them
+	 */
 	@Override
 	public boolean e_works_with(String personName, TreeSet<Pair<ParamType, Object>> p2s) {
 		Iterator<Pair<ParamType, Object>> iterator = p2s.iterator();
@@ -488,9 +524,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			}
 
 	} catch (NoSuchPersonException e) {
-		System.out.println("uhh");
+		System.out.println("FAIL");
 	} catch (NoSuchRoomException e) {
-		System.out.println("fail");
+		System.out.println("FAIL");
 	}
 		
 	}
@@ -805,5 +841,243 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			return exsistingProject.isLargeProject();
 		}
 		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// THE SOFT CONSTRAINTS //
+	
+	// group heads should have a large room //
+	public static int getPenalty1(Person p){
+		Map<String, Group> p_groups = p.getGroups(); 
+		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
+				if (p.getRoom().getSize() != RoomSize.LARGE){
+					return -40;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	// group heads should be close to all members of their group //
+	public static int getPenalty2(Person p){
+		Map<String, Group> p_groups = p.getGroups();
+		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
+				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
+					if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if p is not close to that person: penalty
+						return -2;
+					}
+				}
+			}
+		}	
+		return 0;
+	}
+	
+	// group heads should be close to at least one secretary in the group //
+	public static int getPenalty3(Person p){
+		Map<String, Group> p_groups = p.getGroups();
+		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
+				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
+					if (entry_person.getValue().hasAttribute("secretary")){ 
+						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
+							return 0; // if a match is found, no penalty
+						}
+					}
+				}
+				return -30; // if a secretary is not found that's close, we return the penalty
+			}
+		}
+		return 0; 
+	}
+	
+	// if one person is a secretary and the other isn't //
+	public static int getPenalty4(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			if ((p.hasAttribute("secretary") && !q.hasAttribute("secretary")) || (q.hasAttribute("secretary") && !p.hasAttribute("secretary"))){
+				return -5;
+			}
+		}
+		return 0;
+	}
+	
+	// managers should be close to at least one secretary in their group //
+	public static int getPenalty5(Person p){
+		if (p.hasAttribute("manager")){
+			Map<String, Group> p_groups = p.getGroups();
+			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
+					if (entry_person.getValue().hasAttribute("secretary")){ 
+						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
+							return 0; // if a match is found, no penalty
+						}	
+					}
+				}
+			}
+			return -20; // if a secretary is not found that's close, we return the penalty
+		}
+		return -0; 
+	}
+	
+	// managers should be close to their groups head //
+	public static int getPenalty6(Person p){
+		if (p.hasAttribute("manager")){
+			Map<String, Group> p_groups = p.getGroups();
+			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+				Map<String, Person> groupHeads = entry.getValue().getGroupHeads();
+				for (Map.Entry<String, Person> groupHeads_entry : groupHeads.entrySet()){
+					if (!p.getRoom().isCloseTo(groupHeads_entry.getValue().getRoom())){ // if the manager p isn't close to his groups head
+						return -20;
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	
+	// managers should be close to all members of their group //
+	public static int getPenalty7(Person p){
+		if (p.hasAttribute("manager")){
+			Map<String, Group> p_groups = p.getGroups();
+			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+				for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
+					if (!p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if the manager p isn't close to the member
+						return -2;
+					}
+				}
+			}
+		}	
+		return 0;
+	}
+	
+	// the heads of projects should be close to all members of their project //
+	public static int getPenalty8(Person p){
+		Map<String, Project> p_projects = p.getProjects();
+		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
+			if (entry.getValue().hasProjectHead(p.getName())){ // if person p is the head of the project
+				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the project
+						if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if the project head isn't close to the member
+							return -5; 
+						}
+					}
+			}
+		}
+		return 0;
+	}
+	
+	// the heads of large projects should be close to at least one secretary in their group //
+	public static int getPenalty9(Person p){
+		Map<String, Project> p_projects = p.getProjects();
+		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
+			if ((entry.getValue().hasProjectHead(p.getName())) && entry.getValue().isLargeProject()){ // if person p is the head of a large project
+				// group section
+				Map<String, Group> p_groups = p.getGroups();
+				for (Map.Entry<String, Group> g_entry: p_groups.entrySet()){ 
+					for (Map.Entry<String, Person> person_entry : g_entry.getValue().getMembers().entrySet()){ // for every person in the group
+						if (person_entry.getValue().hasAttribute("secretary")){
+							if (p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if large project head p is close to a secretary
+								return 0;
+							}
+						}
+					}
+				}
+				return -10; // If a secretary was not found
+			}
+		}	
+		return 0;
+	}
+	
+	// the heads of large projects should be close to the head of their group
+	public static int getPenalty10(Person p, Person q){
+		Map<String, Project> p_projects = p.getProjects();
+		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
+			if ((entry.getValue().hasProjectHead(p.getName())) && entry.getValue().isLargeProject()){ // if person p is the head of a large project
+				// group section
+				Map<String, Group> p_groups = p.getGroups();
+				for (Map.Entry<String, Group> g_entry: p_groups.entrySet()){ 
+					for (Map.Entry<String, Person> groupHead_entry : g_entry.getValue().getGroupHeads().entrySet()){ // for every group head in the group
+						if (!p.getRoom().isCloseTo(groupHead_entry.getValue().getRoom())){
+							return -10;
+						}
+					}
+				}
+			}
+		}
+		return 0;
+	}
+	
+	// if one person is a smoker and the other isn't //
+	public static int getPenalty11(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			if ((p.hasAttribute("smoker") && !q.hasAttribute("smoker")) || (q.hasAttribute("smoker") && !p.hasAttribute("smoker"))){
+				return -50;
+			}
+		}
+		return 0;
+	}
+	
+	// if p and q are members of the same project //
+	public static int getPenalty12(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			for (Map.Entry<String, Project> p_entry : p.getProjects().entrySet()) {
+				for (Map.Entry<String, Project> q_entry : q.getProjects().entrySet()){
+					if (p_entry.getValue().getName() == q_entry.getValue().getName()){
+						return -7;
+					}
+				}
+			}	
+		}
+		return 0;
+	}
+	
+	// if a non-secretary hacker/non-hacker shares an office with a hacker/non-hacker // TODO: possibly wrong
+	public static int getPenalty13(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			if (!p.hasAttribute("secretary") && !q.hasAttribute("secretary")){
+				if ((p.hasAttribute("hacker") && !q.hasAttribute("hacker")) || q.hasAttribute("hacker") && !p.hasAttribute("hacker")){
+					return -2;
+				}
+			}
+		}
+		return 0;
+	}	
+
+	// if person p shares a room with person q //
+	public static int getPenalty14(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			return -4;
+		}
+		return 0;
+	}
+	
+	// if person p does not work with person q //
+	public static int getPenalty15(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			if (!p.isColleague(q)){
+				return -3;
+			}
+		}
+		return 0;
+	}
+	
+	// if person p and q share a small room //
+	public static int getPenalty16(Person p, Person q){
+		if (p.getRoom().getName() == q.getRoom().getName()){
+			if (p.getRoom().getSize() == RoomSize.SMALL){
+				return -25;
+			}
+		}
+		return 0;
 	}
 }

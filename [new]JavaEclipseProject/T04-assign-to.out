@@ -1,0 +1,14 @@
+person(r1)
+
+
+
+room(p1)
+medium-room(p1)
+assigned-to(r1, p1)
+
+
+
+
+
+
+

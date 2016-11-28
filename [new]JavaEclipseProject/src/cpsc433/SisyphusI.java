@@ -4,10 +4,20 @@ import officeEntities.Group;
 import officeEntities.Person;
 import officeEntities.Project;
 import officeEntities.Room;
+import officeEntities.Room.RoomSize;
+import cpsc433.SearchControl;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -73,20 +83,18 @@ public class SisyphusI {
 			killShutdownHook();
 		}
 	}
-	/**
-	 * TODO: create output file
-	 */
+
 	private void printIODemoInfo() {
-		String p1 = Person.peopleInfoString();
-		String p2 = Room.roomInfoString();
-		String p3 = Group.groupInfoString();
-		String p4 = Project.projectInfoString();
+		String people = Person.peopleInfoString();
+		String rooms = Room.roomInfoString();
+		String groups = Group.groupInfoString();
+		String projects = Project.projectInfoString();
 		try{
 		    PrintWriter writer = new PrintWriter(out);
-		    writer.println(p1);
-		    writer.println(p2);
-		    writer.println(p3);
-		    writer.println(p4);
+		    writer.println(people);
+		    writer.println(rooms);
+		    writer.println(groups);
+		    writer.println(projects);
 		    writer.close();
 		}catch(FileNotFoundException e){
 			File outFile = new File(out);
@@ -149,6 +157,73 @@ public class SisyphusI {
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
+		if(Person.numberOfPeople() > Room.buildingCapacity()){
+			System.out.println("Number of people exceeds building capacity");
+		}
+		else{
+			System.out.println("Beginning search.");
+			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
+//			for (Map.Entry<String, Person> entry : Person.getPersonList().entrySet()){
+//				System.out.println(entry.getValue().getName());
+//			}
+//			
+//			for (Person p : sortedPpl.getSec()){
+//				System.out.println(p.getName());
+//			}
+			
+		 //NOT WORKING - should print all people in decending order of most important attribute
+			while(sortedPpl.hasNext()){
+				Person q = sortedPpl.next();
+				System.out.println(q.getName());
+			}
+			
+			
+		//ALSO NOT WORKING -should print all large then medium then small rooms
+			TreeSet<Room> rooms = new TreeSet((Room.getRooms()).values());
+			Iterator<Room> roomIterator = rooms.descendingIterator();
+			while (roomIterator.hasNext()){
+				System.out.println(roomIterator.next());
+			}
+
+			
+			ONode root = new ONode(sortedPpl);
+			OTree oTree = new OTree(root);
+			//			Person p1 = new Person("A");
+//			Person p2 = new Person("B");
+//			Person p3 = new Person("C");
+//			Room r1 = new Room("r1");
+//			Room r2 = new Room("r2");
+//			r1.addOccupant(p1);
+//			r2.addOccupant(p2);
+//			r2.addOccupant(p3);
+//			r2.setSize(RoomSize.SMALL);
+//			p1.addRoomAssignment(r1);
+//			p2.addRoomAssignment(r2);
+//			p3.addRoomAssignment(r2);
+//			p3.addColleague(p2);
+//			p2.addColleague(p3);
+//			System.out.println(SearchControl.f_leaf(p2, p1, p3));
+
+//			while (!groupHeadList.isEmpty()){
+//				//...
+//			}
+			
+			//While there are unassigned people and there is time left
+				//for all group heads
+				
+					//Select random group head head
+					
+						//assign them a large room empty room (if one is available)
+						//remove this room from pool a available rooms
+						//calculate f_leaf for this node
+				//for all managers 
+					//same
+				//for all project head
+					//same
+				//---if we run out of rooms before all managers, heads are assigned, cancel search
+				//
+			
+		}
 	}
 	
 	protected void printResults() {

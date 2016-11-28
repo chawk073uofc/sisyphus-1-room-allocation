@@ -1,7 +1,9 @@
 
 package officeEntities;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 import cpsc433.Entity;
 import officeEntities.Room.RoomSize;
@@ -16,10 +18,10 @@ import officeEntities.Room.RoomSize;
  */
 
 public class Room extends Entity{
-	private static ArrayList<Room> rooms =new ArrayList<Room>(); //All instances of class Room currently instantiated.
-	private ArrayList<Person> occupants = new ArrayList<Person>();
-	private ArrayList<Room> closeTo = new ArrayList<Room>();
-	private RoomSize size = RoomSize.MEDIUM; 
+	private static Map<String,Room> rooms =new HashMap<>(); //All instances of class Room currently instantiated.
+	private Map<String, Person> occupants = new HashMap<>();
+	private Map<String, Room> closeTo = new HashMap<>();
+	private RoomSize size;
 	
 	/**
 	 * Constructor for class Room. Creates a room with the given name. Default size is medium.
@@ -27,7 +29,8 @@ public class Room extends Entity{
 	 */
 	public Room(String roomName){
 		super(roomName);
-		rooms.add(this);
+		size = RoomSize.MEDIUM; //default size
+		rooms.put(roomName,this);
 	}
 	/**
 	 * Constructor for class Room. Creates a room with the given name and size.
@@ -37,7 +40,7 @@ public class Room extends Entity{
 	public Room(String roomName, RoomSize roomSize) {
 		super(roomName);
 		size = roomSize; 
-		rooms.add(this);
+		rooms.put(roomName, this);
 	}
 	
 	/**
@@ -46,29 +49,38 @@ public class Room extends Entity{
 	 * @return true if a Room object with the same name already exists.
 	 */
 	public static boolean exists(String name){
-		for(Room r : rooms)
-			if(r.getName().equals(name)) return true;
-		return false;
+		return rooms.containsKey(name);
 	}
 	
+	@Override
+	public int compareTo(Entity r){
+	    if (r instanceof Room) {
+	    		Room rm = (Room) r;
+	    		if(this.size.ordinal() < rm.size.ordinal())
+	    			return -1;
+	    		else if(this.size.ordinal() > rm.size.ordinal())
+	    			return 1;
+	    		else	
+	    			return 0;
+			}
+		    else throw new java.lang.ClassCastException();
+		}
 	/**
 	 * Returns true if a room object is close to the calling room object.
 	 * @param checkRoom room to check close to relation with.
 	 * @return true if a room object is close to the calling room object.
 	 */
 	public boolean isCloseTo(Room checkRoom){
-		for (Room r: closeTo)
-			if(checkRoom.equals(r)) return true;
-		return false;
+		return closeTo.containsKey(checkRoom.getName());//O(1)
 	}
 	
 	/**
 	 * Adds a Room object to the calling Room object's close to array.
-	 * @param addRoom room to add to closeTo array.
+	 * @param neighbour room to add to closeTo array.
 	 */
-	public void addCloseTo(Room addRoom){
-		if(!closeTo.contains(addRoom))
-			closeTo.add(addRoom);
+	public void addCloseTo(Room neighbour){
+		if(!closeTo.containsKey(neighbour.getName())) //O(1)
+			closeTo.put(neighbour.getName(), neighbour);//O(1)
 	}
 	
 	/**
@@ -78,11 +90,10 @@ public class Room extends Entity{
 	 * @throws NoSuchRoomException if the room does not exist.
 	 */
 	public static Room getEntityWithName(String roomName) throws NoSuchRoomException{
-		for(Room r : rooms){
-			if(r.getName().equals(roomName)) 
-				return r;
-		}
-		throw new NoSuchRoomException();
+		Room rm = rooms.get(roomName);//O(1)
+		if(rm == null)
+			throw new NoSuchRoomException();
+		return rm;
 	}
 
 	/**
@@ -106,7 +117,7 @@ public class Room extends Entity{
 	 * @param p the person to add.
 	 */
 	public void addPerson(Person p){
-		occupants.add(p);
+		occupants.put(p.getName(), p);
 	}
 	
 	/**
@@ -115,7 +126,7 @@ public class Room extends Entity{
 	 * @return true if the person exists in the room.
 	 */
 	public boolean hasPerson(Person p){
-		return occupants.contains(p);
+		return occupants.containsKey(p.getName());		
 	}
 	
 	/**
@@ -126,10 +137,10 @@ public class Room extends Entity{
 	public String toString(){
 		String roomStr = "";
 		roomStr += "room(" + this.getName() + ")\n";
-		roomStr += this.size + "(" + this.getName() + ")\n";//TODO enum toString
-		for(Room rm : closeTo)
+		roomStr += this.size + "(" + this.getName() + ")\n";
+		for(Room rm : closeTo.values())
 			roomStr += "close(" +this.getName() + ", " + rm.getName() + ")\n";
-		for(Person p : occupants)
+		for(Person p : occupants.values())
 			roomStr += "assigned-to(" + p.getName() + ", " + this.getName() + ")\n"; 
 		roomStr += "\n";
 		return roomStr;
@@ -141,7 +152,7 @@ public class Room extends Entity{
 	 */
 	public static String roomInfoString(){
 		String roomsStr = "";
-		for(Room rm : rooms)
+		for(Room rm : rooms.values())
 			roomsStr += rm;
 		roomsStr += "\n";
 		
@@ -164,8 +175,41 @@ public class Room extends Entity{
 	 * @param personMovingIn the person to be put into the room.
 	 */
 	public void addOccupant(Person personMovingIn) {
-		if(!occupants.contains(personMovingIn))
-			occupants.add(personMovingIn);	
+		if(!occupants.containsKey(personMovingIn.getName()))//O(1)
+			occupants.put(personMovingIn.getName(), personMovingIn);	//O(1)
+	}
+	
+	public static int buildingCapacity() {
+		return rooms.size() * 2;
+	}
+	
+	public static int numberOfRooms() {
+		return rooms.size();
+	}
+	/**
+	 * Returns true if no more people may be added to the room and false otherwise. 
+	 * @return true if no more people may be added to the room.
+	 */
+	public boolean isFull(){
+		if (occupants.size() == 2 || occupantIsBoss())
+			return true;
+		else
+			return false;
+	}
+	/**
+	 * Returns true if the person is a group-head, project-head, or manager and therefore
+	 * needs their own room. 
+	 * @return true if the person is a boss
+	 */
+	private boolean occupantIsBoss() {
+		Person occupant = (Person) occupants.values().toArray()[0];
+		return occupant.hasAttribute("group-head") 
+				|| occupant.hasAttribute("project-head") 
+				|| occupant.hasAttribute("manager");
+	}
+	
+	public static HashMap<String, Room> getRooms(){
+		return (HashMap<String, Room>) rooms;
 	}
 	
 }

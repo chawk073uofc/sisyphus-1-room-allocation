@@ -1,6 +1,8 @@
 package officeEntities;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 import cpsc433.Entity;
 
@@ -13,14 +15,14 @@ import cpsc433.Entity;
  */
 public class Project extends Entity {
 	/**
-	 * static ArrayList<Project> projects: Holds all of the project Items
-	 * ArrayList<Person> members: Holds members for an instance of a project
-	 * ArrayList<Person> projectHeads: Holds the list of project heads
+	 * static Map<String,Project> projects: Holds all of the project Items
+	 * TreeSet<Person> members: Holds members for an instance of a project
+	 * TreeSet<Person> projectHeads: Holds the list of project heads
 	 * boolean largeProject: Holds the large-project attribute. Default: False
 	 */
-	private static ArrayList<Project> projects =new ArrayList<Project>();
-	private ArrayList<Person> members = new ArrayList<Person>();
-	private ArrayList<Person> projectHeads = new ArrayList<Person>();
+	private static Map<String,Project> projects =new HashMap<>();
+	private Map<String, Person> members = new HashMap<>();
+	private Map<String, Person> projectHeads = new HashMap<>();
 	private boolean largeProject = false;
 
 	
@@ -31,7 +33,7 @@ public class Project extends Entity {
 	 */
 	public Project(String name) {
 		super(name);
-		if(!exists(name)) projects.add(this);
+		if(!exists(name)) projects.put(name, this);
 		
 	}
 	/**
@@ -43,7 +45,7 @@ public class Project extends Entity {
 	public Project(String name, Boolean largeProject) {
 		super(name);
 		this.largeProject = largeProject;
-		if(!exists(name)) projects.add(this);
+		if(!exists(name)) projects.put(name, this);
 	}
 	/**
 	 * Constructs the project and initializes name and a adds a member.
@@ -54,9 +56,9 @@ public class Project extends Entity {
 	 */
 	public Project(String projectName, Person person) {
 		super(projectName);
-		members.add(person);
+		members.put(person.getName(), person);
 		if(!exists(projectName)) {
-			projects.add(this);
+			projects.put(projectName, this);
 			person.addProject(projectName);
 		} else {
 			try{
@@ -76,9 +78,13 @@ public class Project extends Entity {
 	 * @throws NoSuchProjectException
 	 */
 	public static Project getEntityWithName(String projectName) throws NoSuchProjectException{
-		for(Project g : projects)
-			if(g.getName().equals(projectName)) return g;
-		throw new NoSuchProjectException();
+		Project pro = projects.get(projectName);
+		if(pro == null)
+			throw new NoSuchProjectException();
+		return pro;
+//		for(Project g : projects)
+//			if(g.getName().equals(projectName)) return g;
+//		throw new NoSuchProjectException();
 	}
 	
 	/**
@@ -87,11 +93,7 @@ public class Project extends Entity {
 	 * @return
 	 */
 	public boolean hasMember(String personName) {
-		for(Person m: members){
-			if(m.getName().equals(personName))
-				return true;
-		}
-		return false;
+		return members.containsKey(personName);//O(1)
 	}
 	/**
 	 * Assigns the person with the given name to be in the project
@@ -99,14 +101,13 @@ public class Project extends Entity {
 	 * @return
 	 */
 	public boolean addMember(String personName) {
-		
 		if(!hasMember(personName)){
 			try{
 				Person personToAdd = Person.getEntityWithName(personName);
-				members.add(personToAdd);
+				members.put(personToAdd.getName(), personToAdd);
 			} catch (NoSuchPersonException e) {
 				Person createdPerson = new Person(personName);
-				members.add(createdPerson);
+				members.put(createdPerson.getName(), createdPerson);
 			}
 		}
 		return false;
@@ -127,13 +128,14 @@ public class Project extends Entity {
 			personObj = new Person(personName);
 			personObj.addProject(this.getName());
 		}
-		if(!members.contains(personObj)){
-			members.add(personObj);
+		if(!members.containsKey(personObj.getName())){
+			members.put(personObj.getName(), personObj);
 		}
-		if(!projectHeads.contains(personObj)){
-			projectHeads.add(personObj);
+		if(!projectHeads.containsKey(personObj.getName())){
+			projectHeads.put(personObj.getName(), personObj);
 		}
-
+		//add project-head to person's attribute list
+		personObj.addAttribute("project-head");
 	}
 	/**
 	 * Returns true if the named person is the head of this project.
@@ -143,7 +145,7 @@ public class Project extends Entity {
 	public boolean hasProjectHead(String personName) {
 		try{
 			Person checkThisMember = Person.getEntityWithName(personName);
-			return projectHeads.contains(checkThisMember);
+			return projectHeads.containsKey(checkThisMember.getName()); //O(1)
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
@@ -163,13 +165,11 @@ public class Project extends Entity {
 	 * @return boolean
 	 */
 	public static boolean exists(String projName){
-		for(Project p : projects)
-			if(p.getName().equals(projName)) return true;
-		return false;
+		return projects.containsKey(projName);
 	}
 	
 	/**
-	 * Returns a string with all the information relating to this room.
+	 * Returns a string with all the information relating to this project.
 	 * @return room_string 
 	 */
 	@Override
@@ -188,14 +188,14 @@ public class Project extends Entity {
 				projStr += "large-project(" + this.getName() + ")\n";
 			}
 		}
-		for(Person projHead: projectHeads){
+		for(Person projHead: projectHeads.values()){
 			if(includeQuotes){
 				projStr += "heads-project("+ projHead.getName() + ", \"" + this.getName() + "\")\n";
 			} else {
 				projStr += "heads-project("+ projHead.getName() + ", " + this.getName() + ")\n";
 			}
 		}
-		for(Person member: members){
+		for(Person member: members.values()){
 			if(includeQuotes){
 				projStr += "project("+member.getName() + ", \"" + this.getName() + "\")\n";
 			} else {
@@ -211,11 +211,13 @@ public class Project extends Entity {
 	 */
 	public static String projectInfoString(){
 		String projStr = "";
-		for(Project proj : projects)
+		for(Project proj : projects.values())
 			projStr += proj;
 		projStr += "\n";
 		return projStr;
 	}
 	
-	
+	public Map<String, Person> getMembers(){
+		return members;
+	}
 }
