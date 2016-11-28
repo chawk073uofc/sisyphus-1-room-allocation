@@ -52,6 +52,10 @@ public class SortedPeople implements Iterator<Person>{
 			add(p);
 	}
 	
+	public ArrayList<Person> getSec(){
+		return secretaries;
+	}
+	
 	/**
 	 * Adds a person to the SortedPeople data structure. 
 	 * @param newlyAssinged
@@ -92,7 +96,7 @@ public class SortedPeople implements Iterator<Person>{
 		if(!groupHeads.isEmpty()) return groupHeads.remove(0);
 		else if(!projHeads.isEmpty()) return projHeads.remove(0);
 		else if(!managers.isEmpty()) return managers.remove(0);
-		else if(!secretaries.isEmpty()) return secretaries.remove(0);
+		else if(!secretaries.isEmpty())	return secretaries.remove(0);
 		else if(!smokers.isEmpty()) return smokers.remove(0);
 		else if(!hackers.isEmpty()) return hackers.remove(0);
 		else if(!researchers.isEmpty()) return researchers.remove(0);
@@ -106,11 +110,10 @@ public class SortedPeople implements Iterator<Person>{
 	 * @return true if all the lists are empty
 	 */
 	public boolean isEmpty(){
-		if (next()==null)
-			return true;
-		else
-			return false;
-	}
+		if (this.size() == 0){ return true; }	
+		else { return false; }
+	}	
+
 	/**
 	 * Checks if there are people in the data structure.
 	 * @return true if there is at least one person in one of the lists

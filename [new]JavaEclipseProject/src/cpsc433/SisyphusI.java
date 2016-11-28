@@ -157,22 +157,33 @@ public class SisyphusI {
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
-		if(Person.numberOfPeople() > Room.buildingCapacity())
+		if(Person.numberOfPeople() > Room.buildingCapacity()){
 			System.out.println("Number of people exceeds building capacity");
+		}
 		else{
 			System.out.println("Beginning search.");
 			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
+//			for (Map.Entry<String, Person> entry : Person.getPersonList().entrySet()){
+//				System.out.println(entry.getValue().getName());
+//			}
+//			
+//			for (Person p : sortedPpl.getSec()){
+//				System.out.println(p.getName());
+//			}
 			
 		 //NOT WORKING - should print all people in decending order of most important attribute
-			while(sortedPpl.hasNext())
-				System.out.println(sortedPpl.next());
+			while(sortedPpl.hasNext()){
+				Person q = sortedPpl.next();
+				System.out.println(q.getName());
+			}
 			
 			
 		//ALSO NOT WORKING -should print all large then medium then small rooms
 			TreeSet<Room> rooms = new TreeSet((Room.getRooms()).values());
 			Iterator<Room> roomIterator = rooms.descendingIterator();
-			while (roomIterator.hasNext())
+			while (roomIterator.hasNext()){
 				System.out.println(roomIterator.next());
+			}
 
 			
 			ONode root = new ONode(sortedPpl);
