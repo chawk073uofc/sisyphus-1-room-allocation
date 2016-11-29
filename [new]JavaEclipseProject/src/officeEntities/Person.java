@@ -188,7 +188,7 @@ public class Person extends Entity
 		return groups;
 	}
 	/**
-	 * Computes the total soft constraint penalty score for the person.
+	 * Computes the total soft  constraint penalty score for the person.
 	 * @return an integer representing the total penalty
 	 */
 	public int computePenalty(){
