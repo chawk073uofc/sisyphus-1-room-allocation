@@ -62,7 +62,7 @@ public class SortedPeople implements Iterator<Person>{
 	 * @param newlyAssinged
 	 */
 	public void add(Person p) {
-		Attribute rankingAttribute = Attribute.SECRETARY;
+		Attribute rankingAttribute = p.getRankingAttribute();
 		switch (rankingAttribute){
 		case GROUP_HEAD:
 			groupHeads.add(p);
