@@ -7,11 +7,14 @@ import officeEntities.Room;
 import officeEntities.Room.RoomSize;
 import cpsc433.SearchControl;
 
+import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -163,21 +166,18 @@ public class SisyphusI {
 		else{
 			System.out.println("Beginning search.");
 			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
-		//SEEMS GOOD NOW -chris
+
 			while(sortedPpl.hasNext()){
 				Person q = sortedPpl.next();
 				System.out.println(q.getName());
 			}
 			
-			
-		//(STILL) NOT WORKING -should print all large then medium then small rooms
-			TreeSet<Room> rooms = new TreeSet((Room.getRooms()).values());
-			Iterator<Room> roomIterator = rooms.descendingIterator();
-			while (roomIterator.hasNext()){
-				System.out.println(roomIterator.next());
-			}
+			ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
+			Collections.sort(rooms);
+			Collections.reverse(rooms);
+			for(Room r: rooms)
+				System.out.println(r.getSize());
 
-			
 			ONode root = new ONode(sortedPpl);
 			OTree oTree = new OTree(root);
 			//			Person p1 = new Person("A");

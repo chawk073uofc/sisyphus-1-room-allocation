@@ -65,6 +65,11 @@ public class Room extends Entity{
 			}
 		    else throw new java.lang.ClassCastException();
 		}
+	
+//	@Override
+//	public boolean equals(Room arg0){
+//		return this.equals(arg0);
+//	}
 	/**
 	 * Returns true if a room object is close to the calling room object.
 	 * @param checkRoom room to check close to relation with.

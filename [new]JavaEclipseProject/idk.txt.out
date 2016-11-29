@@ -31,7 +31,7 @@ secretary(p10)
 
 
 room(A)
-small-room(A)
+medium-room(A)
 
 room(B)
 small-room(B)
