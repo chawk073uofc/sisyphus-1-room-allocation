@@ -163,22 +163,14 @@ public class SisyphusI {
 		else{
 			System.out.println("Beginning search.");
 			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
-//			for (Map.Entry<String, Person> entry : Person.getPersonList().entrySet()){
-//				System.out.println(entry.getValue().getName());
-//			}
-//			
-//			for (Person p : sortedPpl.getSec()){
-//				System.out.println(p.getName());
-//			}
-			
-		 //NOT WORKING - should print all people in decending order of most important attribute
+		//SEEMS GOOD NOW -chris
 			while(sortedPpl.hasNext()){
 				Person q = sortedPpl.next();
 				System.out.println(q.getName());
 			}
 			
 			
-		//ALSO NOT WORKING -should print all large then medium then small rooms
+		//(STILL) NOT WORKING -should print all large then medium then small rooms
 			TreeSet<Room> rooms = new TreeSet((Room.getRooms()).values());
 			Iterator<Room> roomIterator = rooms.descendingIterator();
 			while (roomIterator.hasNext()){
