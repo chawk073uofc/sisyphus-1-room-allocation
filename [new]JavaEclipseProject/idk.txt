@@ -6,7 +6,7 @@
 //manager(p6)
 //smoker(p7)
 //researcher(p8)
-//heads-project(p9, PROJECT)
+heads-project(p9, PROJECT)
 secretary(p10)
 medium-room (A)
 small-room (B)

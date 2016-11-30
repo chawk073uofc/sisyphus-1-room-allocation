@@ -168,36 +168,26 @@ public class SisyphusI {
 		}
 		else{
 			System.out.println("Beginning search.");
-
 			ArrayList<Person> sortedPeople = getSortedPersonList();
-			ArrayList<Room> rooms = getSortedRoomList();
-			
+			ArrayList<Person> assignedPpl = new ArrayList<Person>();
+			ArrayList<Room> rooms = getSortedRoomList();	
 			ONode root = new ONode(sortedPeople);
 			OTree oTree = new OTree(root);
-
-			
-			ArrayList<Person> assignedPpl = new ArrayList<Person>();
+	
 			while (!sortedPeople.isEmpty()){
-//				if (!sortedPpl.getGroupHeads().isEmpty()){ // if there's a group head to assign
-//					Person p = sortedPpl.next();
-//					System.out.println(p.getName());
-//				} 
-//				else if (!sortedPpl.getProjectHeads().isEmpty()){ // if there's a group head to assign
-//					Person p = sortedPpl.next();
-//					System.out.println(p.getName());
-//				} 
-//				else{
 					Person p = sortedPeople.remove(0);
 					int index = 0;
 					for (Room r : rooms){ // one child for each room
-						
 						ONode newNode = new ONode(sortedPeople, assignedPpl, p);
 						oTree.insertNodeInto(newNode, root, index);
-						//System.out.println(newNode.toString());
 					}
-					//assignedPpl.add(p);
-					System.out.println("lol");
+					assignedPpl.add(p);
 			}
+			
+			
+			
+			
+			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
 		    Enumeration e = test_root.preorderEnumeration();
@@ -206,6 +196,15 @@ public class SisyphusI {
 		        it += 1;
 		    }
 		    System.out.println("Total # of nodes: " + it);
+		    // ---------------------------------------//
+		    
+		    
+		    
+		    
+		    
+		    
+		    
+		    
 			
 			//While there are unassigned people and there is time left
 				//for all group heads

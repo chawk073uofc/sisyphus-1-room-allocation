@@ -1,3 +1,6 @@
+person(p9)
+project-head(p9)
+
 person(p10)
 secretary(p10)
 
@@ -24,6 +27,10 @@ large-room(F)
 
 
 
+
+project(PROJECT)
+heads-project(p9, PROJECT)
+project(p9, PROJECT)
 
 
 
