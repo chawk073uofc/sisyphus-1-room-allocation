@@ -16,5 +16,9 @@ public class OTree extends DefaultTreeModel {
 	public OTree(TreeNode root) {
 		super(root);
 	}
+	
+	public void printAllContents(){
+		
+	}
 
 }

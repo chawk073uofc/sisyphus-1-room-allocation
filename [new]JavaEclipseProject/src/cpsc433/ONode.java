@@ -14,15 +14,15 @@ import officeEntities.Person;
  *
  */
 public class ONode extends DefaultMutableTreeNode {
-	ArrayList<Person> unassigned = new ArrayList<Person>();
-	ArrayList<Person> assigned = new ArrayList<Person>();
+	private ArrayList<Person> unassigned = new ArrayList<Person>();
+	private ArrayList<Person> assigned = new ArrayList<Person>();
 	private int f_leaf_value;
 	
 	/**
 	 * Constructor for an empty root node (no assignments).
 	 */
-	public ONode(ArrayList<Person> unassigned){
-		this.unassigned = unassigned;
+	public ONode(ArrayList<Person> unassignedPpl){
+		unassigned = unassignedPpl;
 		f_leaf_value = 0;
 	}
 	
@@ -33,10 +33,10 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param unassigned
 	 * @param assigned
 	 */
-	public ONode(ArrayList<Person> unassigned, ArrayList<Person> assigned){
-		this.unassigned = unassigned;
-		this.assigned = assigned;
-		f_leaf_value = SearchControl.f_leaf((Person[]) assigned.toArray());
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl){
+		unassigned = unassignedPpl;
+		assigned = assignedPpl;
+		f_leaf_value = SearchControl.f_leaf((Person[]) assignedPpl.toArray());
 	}
 	/**
 	 * Constructor for child node.
@@ -45,16 +45,31 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param assigned
 	 * @param newlyAssinged
 	 */
-	public ONode(ArrayList<Person> unassigned, ArrayList<Person> assigned, Person newlyAssinged){
-		this.unassigned = unassigned;
-		this.assigned = assigned;
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssinged){
+		for (int i = 0; i < unassignedPpl.size(); i++){
+			unassigned.add(unassignedPpl.get(i));
+			System.out.println("......");
+		}
+		for (int i = 0; i < assignedPpl.size(); i++){
+			assigned.add(assignedPpl.get(i));
+		}
 		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, (Person[]) assigned.toArray());
 		assigned.add(newlyAssinged);
+	
 	}
 	
 	@Override
 	public boolean isLeaf(){
 		return unassigned.isEmpty();
+	}
+	
+	@Override
+	public String toString(){
+		String result = "";
+		for (int i = 0; i < assigned.size(); i++){
+			result = result + assigned.get(i).getName();
+		}
+		return result;
 	}
 	
 	public int get_f_leaf(){

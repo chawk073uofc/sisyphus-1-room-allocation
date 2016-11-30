@@ -188,18 +188,21 @@ public class SisyphusI {
 //				} 
 //				else{
 					Person p = sortedPeople.remove(0);
-					assignedPpl.add(p);
 					int index = 0;
 					for (Room r : rooms){ // one child for each room
+						
 						ONode newNode = new ONode(sortedPeople, assignedPpl, p);
 						oTree.insertNodeInto(newNode, root, index);
-				}
+						//System.out.println(newNode.toString());
+					}
+					//assignedPpl.add(p);
+					System.out.println("lol");
 			}
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
 		    Enumeration e = test_root.preorderEnumeration();
 		    while(e.hasMoreElements()){
-		        System.out.println(e.nextElement());
+		        System.out.println(e.nextElement().toString());
 		        it += 1;
 		    }
 		    System.out.println("Total # of nodes: " + it);
