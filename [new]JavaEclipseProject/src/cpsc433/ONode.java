@@ -45,18 +45,17 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param assigned
 	 * @param newlyAssinged
 	 */
-	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssinged){
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned){
 		for (int i = 0; i < unassignedPpl.size(); i++){
 			unassigned.add(unassignedPpl.get(i));
 		}
 		for (int i = 0; i < assignedPpl.size(); i++){
 			assigned.add(assignedPpl.get(i));
 		}
-		//Person list[] = new Person[assignedPpl.size()];
-		//f_leaf_value = SearchControl.f_leaf(newlyAssinged, assignedPpl.toArray(list));
+
 		
-		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, (Person[]) assigned.toArray());
-		assigned.add(newlyAssinged);
+		//f_leaf_value = calc_f_leaf(newlyAssigned);
+		assigned.add(newlyAssigned);
 	
 	}
 	
@@ -76,6 +75,21 @@ public class ONode extends DefaultMutableTreeNode {
 	
 	public int get_f_leaf(){
 		return f_leaf_value;
+	}
+	
+	public void set_f_leaf(int value){
+		f_leaf_value = value;
+	}
+	
+	public int calc_f_leaf(Person newlyAssigned){
+		if(!this.isRoot()){
+			Person list[] = new Person[assigned.size()];
+			return ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssigned, assigned.toArray(list));
+			//return ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssigned, (Person[]) assigned.toArray());
+		}
+	else { 
+		System.out.println("here");
+		return 0; }
 	}
 
 }

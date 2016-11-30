@@ -99,8 +99,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 
 	/**
-	 * If a person with the given name already exists, add "secretary" to their
-	 * list of roles. Otherwise, create a new person object and add "secretary"
+	 * If a person with the given name already exists, add Attribute.SECRETARY to their
+	 * list of roles. Otherwise, create a new person object and add Attribute.SECRETARY
 	 * to their list of roles.
 	 * @param name the name of the secretary
 	 */
@@ -121,16 +121,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_secretary(String name) {
 		try {
-			return Person.getEntityWithName(name).hasAttribute("secretary");
+			return Person.getEntityWithName(name).hasAttribute(Attribute.SECRETARY);
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
 	}
 
 	/**
-	 * If a person with the given name already exists, add "researcher" to their
+	 * If a person with the given name already exists, add Attribute.RESEARCHER to their
 	 * list of attributes. Otherwise, create a new person object and add
-	 * "researcher" to their list of attributes.
+	 * Attribute.RESEARCHER to their list of attributes.
 	 * @param name the name of of the researcher
 	 */
 	@Override
@@ -150,16 +150,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_researcher(String name) {
 		try {
-			return Person.getEntityWithName(name).hasAttribute("researcher");
+			return Person.getEntityWithName(name).hasAttribute(Attribute.RESEARCHER);
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
 	}
 
 	/**
-	 * If a person with the given name already exists, add "manager" to their
+	 * If a person with the given name already exists, add Attribute.MANAGER to their
 	 * list of attributes. Otherwise, create a new person object and add
-	 * "manager" to their list of attributes.
+	 * Attribute.MANAGER to their list of attributes.
 	 * @param name the name of the manager
 	 */
 	@Override
@@ -179,16 +179,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_manager(String name) {
 		try {
-			return Person.getEntityWithName(name).hasAttribute("manager");
+			return Person.getEntityWithName(name).hasAttribute(Attribute.MANAGER);
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
 	}
 
 	/**
-	 * If a person with the given name already exists, add "smoker" to their
+	 * If a person with the given name already exists, add Attribute.SMOKER to their
 	 * list of attributes. Otherwise, create a new person object and add
-	 * "smoker" to their list of attributes.
+	 * Attribute.SMOKER to their list of attributes.
 	 * @param name the name of the smoker
 	 * 
 	 */
@@ -209,16 +209,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_smoker(String name) {
 		try {
-			return Person.getEntityWithName(name).hasAttribute("smoker");
+			return Person.getEntityWithName(name).hasAttribute(Attribute.SMOKER);
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
 	}
 
 	/**
-	 * If a person with the given name already exists, add "hacker" to their
+	 * If a person with the given name already exists, add Attribute.HACKER to their
 	 * list of attributes. Otherwise, create a new person object and add
-	 * "hacker" to their list of attributes.
+	 * Attribute.HACKER to their list of attributes.
 	 * @param name the name of a smoker
 	 */
 	@Override
@@ -238,7 +238,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	@Override
 	public boolean e_hacker(String name) {
 		try {
-			return Person.getEntityWithName(name).hasAttribute("hacker");
+			return Person.getEntityWithName(name).hasAttribute(Attribute.HACKER);
 		} catch (NoSuchPersonException e) {
 			return false;
 		}
@@ -891,7 +891,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
-					if (entry_person.getValue().hasAttribute("secretary")){ 
+					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
 						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
 							return 0; // if a match is found, no penalty
 						}
@@ -906,7 +906,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if one person is a secretary and the other isn't //
 	public static int getPenalty4(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if ((p.hasAttribute("secretary") && !q.hasAttribute("secretary")) || (q.hasAttribute("secretary") && !p.hasAttribute("secretary"))){
+			if ((p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)) || (q.hasAttribute(Attribute.SECRETARY) && !p.hasAttribute(Attribute.SECRETARY))){
 				return -5;
 			}
 		}
@@ -915,11 +915,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	// managers should be close to at least one secretary in their group //
 	public static int getPenalty5(Person p){
-		if (p.hasAttribute("manager")){
+		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
-					if (entry_person.getValue().hasAttribute("secretary")){ 
+					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
 						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
 							return 0; // if a match is found, no penalty
 						}	
@@ -933,7 +933,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	// managers should be close to their groups head //
 	public static int getPenalty6(Person p){
-		if (p.hasAttribute("manager")){
+		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				Map<String, Person> groupHeads = entry.getValue().getGroupHeads();
@@ -949,7 +949,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	// managers should be close to all members of their group //
 	public static int getPenalty7(Person p){
-		if (p.hasAttribute("manager")){
+		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
@@ -986,7 +986,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				Map<String, Group> p_groups = p.getGroups();
 				for (Map.Entry<String, Group> g_entry: p_groups.entrySet()){ 
 					for (Map.Entry<String, Person> person_entry : g_entry.getValue().getMembers().entrySet()){ // for every person in the group
-						if (person_entry.getValue().hasAttribute("secretary")){
+						if (person_entry.getValue().hasAttribute(Attribute.SECRETARY)){
 							if (p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if large project head p is close to a secretary
 								return 0;
 							}
@@ -1021,7 +1021,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if one person is a smoker and the other isn't //
 	public static int getPenalty11(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if ((p.hasAttribute("smoker") && !q.hasAttribute("smoker")) || (q.hasAttribute("smoker") && !p.hasAttribute("smoker"))){
+			if ((p.hasAttribute(Attribute.SMOKER) && !q.hasAttribute(Attribute.SMOKER)) || (q.hasAttribute(Attribute.SMOKER) && !p.hasAttribute(Attribute.SMOKER))){
 				return -50;
 			}
 		}
@@ -1045,8 +1045,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if a non-secretary hacker/non-hacker shares an office with a hacker/non-hacker // TODO: possibly wrong
 	public static int getPenalty13(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if (!p.hasAttribute("secretary") && !q.hasAttribute("secretary")){
-				if ((p.hasAttribute("hacker") && !q.hasAttribute("hacker")) || q.hasAttribute("hacker") && !p.hasAttribute("hacker")){
+			if (!p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)){
+				if ((p.hasAttribute(Attribute.HACKER) && !q.hasAttribute(Attribute.HACKER)) || q.hasAttribute(Attribute.HACKER) && !p.hasAttribute(Attribute.HACKER)){
 					return -2;
 				}
 			}
