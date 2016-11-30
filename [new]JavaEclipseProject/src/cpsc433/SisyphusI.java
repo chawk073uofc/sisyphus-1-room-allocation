@@ -187,10 +187,14 @@ public class SisyphusI {
 					for (Room r : rooms){ // Create one child for each room
 						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
 						oTree.insertNodeInto(newNode, root, index); // Insert the node
+						p.addRoomAssignment(r);
 						newNode.set_f_leaf(newNode.calc_f_leaf(p));
 						childList.add(newNode); // Add the new node to the child list
 						index++;
 						System.out.println(newNode.get_f_leaf());
+						
+						//r.addOccupant(p);
+						
 					}					
 				}	
 					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
