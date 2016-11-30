@@ -48,7 +48,6 @@ public class ONode extends DefaultMutableTreeNode {
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssinged){
 		for (int i = 0; i < unassignedPpl.size(); i++){
 			unassigned.add(unassignedPpl.get(i));
-			System.out.println("......");
 		}
 		for (int i = 0; i < assignedPpl.size(); i++){
 			assigned.add(assignedPpl.get(i));

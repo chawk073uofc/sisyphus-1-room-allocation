@@ -173,15 +173,42 @@ public class SisyphusI {
 			ArrayList<Room> rooms = getSortedRoomList();	
 			ONode root = new ONode(sortedPeople);
 			OTree oTree = new OTree(root);
+			int numChildren = 1;
 	
 			while (!sortedPeople.isEmpty()){
 					Person p = sortedPeople.remove(0);
-					int index = 0;
-					for (Room r : rooms){ // one child for each room
-						ONode newNode = new ONode(sortedPeople, assignedPpl, p);
-						oTree.insertNodeInto(newNode, root, index);
+					ArrayList<ONode> childList = new ArrayList<ONode>();
+
+					while (root != null) {
+						int index = 0;
+						System.out.println("hi");
+						
+						for (Room r : rooms){ // create one child for each room
+							ONode newNode = new ONode(sortedPeople, assignedPpl, p);
+							oTree.insertNodeInto(newNode, root, index);
+							childList.add(newNode);
+							System.out.println(root.getChildCount());
+							index++;
+						}
+						
+						if (root.getNextSibling() != null){
+							root = (ONode) root.getNextSibling(); // Move onto the next child
+						}	
+						else{
+							break; // else we break out of the while loop
+						}
 					}
+					
 					assignedPpl.add(p);
+					System.out.println("current depth: " + root.getLevel());
+					numChildren = root.getChildCount();
+					System.out.println(numChildren);
+					
+					while (root.getPreviousSibling() != null){
+						root = (ONode) root.getPreviousSibling();
+					}
+					
+					root = (ONode) root.getFirstChild();
 			}
 			
 			
@@ -190,7 +217,7 @@ public class SisyphusI {
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
-		    Enumeration e = test_root.preorderEnumeration();
+		    Enumeration e = test_root.breadthFirstEnumeration();
 		    while(e.hasMoreElements()){
 		        System.out.println(e.nextElement().toString());
 		        it += 1;

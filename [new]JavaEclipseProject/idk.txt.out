@@ -1,28 +1,22 @@
+person(p6)
+manager(p6)
+
+person(p7)
+smoker(p7)
+
 person(p9)
 project-head(p9)
 
-person(p10)
-secretary(p10)
 
-
-
-room(A)
-medium-room(A)
 
 room(B)
 small-room(B)
-
-room(C)
-small-room(C)
 
 room(D)
 small-room(D)
 
 room(E)
 large-room(E)
-
-room(F)
-large-room(F)
 
 
 
