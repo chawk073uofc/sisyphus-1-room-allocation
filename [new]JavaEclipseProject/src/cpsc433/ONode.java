@@ -3,6 +3,8 @@
  */
 package cpsc433;
 
+import java.util.ArrayList;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import officeEntities.Person;
@@ -12,16 +14,15 @@ import officeEntities.Person;
  *
  */
 public class ONode extends DefaultMutableTreeNode {
-	SortedPeople unassigned;
-	SortedPeople assigned;
+	ArrayList<Person> unassigned = new ArrayList<Person>();
+	ArrayList<Person> assigned = new ArrayList<Person>();
 	private int f_leaf_value;
 	
 	/**
 	 * Constructor for an empty root node (no assignments).
 	 */
-	public ONode(SortedPeople unassigned){
+	public ONode(ArrayList<Person> unassigned){
 		this.unassigned = unassigned;
-		assigned = new SortedPeople();//empty
 		f_leaf_value = 0;
 	}
 	
@@ -32,10 +33,10 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param unassigned
 	 * @param assigned
 	 */
-	public ONode(SortedPeople unassigned, SortedPeople assigned){
+	public ONode(ArrayList<Person> unassigned, ArrayList<Person> assigned){
 		this.unassigned = unassigned;
 		this.assigned = assigned;
-		f_leaf_value = SearchControl.f_leaf(assigned.toArray());
+		f_leaf_value = SearchControl.f_leaf((Person[]) assigned.toArray());
 	}
 	/**
 	 * Constructor for child node.
@@ -44,10 +45,10 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param assigned
 	 * @param newlyAssinged
 	 */
-	public ONode(SortedPeople unassigned, SortedPeople assigned, Person newlyAssinged){
+	public ONode(ArrayList<Person> unassigned, ArrayList<Person> assigned, Person newlyAssinged){
 		this.unassigned = unassigned;
 		this.assigned = assigned;
-		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, assigned.toArray());
+		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, (Person[]) assigned.toArray());
 		assigned.add(newlyAssinged);
 	}
 	
