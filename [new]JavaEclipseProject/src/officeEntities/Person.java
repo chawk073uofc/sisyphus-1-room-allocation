@@ -40,14 +40,21 @@ public class Person extends Entity
 		people.put(name,	 this);
 		//people.add(this);
 	}
-	
-//	@Override
-//	public int compareTo(Entity p){
-//    if (p instanceof Person) {
-//			return 1;
-//		}
-//	    else throw new java.lang.ClassCastException();
-//	}
+	/**
+	 * Compares this Person object to the given object.
+	 * @param p	person object to compare
+	 * @return negative number if p has a higher-ranking ranking attribute than this person
+	 * 		   positive number if p has a lower-ranking ranking attribute than this person
+	 *   	   zero	if this person and p have the same ranking attribute
+	 */
+	@Override
+	public int compareTo(Entity p){
+    if (p instanceof Person) {
+    		p=(Person) p;
+			return this.getRankingAttribute().ordinal() - ((Person) p).getRankingAttribute().ordinal();
+		}
+	    else throw new java.lang.ClassCastException();
+	}
 
 	/**
 	 * Adds the given attribute to the person's list of attributes if it is not already there. 
@@ -180,8 +187,8 @@ public class Person extends Entity
 		return projects;
 	}
 	
-	public static Map<String, Person> getPersonList(){
-		return people;
+	public static HashMap<String, Person> getPersonList(){
+		return (HashMap<String, Person>) people;
 	}
 	
 	public Map<String, Group> getGroups(){

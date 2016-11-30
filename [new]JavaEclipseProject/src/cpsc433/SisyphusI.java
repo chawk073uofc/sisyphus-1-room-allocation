@@ -165,20 +165,11 @@ public class SisyphusI {
 		}
 		else{
 			System.out.println("Beginning search.");
-			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
-
-			while(sortedPpl.hasNext()){
-				Person q = sortedPpl.next();
-				System.out.println(q.getName());
-			}
 			
-			ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
-			Collections.sort(rooms);
-			Collections.reverse(rooms);
-			for(Room r: rooms)
-				System.out.println(r.getSize());
-
-			ONode root = new ONode(sortedPpl);
+			ArrayList<Person> sortedPeople = getSortedPersonList();
+			ArrayList<Room> rooms = getSortedRoomList();
+			
+			ONode root = new ONode(sortedPeople);
 			OTree oTree = new OTree(root);
 			//			Person p1 = new Person("A");
 //			Person p2 = new Person("B");
@@ -217,7 +208,7 @@ public class SisyphusI {
 			
 		}
 	}
-	
+
 	protected void printResults() {
 		System.out.println("Would print results here, but the search isn't implemented yet.");
 	}
@@ -247,5 +238,25 @@ public class SisyphusI {
 		} catch (Exception e) {
 			System.err.println("exiting: "+e.toString());
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	private ArrayList<Person> getSortedPersonList() {
+		ArrayList<Person> sortedPeople = new ArrayList<>((Person.getPersonList()).values());
+		Collections.sort(sortedPeople);
+		Collections.reverse(sortedPeople);
+		return sortedPeople;
+	}
+
+	/**
+	 * @return
+	 */
+	private ArrayList<Room> getSortedRoomList() {
+		ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
+		Collections.sort(rooms);
+		Collections.reverse(rooms);
+		return rooms;
 	}
 }
