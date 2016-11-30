@@ -104,6 +104,14 @@ public class SortedPeople implements Iterator<Person>{
 		else if(!noAttributes.isEmpty()) return noAttributes.remove(0);
 		else return null;
 	}
+	
+	public ArrayList<Person> getGroupHeads(){
+		return groupHeads;
+	}
+	
+	public ArrayList<Person> getProjectHeads(){
+		return projHeads;
+	}
 			
 	
 	/**

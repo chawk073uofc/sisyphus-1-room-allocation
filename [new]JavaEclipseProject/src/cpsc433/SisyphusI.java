@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.swing.tree.TreeModel;
 
 /**
  * This is the main class for the SysiphusI assignment.  It's main function is to
@@ -166,11 +169,11 @@ public class SisyphusI {
 		else{
 			System.out.println("Beginning search.");
 			SortedPeople sortedPpl = new SortedPeople((HashMap<String, Person>) Person.getPersonList());
-
-			while(sortedPpl.hasNext()){
-				Person q = sortedPpl.next();
-				System.out.println(q.getName());
-			}
+//
+//			while(sortedPpl.hasNext()){
+//				Person q = sortedPpl.next();
+//				System.out.println(q.getName());
+//			}
 			
 			ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
 			Collections.sort(rooms);
@@ -178,27 +181,38 @@ public class SisyphusI {
 			for(Room r: rooms)
 				System.out.println(r.getSize());
 
-			ONode root = new ONode(sortedPpl);
+			ONode root = new ONode(sortedPpl); 
 			OTree oTree = new OTree(root);
-			//			Person p1 = new Person("A");
-//			Person p2 = new Person("B");
-//			Person p3 = new Person("C");
-//			Room r1 = new Room("r1");
-//			Room r2 = new Room("r2");
-//			r1.addOccupant(p1);
-//			r2.addOccupant(p2);
-//			r2.addOccupant(p3);
-//			r2.setSize(RoomSize.SMALL);
-//			p1.addRoomAssignment(r1);
-//			p2.addRoomAssignment(r2);
-//			p3.addRoomAssignment(r2);
-//			p3.addColleague(p2);
-//			p2.addColleague(p3);
-//			System.out.println(SearchControl.f_leaf(p2, p1, p3));
 
-//			while (!groupHeadList.isEmpty()){
-//				//...
-//			}
+			
+			SortedPeople assignedPpl = new SortedPeople();
+			while (sortedPpl.hasNext()){
+				if (!sortedPpl.getGroupHeads().isEmpty()){ // if there's a group head to assign
+					Person p = sortedPpl.next();
+					System.out.println(p.getName());
+				} 
+				else if (!sortedPpl.getProjectHeads().isEmpty()){ // if there's a group head to assign
+					Person p = sortedPpl.next();
+					System.out.println(p.getName());
+				} 
+				else{
+					Person p = sortedPpl.next();
+					assignedPpl.add(p);
+					int index = 0;
+					for (Room r : rooms){
+						ONode newNode = new ONode(sortedPpl, assignedPpl, p);
+						oTree.insertNodeInto(newNode, root, index);
+					}
+				}
+			}
+			int it = 0;
+			ONode test_root = (ONode)oTree.getRoot();
+		    Enumeration e = test_root.preorderEnumeration();
+		    while(e.hasMoreElements()){
+		        System.out.println(e.nextElement());
+		        it += 1;
+		    }
+		    System.out.println(it);
 			
 			//While there are unassigned people and there is time left
 				//for all group heads
@@ -216,6 +230,14 @@ public class SisyphusI {
 				//
 			
 		}
+	}
+	
+	private static String getTreeText(TreeModel model, Object object, String indent) {
+	    String myRow = indent + object + "\n";
+	    for (int i = 0; i < model.getChildCount(object); i++) {
+	        myRow += getTreeText(model, model.getChild(object, i), indent + "  ");
+	    }
+	    return myRow;
 	}
 	
 	protected void printResults() {

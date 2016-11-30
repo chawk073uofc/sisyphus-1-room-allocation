@@ -47,7 +47,7 @@ public class ONode extends DefaultMutableTreeNode {
 	public ONode(SortedPeople unassigned, SortedPeople assigned, Person newlyAssinged){
 		this.unassigned = unassigned;
 		this.assigned = assigned;
-		f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, assigned.toArray());
+		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, assigned.toArray());
 		assigned.add(newlyAssinged);
 	}
 	

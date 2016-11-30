@@ -1,24 +1,3 @@
-person(p1)
-secretary(p1)
-
-person(p2)
-secretary(p2)
-
-person(p3)
-secretary(p3)
-
-person(p4)
-secretary(p4)
-
-person(p5)
-manager(p5)
-
-person(p6)
-manager(p6)
-
-person(p7)
-smoker(p7)
-
 person(p8)
 researcher(p8)
 
