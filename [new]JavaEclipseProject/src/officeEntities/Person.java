@@ -88,11 +88,11 @@ public class Person extends Entity
 	}
 	/**
 	 * Returns true if the person has the given attribute (e.g. "secretary").
-	 * @param attribute the attribute to check (e.g. "secretary")
+	 * @param personAttr the attribute to check (e.g. "secretary")
 	 * @return true if the given attribute is included in the person's list of attributes.
 	 */
-	public boolean hasAttribute(String attribute) {
-		return attributes.contains(attribute);//O(1)
+	public boolean hasAttribute(Attribute personAttr) {
+		return attributes.contains(personAttr);//O(1)
 	}
 
 	/**

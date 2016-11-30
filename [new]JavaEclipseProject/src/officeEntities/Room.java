@@ -208,9 +208,9 @@ public class Room extends Entity{
 	 */
 	private boolean occupantIsBoss() {
 		Person occupant = (Person) occupants.values().toArray()[0];
-		return occupant.hasAttribute("group-head") 
-				|| occupant.hasAttribute("project-head") 
-				|| occupant.hasAttribute("manager");
+		return occupant.hasAttribute(Attribute.GROUP_HEAD) 
+				|| occupant.hasAttribute(Attribute.PROJECT_HEAD) 
+				|| occupant.hasAttribute(Attribute.MANAGER);
 	}
 	
 	public static HashMap<String, Room> getRooms(){

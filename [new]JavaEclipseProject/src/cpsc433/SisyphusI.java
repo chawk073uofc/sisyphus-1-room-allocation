@@ -176,6 +176,8 @@ public class SisyphusI {
 			ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
 			childList.add(root);
 	
+			
+			
 			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
 				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
 				int childListSize = childList.size();
@@ -185,8 +187,10 @@ public class SisyphusI {
 					for (Room r : rooms){ // Create one child for each room
 						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
 						oTree.insertNodeInto(newNode, root, index); // Insert the node
+						newNode.set_f_leaf(newNode.calc_f_leaf(p));
 						childList.add(newNode); // Add the new node to the child list
 						index++;
+						System.out.println(newNode.get_f_leaf());
 					}					
 				}	
 					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people

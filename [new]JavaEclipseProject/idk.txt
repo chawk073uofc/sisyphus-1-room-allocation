@@ -3,7 +3,7 @@
 //secretary(p3)
 //secretary(p4)
 //manager(p5)
-manager(p6)
+smoker(p6)
 smoker(p7)
 //researcher(p8)
 heads-project(p9, PROJECT)
