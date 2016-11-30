@@ -12,6 +12,9 @@ project-head(p9)
 room(B)
 small-room(B)
 
+room(C)
+small-room(C)
+
 room(D)
 small-room(D)
 

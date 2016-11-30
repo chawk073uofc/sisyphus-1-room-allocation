@@ -52,6 +52,9 @@ public class ONode extends DefaultMutableTreeNode {
 		for (int i = 0; i < assignedPpl.size(); i++){
 			assigned.add(assignedPpl.get(i));
 		}
+		//Person list[] = new Person[assignedPpl.size()];
+		//f_leaf_value = SearchControl.f_leaf(newlyAssinged, assignedPpl.toArray(list));
+		
 		//f_leaf_value = ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssinged, (Person[]) assigned.toArray());
 		assigned.add(newlyAssinged);
 	

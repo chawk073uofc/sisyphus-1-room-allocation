@@ -173,46 +173,24 @@ public class SisyphusI {
 			ArrayList<Room> rooms = getSortedRoomList();	
 			ONode root = new ONode(sortedPeople);
 			OTree oTree = new OTree(root);
-			int numChildren = 1;
+			ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
+			childList.add(root);
 	
-			while (!sortedPeople.isEmpty()){
-					Person p = sortedPeople.remove(0);
-					ArrayList<ONode> childList = new ArrayList<ONode>();
-
-					while (root != null) {
-						int index = 0;
-						System.out.println("hi");
-						
-						for (Room r : rooms){ // create one child for each room
-							ONode newNode = new ONode(sortedPeople, assignedPpl, p);
-							oTree.insertNodeInto(newNode, root, index);
-							childList.add(newNode);
-							System.out.println(root.getChildCount());
-							index++;
-						}
-						
-						if (root.getNextSibling() != null){
-							root = (ONode) root.getNextSibling(); // Move onto the next child
-						}	
-						else{
-							break; // else we break out of the while loop
-						}
-					}
-					
-					assignedPpl.add(p);
-					System.out.println("current depth: " + root.getLevel());
-					numChildren = root.getChildCount();
-					System.out.println(numChildren);
-					
-					while (root.getPreviousSibling() != null){
-						root = (ONode) root.getPreviousSibling();
-					}
-					
-					root = (ONode) root.getFirstChild();
-			}
-			
-			
-			
+			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
+				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
+				int childListSize = childList.size();
+				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
+					int index = 0;
+					root = childList.remove(0);
+					for (Room r : rooms){ // Create one child for each room
+						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
+						oTree.insertNodeInto(newNode, root, index); // Insert the node
+						childList.add(newNode); // Add the new node to the child list
+						index++;
+					}					
+				}	
+					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
+			}	
 			
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
@@ -224,15 +202,7 @@ public class SisyphusI {
 		    }
 		    System.out.println("Total # of nodes: " + it);
 		    // ---------------------------------------//
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-		    
-			
+
 			//While there are unassigned people and there is time left
 				//for all group heads
 				
@@ -249,14 +219,6 @@ public class SisyphusI {
 				//
 			
 		}
-	}
-	
-	private static String getTreeText(TreeModel model, Object object, String indent) {
-	    String myRow = indent + object + "\n";
-	    for (int i = 0; i < model.getChildCount(object); i++) {
-	        myRow += getTreeText(model, model.getChild(object, i), indent + "  ");
-	    }
-	    return myRow;
 	}
 	
 	protected void printResults() {
