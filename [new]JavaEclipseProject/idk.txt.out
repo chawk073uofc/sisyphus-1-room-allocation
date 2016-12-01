@@ -11,26 +11,18 @@ project-head(p9)
 
 room(B)
 small-room(B)
-assigned-to(p6, B)
-assigned-to(p7, B)
 assigned-to(p9, B)
 
 room(C)
 small-room(C)
-assigned-to(p6, C)
-assigned-to(p7, C)
 assigned-to(p9, C)
 
 room(D)
 small-room(D)
-assigned-to(p6, D)
-assigned-to(p7, D)
 assigned-to(p9, D)
 
 room(E)
 large-room(E)
-assigned-to(p6, E)
-assigned-to(p7, E)
 assigned-to(p9, E)
 
 

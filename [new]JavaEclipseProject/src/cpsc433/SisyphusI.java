@@ -171,31 +171,31 @@ public class SisyphusI {
 			ArrayList<Person> sortedPeople = getSortedPersonList();
 			ArrayList<Person> assignedPpl = new ArrayList<Person>();
 			ArrayList<Room> rooms = getSortedRoomList();	
-			ONode root = new ONode(sortedPeople);
+			ONode root = new ONode(sortedPeople, rooms);
 			OTree oTree = new OTree(root);
-			ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
-			childList.add(root);
+			//ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
+	//		childList.add(root);
 	
+			root.search();
 			
-			
-			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
-				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
-				int childListSize = childList.size();
-				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
-					int index = 0;
-					root = childList.remove(0);
-					for (Room r : rooms){ // Create one child for each room
-						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
-						oTree.insertNodeInto(newNode, root, index); // Insert the node
-						p.addRoomAssignment(r);
-						newNode.set_f_leaf(newNode.calc_f_leaf(p));
-						childList.add(newNode); // Add the new node to the child list
-						index++;
-												
-					}					
-				}	
-					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
-			}	
+//			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
+//				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
+//				int childListSize = childList.size();
+//				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
+//					int index = 0;
+//					root = childList.remove(0);
+//					for (Room r : rooms){ // Create one child for each room
+//						ONode newNode = new ONode(sortedPeople, assignedPpl, p, null); // Create new node to add
+//						oTree.insertNodeInto(newNode, root, index); // Insert the node
+//						p.addRoomAssignment(r);
+//						newNode.set_f_leaf(newNode.calc_f_leaf(p));
+//						childList.add(newNode); // Add the new node to the child list
+//						index++;
+//												
+//					}					
+//				}	
+//					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
+//			}	
 			
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;

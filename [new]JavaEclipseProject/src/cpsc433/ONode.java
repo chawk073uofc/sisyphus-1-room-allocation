@@ -4,10 +4,12 @@
 package cpsc433;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import officeEntities.Person;
+import officeEntities.Room;
 
 /**
  * A node in the or tree. Also known as a state.
@@ -16,13 +18,20 @@ import officeEntities.Person;
 public class ONode extends DefaultMutableTreeNode {
 	private ArrayList<Person> unassigned = new ArrayList<Person>();
 	private ArrayList<Person> assigned = new ArrayList<Person>();
+	private ArrayList<Room> availableRooms = new ArrayList<Room>();
 	private int f_leaf_value;
+	
+	
+	//TODO: remove from room list if full
 	
 	/**
 	 * Constructor for an empty root node (no assignments).
+	 * @param availableRooms TODO
+	 * @param avilableRooms TODO
 	 */
-	public ONode(ArrayList<Person> unassignedPpl){
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Room> availableRooms){
 		unassigned = unassignedPpl;
+		this.availableRooms = availableRooms;
 		f_leaf_value = 0;
 	}
 	
@@ -33,19 +42,27 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param unassigned
 	 * @param assigned
 	 */
-	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl){
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, ArrayList<Room> availableRooms){
 		unassigned = unassignedPpl;
 		assigned = assignedPpl;
+		this.availableRooms = availableRooms;
 		f_leaf_value = SearchControl.f_leaf((Person[]) assignedPpl.toArray());
 	}
 	/**
 	 * Constructor for child node.
-	 * 
+	 * @param availabelRooms TODO
 	 * @param unassigned
 	 * @param assigned
 	 * @param newlyAssinged
 	 */
-	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned){
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned, ArrayList<Room> availabelRooms){
+		//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
+		//if(newlyAssigned.getRoom().isFull()){
+		//	availabelRooms.remove(newlyAssigned.getRoom());
+			//this.availableRooms = availabelRooms;
+	//	}
+		this.availableRooms = availableRooms;
+
 		for (int i = 0; i < unassignedPpl.size(); i++){
 			unassigned.add(unassignedPpl.get(i));
 		}
@@ -58,6 +75,42 @@ public class ONode extends DefaultMutableTreeNode {
 		assigned.add(newlyAssigned);
 	
 	}
+	
+	
+	public void search(){
+		if(this.isLeaf())
+			System.out.println("Node can not be expanded further");
+		else{		
+			expandNode();
+			ONode bestChild = SearchControl.f_select(this.children);
+			bestChild.search();
+		}
+	}
+	
+	private void expandNode(){
+
+
+			//assign this person to all no-full rooms 
+			//int index = 0;
+			ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
+			Person personToAssign = unassigned.remove(0);
+			assigned.add(personToAssign);
+			for (Room r : availableRooms){ // Create one child for each room
+				personToAssign.addRoomAssignment(r);
+				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
+				if(personToAssign.getRoom().isFull()){
+					newAvailableRooms.remove(personToAssign.getRoom());
+				}
+				ONode newNode = new ONode(unassigned, assigned, personToAssign, newAvailableRooms); // Create new node to add
+				this.add(newNode);
+				//oTree.insertNodeInto(newNode, this, index); // Insert the node
+				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
+			//	childList.add(newNode); // Add the new node to the child list
+			//	index++;
+						
+		}					
+	}	
+	
 	
 	@Override
 	public boolean isLeaf(){
