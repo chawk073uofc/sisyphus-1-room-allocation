@@ -73,7 +73,7 @@ public class ONode extends DefaultMutableTreeNode {
 		for (int i = 0; i < assigned.size(); i++){
 			result = result + "(" + assigned.get(i).getName() + ":" + assigned.get(i).getRoom().getName() + ")";
 		}
-		result = result + ", Penalty: " + f_leaf_value;
+		result = result + " Penalty: " + f_leaf_value;
 		return result;
 	}
 	
