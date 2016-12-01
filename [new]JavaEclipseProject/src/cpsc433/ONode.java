@@ -89,7 +89,7 @@ public class ONode extends DefaultMutableTreeNode {
 	
 	private void expandNode(){
 
-
+///
 			//assign this person to all no-full rooms 
 			//int index = 0;
 			ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
