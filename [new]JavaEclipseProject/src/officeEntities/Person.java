@@ -144,7 +144,6 @@ public class Person extends Entity
 	 */
 	public void addRoomAssignment(Room homeRoom) {
 		this.homeRoom = homeRoom;
-		System.out.println(homeRoom);
 		homeRoom.addOccupant(this);
 	}
 	/**

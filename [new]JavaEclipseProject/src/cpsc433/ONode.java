@@ -67,6 +67,9 @@ public class ONode extends DefaultMutableTreeNode {
 	@Override
 	public String toString(){
 		String result = "";
+		for(int k = 0; k<this.getLevel(); k++)
+			result += "  ";
+		
 		for (int i = 0; i < assigned.size(); i++){
 			result = result + "(" + assigned.get(i).getName() + ":" + assigned.get(i).getRoom().getName() + ")";
 		}
