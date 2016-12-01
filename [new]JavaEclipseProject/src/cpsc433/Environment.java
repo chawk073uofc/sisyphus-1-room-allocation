@@ -968,7 +968,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
 			if (entry.getValue().hasProjectHead(p.getName())){ // if person p is the head of the project
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the project
-						if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if the project head isn't close to the member
+					if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if the project head isn't close to the member
 							return -5; 
 						}
 					}

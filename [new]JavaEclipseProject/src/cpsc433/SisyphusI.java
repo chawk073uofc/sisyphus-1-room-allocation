@@ -165,8 +165,9 @@ public class SisyphusI {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
 		if(Person.numberOfPeople() > Room.buildingCapacity()){
 			System.out.println("Number of people exceeds building capacity");
-		}
-		else{
+		} else { 
+			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
+
 			System.out.println("Beginning search.");
 			ArrayList<Person> sortedPeople = getSortedPersonList();
 			ArrayList<Person> assignedPpl = new ArrayList<Person>();
@@ -176,7 +177,12 @@ public class SisyphusI {
 			ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
 			childList.add(root);
 	
+			StringBuilder solutionStr = new StringBuilder();
 			
+			//***Print number of people and rooms.
+			System.out.println("Number of people:" + sortedPeople.size());
+			System.out.println("Number of rooms:" + rooms.size());
+			//***//
 			
 			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
 				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
@@ -192,13 +198,14 @@ public class SisyphusI {
 						childList.add(newNode); // Add the new node to the child list
 						index++;
 						System.out.println(newNode.get_f_leaf());
-						
+						solutionStr.append(p.getName());
 						//r.addOccupant(p);
 						
 					}					
 				}	
 					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
 			}	
+			System.out.println(solutionStr);
 			
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;

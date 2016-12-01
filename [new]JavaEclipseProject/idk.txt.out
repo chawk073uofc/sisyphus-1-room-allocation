@@ -1,45 +1,24 @@
-person(p6)
-smoker(p6)
+person(mgrOne)
+manager(mgrOne)
 
-person(p7)
-smoker(p7)
-
-person(p9)
-project-head(p9)
+person(secOne)
+secretary(secOne)
 
 
 
-room(B)
-small-room(B)
-assigned-to(p6, B)
-assigned-to(p7, B)
-assigned-to(p9, B)
+room(SmlRmA)
+small-room(SmlRmA)
+assigned-to(mgrOne, SmlRmA)
+assigned-to(secOne, SmlRmA)
 
-room(C)
-small-room(C)
-assigned-to(p6, C)
-assigned-to(p7, C)
-assigned-to(p9, C)
-
-room(D)
-small-room(D)
-assigned-to(p6, D)
-assigned-to(p7, D)
-assigned-to(p9, D)
-
-room(E)
-large-room(E)
-assigned-to(p6, E)
-assigned-to(p7, E)
-assigned-to(p9, E)
+room(LrgRmA)
+large-room(LrgRmA)
+assigned-to(mgrOne, LrgRmA)
+assigned-to(secOne, LrgRmA)
 
 
 
 
-
-project(PROJECT)
-heads-project(p9, PROJECT)
-project(p9, PROJECT)
 
 
 
