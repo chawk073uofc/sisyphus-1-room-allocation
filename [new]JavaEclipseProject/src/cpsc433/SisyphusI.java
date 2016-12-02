@@ -54,6 +54,8 @@ public class SisyphusI {
 	protected final String[] args;
 	protected String out;
 	protected Environment env;
+	private static ArrayList<Person> current_assignment;
+	private static int current_penalty = -100000; // large negative value to ensure it's changed
 	
 	
 	public SisyphusI(String[] args) {
@@ -158,14 +160,18 @@ public class SisyphusI {
 	
 	/**
 	 * Perform the actual search
-	 * @param env An Environment object.
+	 * @param env An Environment  object.
 	 * @param timeLimit A time limit in milliseconds.
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
 		if(Person.numberOfPeople() > Room.buildingCapacity()){
-			System.out.println("Number of people exceeds building capacity");
-		} else { 
+			System.out.println("Number of people exceeds building capacity.");
+		}
+		else if(Person.numberOfPeople() > (Room.buildingCapacity() - Person.numberOfBosses())){
+			System.out.println("Not enough rooms for bosses.");		
+		}
+		 else { 
 			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
 
 			System.out.println("Beginning search.");
@@ -182,6 +188,8 @@ public class SisyphusI {
 			//***//
 //			StringBuilder solutionStr = new StringBuilder();
 			root.search();
+			
+
 
 	
 			
@@ -228,8 +236,8 @@ public class SisyphusI {
 //				}	
 //					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
 //			}	
-
-			
+		
+			/*
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
@@ -241,7 +249,8 @@ public class SisyphusI {
 		    }
 		    System.out.println("Total # of nodes: " + it);
 		    // ---------------------------------------//
-
+		    */
+		 }
 			//While there are unassigned people and there is time left
 				//for all group heads
 				
@@ -258,6 +267,23 @@ public class SisyphusI {
 				//
 			
 		}
+	
+	
+	public static void setAssignment(ArrayList<Person> assignment, int penalty){
+		ArrayList<Person> current_assignment = new ArrayList<>(assignment);
+		current_penalty = penalty;
+		System.out.println("#################################");
+		System.out.println("### Printing Final Assignment ###");
+		for (Person p : current_assignment){
+			System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
+		}
+		System.out.println("Total penalty for this assignment: " + current_penalty);
+		System.out.println("#################################");
+	}
+	
+	
+	public static int getCurrentPenaltyScore(){
+		return current_penalty;
 	}
 	
 	protected void printResults() {

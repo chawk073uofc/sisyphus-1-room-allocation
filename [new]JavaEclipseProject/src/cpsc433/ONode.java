@@ -26,8 +26,6 @@ public class ONode extends DefaultMutableTreeNode {
 	private boolean checked = false;
 	
 	
-	//TODO: remove from room list if full
-	
 	/**
 	 * Constructor for an empty root node (no assignments).
 	 * @param availableRooms TODO
@@ -94,11 +92,15 @@ public class ONode extends DefaultMutableTreeNode {
 	public void search(){
 		
 		if(this.isLeaf()){
-			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further"); //print to file
+			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
+				System.out.println("saving");
+				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
+			}
+			
 			this.checked = true;
+		}else{
 			
-			
-		}else{	
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
 				expandNode();
@@ -112,6 +114,7 @@ public class ONode extends DefaultMutableTreeNode {
 		if(this.getChildCount()>0){
 			System.out.println("We are climbing up through node: " +  this.hashCode());
 			System.out.println("Now checking other children of: " + this.hashCode());
+
 			this.search();
 		} else {
 			this.removeFromParent();

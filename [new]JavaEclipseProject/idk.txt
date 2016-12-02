@@ -1,4 +1,3 @@
-
 //secretary(secB)
 //secretary(secA)
 //researcher(researcherA)
