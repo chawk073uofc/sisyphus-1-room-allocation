@@ -1,20 +1,25 @@
+person(A)
+smoker(A)
+
+person(secE)
+secretary(secE)
+
 person(secD)
-secretary(secD)
-
-person(researcherA)
-researcher(researcherA)
+smoker(secD)
 
 
+
+room(lrgRoomA)
+large-room(lrgRoomA)
+assigned-to(secE, lrgRoomA)
+assigned-to(A, lrgRoomA)
+assigned-to(secD, lrgRoomA)
 
 room(smlRoomA)
 small-room(smlRoomA)
+assigned-to(secE, smlRoomA)
+assigned-to(A, smlRoomA)
 assigned-to(secD, smlRoomA)
-assigned-to(researcherA, smlRoomA)
-
-room(lrgRoomB)
-large-room(lrgRoomB)
-assigned-to(secD, lrgRoomB)
-assigned-to(researcherA, lrgRoomB)
 
 
 

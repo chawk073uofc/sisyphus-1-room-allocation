@@ -6,6 +6,7 @@ package cpsc433;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -113,15 +114,33 @@ public class ONode extends DefaultMutableTreeNode {
 		
 		if(this.getChildCount()>0){
 			System.out.println("We are climbing up through node: " +  this.hashCode());
-			System.out.println("Now checking other children of: " + this.hashCode());
+			ONode temp_child = SearchControl.f_select(this.children);
+			try{
+				ONode temp_grandchild = (ONode) temp_child.getFirstChild(); // Used for checking for "double skips" (for optimization)
+				
+				System.out.println("Now checking other children of: " + this.hashCode());
 
-			this.search();
+				this.search();
+			}catch(NoSuchElementException e){
+				if (temp_child.getUnassignedList().isEmpty() == true){
+					this.removeFromParent();
+				}
+				else{
+					System.out.println("Now checking other children of: " + this.hashCode());
+
+					this.search();				
+				}
+			}
+
 		} else {
 			this.removeFromParent();
 		}
 
 	}
 	
+	public ArrayList<Person> getUnassignedList(){
+		return unassigned;
+	}
 	
 	
 	private void expandNode(){
