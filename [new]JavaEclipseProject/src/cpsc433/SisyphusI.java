@@ -160,7 +160,7 @@ public class SisyphusI {
 	
 	/**
 	 * Perform the actual search
-	 * @param env An Environment object.
+	 * @param env An Environment  object.
 	 * @param timeLimit A time limit in milliseconds.
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
