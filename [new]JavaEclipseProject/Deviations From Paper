@@ -1,0 +1,15 @@
+Our implementation of the or-tree search differs from the search model and data structures specified in 
+our paper in the following ways. 
+
+In our paper we defined a state as a set of zero or more person-room touples. In the the Java implementation, 
+states are represented by ONode objects which contain a lot more information than this including an ArrayList of
+assigned people, an ArrayList of assigned people, an ArrayList of available rooms (room which are not full). 
+ONode also keeps track of the person and room that is changing when this node is created (as opposed to all
+the rooms and people who were assigned higher up in the tree). We also added instance variables for the 
+f_leaf value of this node (state) and a boolean indicating wheather or not this node has been explored at this
+point in the search process. We found that this additional information was necessary both to calculate f_leaf
+values (on which tree expansion decisions are based) and to control the tree traversal during the search. 
+
+The search process in the Java implementation more complicated than the one specified in our paper. For one
+thing, we are now backtracking to find multiple solutions...
+
