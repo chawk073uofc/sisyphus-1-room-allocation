@@ -211,6 +211,7 @@ public class SisyphusI {
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
+		//	Enumeration e = test_root.depthFirstEnumeration();
 		    Enumeration e = test_root.breadthFirstEnumeration();
 		    while(e.hasMoreElements()){
 		        System.out.println(e.nextElement().toString());
