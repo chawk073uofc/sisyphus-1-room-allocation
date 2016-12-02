@@ -8,7 +8,9 @@ import cpsc433.Environment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Vector;
 
 public class SearchControl {
 	//f_select
@@ -66,6 +68,26 @@ public class SearchControl {
 			penalty += f_leaf(p, everythingBut_p);
 		}
 		return penalty;
+	}
+	/**
+	 * performs fselect and returns the child with the highest fleaf value
+	 * 
+	 * 
+	 * @param children
+	 * @return
+	 */
+	public static ONode f_select(Vector children) {
+		int bestFLeaf = Integer.MIN_VALUE;
+		ONode bestNode = null;
+		for(Object objNode: children){
+			ONode currNode = (ONode) objNode;
+			if(currNode.get_f_leaf()>bestFLeaf){
+				bestFLeaf = currNode.get_f_leaf();
+				bestNode = currNode;
+			}
+		}
+		return bestNode;
+		
 	}
 }
 
