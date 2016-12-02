@@ -89,6 +89,17 @@ public class ONode extends DefaultMutableTreeNode {
 		this.checked = checked;
 	}
 	
+	private void clearOtherRooms(){
+		if(!this.isRoot()){
+			for(Room currRoom: availableRooms){
+				if(!currRoom.equals(this.getNodesRoom())){
+					System.out.println("Removing 1"+ this.thisNodesPerson.getName() + " from room: " + currRoom.getName());
+					currRoom.getOccupants().remove(this.thisNodesPerson.getName());
+				}
+			}
+		} 
+	}
+	
 	public void search(){
 		
 		if(this.isLeaf()){
@@ -97,8 +108,9 @@ public class ONode extends DefaultMutableTreeNode {
 				System.out.println("saving");
 				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
 			}
-			
 			this.checked = true;
+			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 		}else{
 			
 			if(this.getChildCount()==0 && checked == false){
@@ -108,58 +120,59 @@ public class ONode extends DefaultMutableTreeNode {
 			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
+			
 			bestChild.search();
 		}
 		
+		if(this.isRoot()){
+			System.out.println("##ROOT##");
+			for(Room currRoom: availableRooms){
+				currRoom.getOccupants().clear();
+			}
+		}
+		System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		if(this.getChildCount()>0){
-			System.out.println("We are climbing up through node: " +  this.hashCode());
 			System.out.println("Now checking other children of: " + this.hashCode());
-
 			this.search();
-		} else {
+		} else if(!this.isRoot()) {
+			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			this.removeFromParent();
 		}
+		
+
 
 	}
 	
 	
 	
 	private void expandNode(){
-
-///
-			//assign this person to all no-full rooms 
-			//int index = 0;
-
-		
-		
-			ArrayList<Person> newUnassigned = new ArrayList(unassigned);
-			ArrayList<Person> newAssigned = new ArrayList(assigned);
+		clearOtherRooms();
+		ArrayList<Person> newUnassigned = new ArrayList(unassigned);
+		ArrayList<Person> newAssigned = new ArrayList(assigned);
 			
-			Person personToAssign = newUnassigned.remove(0);
+		Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			if(this.isRoot()){
 				System.out.println("Starting at Root HASH:" + this.hashCode());
 			} else {
-				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode());
+				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
 			}
 			for (Room r : availableRooms){ // Create one child for each room
 				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
 
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
+
+				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
+				this.add(newNode);
+				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
+				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}
-				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
-				
-				this.add(newNode);
-				//oTree.insertNodeInto(newNode, this, index); // Insert the node
-				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
-				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode());
-			//	childList.add(newNode); // Add the new node to the child list
-			//	index++;
-						
-		}					
+			}					
+			
 	}	
 	
 	
