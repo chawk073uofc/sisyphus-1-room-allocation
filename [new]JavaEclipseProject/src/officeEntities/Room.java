@@ -1,6 +1,7 @@
 
 package officeEntities;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -215,6 +216,10 @@ public class Room extends Entity{
 	
 	public static HashMap<String, Room> getRooms(){
 		return (HashMap<String, Room>) rooms;
+	}
+	
+	public Collection<Person> getOccupants(){
+		return occupants.values();
 	}
 	
 }

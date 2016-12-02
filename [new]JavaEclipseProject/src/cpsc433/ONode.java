@@ -4,6 +4,7 @@
 package cpsc433;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -55,7 +56,7 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param assigned
 	 * @param newlyAssinged
 	 */
-	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned, ArrayList<Room> availableRooms){
+	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned, ArrayList<Room> availableRooms, Room thisNodesRoom){
 		//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 		//if(newlyAssigned.getRoom().isFull()){
 		//	availabelRooms.remove(newlyAssigned.getRoom());
@@ -92,9 +93,12 @@ public class ONode extends DefaultMutableTreeNode {
 ///
 			//assign this person to all no-full rooms 
 			//int index = 0;
+
+		
+
 			ArrayList<Person> newUnassigned = new ArrayList(unassigned);
 			ArrayList<Person> newAssigned = new ArrayList(assigned);
-		
+			
 			Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			
@@ -107,7 +111,7 @@ public class ONode extends DefaultMutableTreeNode {
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}
-				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms); // Create new node to add
+				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r); // Create new node to add
 				this.add(newNode);
 				//oTree.insertNodeInto(newNode, this, index); // Insert the node
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
@@ -129,9 +133,13 @@ public class ONode extends DefaultMutableTreeNode {
 		for(int k = 0; k<this.getLevel(); k++){
 			result += "  ";
 		}
-		for (int i = 0; i < assigned.size(); i++){
-			result = result + "(" + assigned.get(i).getName() + ")";
+		
+		if(!this.isRoot()){
+			for (Person p: assigned){
+				result = result + "(" + p.getName() + ")";
+			}
 		}
+		
 		result = result + " Penalty: " + f_leaf_value;
 		return result;
 	}
