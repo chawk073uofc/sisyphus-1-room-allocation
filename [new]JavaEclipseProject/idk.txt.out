@@ -1,5 +1,8 @@
-person(mgrOne)
-manager(mgrOne)
+person(p3)
+secretary(p3)
+
+person(p4)
+secretary(p4)
 
 person(secOne)
 secretary(secOne)
@@ -8,12 +11,16 @@ secretary(secOne)
 
 room(SmlRmA)
 small-room(SmlRmA)
-assigned-to(mgrOne, SmlRmA)
+close(SmlRmA, LrgRmA)
+assigned-to(p3, SmlRmA)
+assigned-to(p4, SmlRmA)
 assigned-to(secOne, SmlRmA)
 
 room(LrgRmA)
 large-room(LrgRmA)
-assigned-to(mgrOne, LrgRmA)
+close(LrgRmA, SmlRmA)
+assigned-to(p4, LrgRmA)
+assigned-to(secOne, LrgRmA)
 
 
 

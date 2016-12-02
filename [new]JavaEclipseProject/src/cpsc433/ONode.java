@@ -87,8 +87,10 @@ public class ONode extends DefaultMutableTreeNode {
 	public void search(){
 		if(this.isLeaf())
 			System.out.println("Node can not be expanded further");
-		else{		
+		else{	
+
 			expandNode();
+			
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			bestChild.search();
@@ -102,26 +104,31 @@ public class ONode extends DefaultMutableTreeNode {
 			//int index = 0;
 
 		
-
+		
 			ArrayList<Person> newUnassigned = new ArrayList(unassigned);
 			ArrayList<Person> newAssigned = new ArrayList(assigned);
 			
 			Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
-			
+			if(this.isRoot()){
+				System.out.println("Starting at Root");
+			} else {
+				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode());
+			}
 			for (Room r : availableRooms){ // Create one child for each room
 				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
-				
-				
+
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}
 				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
+				
 				this.add(newNode);
 				//oTree.insertNodeInto(newNode, this, index); // Insert the node
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
+				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode());
 			//	childList.add(newNode); // Add the new node to the child list
 			//	index++;
 						
