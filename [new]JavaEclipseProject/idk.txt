@@ -1,3 +1,4 @@
+
 //secretary(secB)
 //secretary(secA)
 //researcher(researcherA)
@@ -12,4 +13,3 @@ medium-room (medRoomA)
 large-room (lrgRoomA)
 small-room (smlRoomA)
 large-room (lrgRoomB)
-//close(SmlRmA,LrgRmA)
