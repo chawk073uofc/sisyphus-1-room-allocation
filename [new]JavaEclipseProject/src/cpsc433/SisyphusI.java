@@ -185,6 +185,7 @@ public class SisyphusI {
 
 	
 
+
 			//System.out.println(solutionStr);
 
 //			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
@@ -210,6 +211,7 @@ public class SisyphusI {
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
+		//	Enumeration e = test_root.depthFirstEnumeration();
 		    Enumeration e = test_root.breadthFirstEnumeration();
 		    while(e.hasMoreElements()){
 		        System.out.println(e.nextElement().toString());
