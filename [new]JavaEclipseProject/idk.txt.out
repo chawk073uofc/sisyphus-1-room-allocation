@@ -1,26 +1,36 @@
-person(p3)
-secretary(p3)
+person(researcherB)
+researcher(researcherB)
 
-person(p4)
-secretary(p4)
+person(researcherC)
+researcher(researcherC)
 
-person(secOne)
-secretary(secOne)
+person(researcherA)
+researcher(researcherA)
 
 
 
-room(SmlRmA)
-small-room(SmlRmA)
-close(SmlRmA, LrgRmA)
-assigned-to(p3, SmlRmA)
-assigned-to(p4, SmlRmA)
-assigned-to(secOne, SmlRmA)
+room(lrgRoomA)
+large-room(lrgRoomA)
+assigned-to(researcherC, lrgRoomA)
+assigned-to(researcherA, lrgRoomA)
 
-room(LrgRmA)
-large-room(LrgRmA)
-close(LrgRmA, SmlRmA)
-assigned-to(p4, LrgRmA)
-assigned-to(secOne, LrgRmA)
+room(smlRoomA)
+small-room(smlRoomA)
+assigned-to(researcherB, smlRoomA)
+assigned-to(researcherC, smlRoomA)
+assigned-to(researcherA, smlRoomA)
+
+room(lrgRoomB)
+large-room(lrgRoomB)
+assigned-to(researcherB, lrgRoomB)
+assigned-to(researcherC, lrgRoomB)
+assigned-to(researcherA, lrgRoomB)
+
+room(medRoomA)
+medium-room(medRoomA)
+assigned-to(researcherB, medRoomA)
+assigned-to(researcherC, medRoomA)
+assigned-to(researcherA, medRoomA)
 
 
 

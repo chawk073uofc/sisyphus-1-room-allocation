@@ -90,7 +90,7 @@ public class ONode extends DefaultMutableTreeNode {
 		else{	
 
 			expandNode();
-			
+			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			bestChild.search();
@@ -153,10 +153,15 @@ public class ONode extends DefaultMutableTreeNode {
 		for(int k = 0; k<this.getLevel(); k++){
 			result += "  ";
 		}
-		
-		for (int i = 0; i < assigned.size(); i++){
-			result = result + "(" + assigned.get(i).getName() + "," + assigned.get(i).getRoom().getName() + ")";
+		if(!this.isRoot()){
+		result = result + this.getNodesPerson().getName() + ":" +  this.getNodesRoom().getName();
+		}else {
+			System.out.println("Root");
 		}
+		
+		//for (int i = 0; i < assigned.size(); i++){
+	//		result = result + "(" + assigned.get(i).getName() + "," + assigned.get(i).getRoom().getName() + ")";
+	//	}
 		
 		result = result + " Penalty: " + f_leaf_value;
 		return result;

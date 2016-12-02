@@ -207,7 +207,7 @@ public class SisyphusI {
 //					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
 //			}	
 
-			/*
+			
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
@@ -219,7 +219,7 @@ public class SisyphusI {
 		    }
 		    System.out.println("Total # of nodes: " + it);
 		    // ---------------------------------------//
-*/
+
 			//While there are unassigned people and there is time left
 				//for all group heads
 				
