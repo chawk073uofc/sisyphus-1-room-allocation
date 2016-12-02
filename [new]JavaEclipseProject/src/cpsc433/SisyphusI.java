@@ -54,6 +54,8 @@ public class SisyphusI {
 	protected final String[] args;
 	protected String out;
 	protected Environment env;
+	private static ArrayList<Person> current_assignment;
+	private static int current_penalty = -100000; // large negative value to ensure it's changed
 	
 	
 	public SisyphusI(String[] args) {
@@ -186,6 +188,8 @@ public class SisyphusI {
 			//***//
 //			StringBuilder solutionStr = new StringBuilder();
 			root.search();
+			
+			this.printAssignment();
 
 	
 			
@@ -264,6 +268,25 @@ public class SisyphusI {
 			
 		}
 	
+	
+	public static void setAssignment(ArrayList<Person> assignment, int penalty){
+		current_assignment = assignment;
+		current_penalty = penalty;
+	}
+	
+	public void printAssignment(){
+		System.out.println("#################################");
+		System.out.println("### Printing Final Assignment ###");
+		for (Person p : current_assignment){
+			System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
+		}
+		System.out.println("Total penalty for this assignment: " + current_penalty);
+		System.out.println("#################################");
+	}
+	
+	public static int getCurrentPenaltyScore(){
+		return current_penalty;
+	}
 	
 	protected void printResults() {
 		System.out.println("Would print results here, but the search isn't implemented yet.");

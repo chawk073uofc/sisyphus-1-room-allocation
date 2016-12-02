@@ -83,8 +83,13 @@ public class ONode extends DefaultMutableTreeNode {
 	
 	
 	public void search(){
-		if(this.isLeaf())
+		if(this.isLeaf()){
 			System.out.println("Node can not be expanded further");
+
+			if (this.f_leaf_value > SisyphusI.getCurrentPenaltyScore()){
+				SisyphusI.setAssignment(assigned, this.f_leaf_value);
+			}
+		}	
 		else{	
 
 			expandNode();
