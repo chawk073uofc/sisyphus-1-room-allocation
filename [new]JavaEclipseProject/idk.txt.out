@@ -1,36 +1,20 @@
-person(researcherB)
-researcher(researcherB)
-
-person(researcherC)
-researcher(researcherC)
+person(secD)
+secretary(secD)
 
 person(researcherA)
 researcher(researcherA)
 
 
 
-room(lrgRoomA)
-large-room(lrgRoomA)
-assigned-to(researcherC, lrgRoomA)
-assigned-to(researcherA, lrgRoomA)
-
 room(smlRoomA)
 small-room(smlRoomA)
-assigned-to(researcherB, smlRoomA)
-assigned-to(researcherC, smlRoomA)
+assigned-to(secD, smlRoomA)
 assigned-to(researcherA, smlRoomA)
 
 room(lrgRoomB)
 large-room(lrgRoomB)
-assigned-to(researcherB, lrgRoomB)
-assigned-to(researcherC, lrgRoomB)
+assigned-to(secD, lrgRoomB)
 assigned-to(researcherA, lrgRoomB)
-
-room(medRoomA)
-medium-room(medRoomA)
-assigned-to(researcherB, medRoomA)
-assigned-to(researcherC, medRoomA)
-assigned-to(researcherA, medRoomA)
 
 
 

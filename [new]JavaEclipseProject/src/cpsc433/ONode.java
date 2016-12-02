@@ -23,6 +23,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private Room thisNodesRoom = null;
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
+	private boolean checked = false;
 	
 	
 	//TODO: remove from room list if full
@@ -83,19 +84,42 @@ public class ONode extends DefaultMutableTreeNode {
 	//
 	}
 	
+	private boolean isChecked(){
+		return checked;
+	}
+	private void setChecked(boolean checked){
+		this.checked = checked;
+	}
 	
 	public void search(){
-		if(this.isLeaf())
-			System.out.println("Node can not be expanded further");
-		else{	
-
-			expandNode();
+		
+		if(this.isLeaf()){
+			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further"); //print to file
+			this.checked = true;
+			
+			
+		}else{	
+			if(this.getChildCount()==0 && checked == false){
+				checked = true;
+				expandNode();
+			}
 			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			bestChild.search();
 		}
+		
+		if(this.getChildCount()>0){
+			System.out.println("We are climbing up through node: " +  this.hashCode());
+			System.out.println("Now checking other children of: " + this.hashCode());
+			this.search();
+		} else {
+			this.removeFromParent();
+		}
+
 	}
+	
+	
 	
 	private void expandNode(){
 
@@ -111,7 +135,7 @@ public class ONode extends DefaultMutableTreeNode {
 			Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			if(this.isRoot()){
-				System.out.println("Starting at Root");
+				System.out.println("Starting at Root HASH:" + this.hashCode());
 			} else {
 				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode());
 			}
