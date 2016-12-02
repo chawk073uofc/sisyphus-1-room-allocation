@@ -184,7 +184,7 @@ public class SisyphusI {
 				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
 					int index = 0;
 					root = childList.remove(0);
-					for (Room r : rooms){ // Create one child for each room
+					for (Room r : rooms){ // Create one child for  each room
 						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
 						oTree.insertNodeInto(newNode, root, index); // Insert the node
 						p.addRoomAssignment(r);
