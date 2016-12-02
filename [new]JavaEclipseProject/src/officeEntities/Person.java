@@ -213,5 +213,20 @@ public class Person extends Entity
 		return highest;
 	}
 	
+	public static int numberOfBosses() {
+		int numBosses = 0;
+		for (Person p: people.values()){
+			if(p.isBoss())
+				numBosses++;
+		}
+		return numBosses;
+	}
+	
+	public boolean isBoss(){
+		return (this.hasAttribute(Attribute.GROUP_HEAD)
+				|| this.hasAttribute(Attribute.MANAGER)
+				|| this.hasAttribute(Attribute.PROJECT_HEAD));
+	}
+	
 }
 

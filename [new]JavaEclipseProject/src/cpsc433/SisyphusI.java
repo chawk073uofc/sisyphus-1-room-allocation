@@ -164,8 +164,12 @@ public class SisyphusI {
 	protected void doSearch(Environment env, long timeLimit) {
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
 		if(Person.numberOfPeople() > Room.buildingCapacity()){
-			System.out.println("Number of people exceeds building capacity");
-		} else { 
+			System.out.println("Number of people exceeds building capacity.");
+		}
+		else if(Person.numberOfPeople() > (Room.buildingCapacity() - Person.numberOfBosses())){
+			System.out.println("Not enough rooms for bosses.");		
+		}
+		 else { 
 			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
 
 			System.out.println("Beginning search.");
@@ -228,8 +232,8 @@ public class SisyphusI {
 //				}	
 //					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
 //			}	
-
-			
+		
+			/*
 			// ----- FOR PRINTING PURPOSES ONLY ----- //
 			int it = 0;
 			ONode test_root = (ONode)oTree.getRoot();
@@ -241,7 +245,8 @@ public class SisyphusI {
 		    }
 		    System.out.println("Total # of nodes: " + it);
 		    // ---------------------------------------//
-
+		    */
+		 }
 			//While there are unassigned people and there is time left
 				//for all group heads
 				
@@ -258,7 +263,7 @@ public class SisyphusI {
 				//
 			
 		}
-	}
+	
 	
 	protected void printResults() {
 		System.out.println("Would print results here, but the search isn't implemented yet.");
