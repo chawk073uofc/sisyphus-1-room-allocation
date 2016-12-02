@@ -1,20 +1,36 @@
-person(smoker)
-smoker(smoker)
+person(researcherB)
+researcher(researcherB)
 
-person(non-smoker)
-researcher(non-smoker)
+person(researcherC)
+researcher(researcherC)
+
+person(researcherA)
+researcher(researcherA)
 
 
 
-room(SmlRmA)
-small-room(SmlRmA)
-assigned-to(smoker, SmlRmA)
-assigned-to(non-smoker, SmlRmA)
+room(lrgRoomA)
+large-room(lrgRoomA)
+assigned-to(researcherC, lrgRoomA)
+assigned-to(researcherA, lrgRoomA)
 
-room(smlRmB)
-small-room(smlRmB)
-assigned-to(smoker, smlRmB)
-assigned-to(non-smoker, smlRmB)
+room(smlRoomA)
+small-room(smlRoomA)
+assigned-to(researcherB, smlRoomA)
+assigned-to(researcherC, smlRoomA)
+assigned-to(researcherA, smlRoomA)
+
+room(lrgRoomB)
+large-room(lrgRoomB)
+assigned-to(researcherB, lrgRoomB)
+assigned-to(researcherC, lrgRoomB)
+assigned-to(researcherA, lrgRoomB)
+
+room(medRoomA)
+medium-room(medRoomA)
+assigned-to(researcherB, medRoomA)
+assigned-to(researcherC, medRoomA)
+assigned-to(researcherA, medRoomA)
 
 
 
