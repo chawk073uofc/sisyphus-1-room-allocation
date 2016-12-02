@@ -1056,8 +1056,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 
 	// if person p shares a room with person q //
 	public static int getPenalty14(Person p, Person q){
-		if (p.getRoom().getName() == q.getRoom().getName()){
-			return -4;
+		if (p.getRoom().getName() == q.getRoom().getName()){ //  Make sure they're not the same person!
+			if(p.getName() != q.getName()){
+				return -4;
+			}
 		}
 		return 0;
 	}
@@ -1065,8 +1067,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if person p does not work with person q //
 	public static int getPenalty15(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if (!p.isColleague(q)){
-				return -3;
+			if(p.getName() != q.getName()){ //  Make sure they're not the same person!
+				if (!p.isColleague(q)){
+					return -3;
+				}
 			}
 		}
 		return 0;
@@ -1075,8 +1079,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if person p and q share a small room //
 	public static int getPenalty16(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if (p.getRoom().getSize() == RoomSize.SMALL){
-				return -25;
+			if (p.getName() != q.getName()){ //  Make sure they're not the same person!
+				if (p.getRoom().getSize() == RoomSize.SMALL){
+					return -25;
+				}
 			}
 		}
 		return 0;

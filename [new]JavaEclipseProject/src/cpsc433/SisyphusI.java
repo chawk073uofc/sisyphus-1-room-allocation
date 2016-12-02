@@ -186,25 +186,25 @@ public class SisyphusI {
 	
 			
 			
-			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
-				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
-				int childListSize = childList.size();
-				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
-					int index = 0;
-					root = childList.remove(0);
-					for (Room r : rooms){ // Create one child for each room
-						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
-						oTree.insertNodeInto(newNode, root, index); // Insert the node
-						p.addRoomAssignment(r);
-						newNode.set_f_leaf(newNode.calc_f_leaf(p)); //  Calculate the penalty score for the node
-						childList.add(newNode); // Add the new node to the child list
-						index++;
-						System.out.println(newNode.get_f_leaf());
-	
-					}					
-				}	
-					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
-			}	
+//			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
+//				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
+//				int childListSize = childList.size();
+//				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
+//					int index = 0;
+//					root = childList.remove(0);
+//					for (Room r : rooms){ // Create one child for each room
+//						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
+//						oTree.insertNodeInto(newNode, root, index); // Insert the node
+//						p.addRoomAssignment(r);
+//						newNode.set_f_leaf(newNode.calc_f_leaf(p)); //  Calculate the penalty score for the node
+//						childList.add(newNode); // Add the new node to the child list
+//						index++;
+//						System.out.println(newNode.get_f_leaf());
+//	
+//					}					
+//				}	
+//					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
+//			}	
 			
 
 

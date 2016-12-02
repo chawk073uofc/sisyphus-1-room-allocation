@@ -1,26 +1,20 @@
-person(p3)
-secretary(p3)
+person(smoker)
+smoker(smoker)
 
-person(p4)
-secretary(p4)
-
-person(secOne)
-secretary(secOne)
+person(non-smoker)
+researcher(non-smoker)
 
 
 
 room(SmlRmA)
 small-room(SmlRmA)
-close(SmlRmA, LrgRmA)
-assigned-to(p3, SmlRmA)
-assigned-to(p4, SmlRmA)
-assigned-to(secOne, SmlRmA)
+assigned-to(smoker, SmlRmA)
+assigned-to(non-smoker, SmlRmA)
 
-room(LrgRmA)
-large-room(LrgRmA)
-close(LrgRmA, SmlRmA)
-assigned-to(p4, LrgRmA)
-assigned-to(secOne, LrgRmA)
+room(smlRmB)
+small-room(smlRmB)
+assigned-to(smoker, smlRmB)
+assigned-to(non-smoker, smlRmB)
 
 
 
