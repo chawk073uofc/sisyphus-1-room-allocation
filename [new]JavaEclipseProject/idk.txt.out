@@ -1,5 +1,14 @@
+person(secE)
+secretary(secE)
+
+person(projHeadA)
+project-head(projHeadA)
+
 person(secD)
 secretary(secD)
+
+person(secC)
+secretary(secC)
 
 person(researcherA)
 researcher(researcherA)
@@ -8,17 +17,26 @@ researcher(researcherA)
 
 room(smlRoomA)
 small-room(smlRoomA)
+assigned-to(projHeadA, smlRoomA)
 assigned-to(secD, smlRoomA)
-assigned-to(researcherA, smlRoomA)
+assigned-to(secC, smlRoomA)
 
 room(lrgRoomB)
 large-room(lrgRoomB)
-assigned-to(secD, lrgRoomB)
-assigned-to(researcherA, lrgRoomB)
+assigned-to(projHeadA, lrgRoomB)
+
+room(medRoomA)
+medium-room(medRoomA)
+assigned-to(projHeadA, medRoomA)
+assigned-to(secC, medRoomA)
 
 
 
 
+
+project(PROJECT)
+heads-project(projHeadA, PROJECT)
+project(projHeadA, PROJECT)
 
 
 
