@@ -72,7 +72,7 @@ public class ONode extends DefaultMutableTreeNode {
 
 		
 		//f_leaf_value = calc_f_leaf(newlyAssigned);
-		assigned.add(newlyAssigned);
+		//assigned.add(newlyAssigned);
 	
 	}
 	
@@ -92,18 +92,22 @@ public class ONode extends DefaultMutableTreeNode {
 ///
 			//assign this person to all no-full rooms 
 			//int index = 0;
-			
-			Person personToAssign = unassigned.remove(0);
-			assigned.add(personToAssign);
+			ArrayList<Person> newUnassigned = new ArrayList(unassigned);
+			ArrayList<Person> newAssigned = new ArrayList(assigned);
+		
+			Person personToAssign = newUnassigned.remove(0);
+			newAssigned.add(personToAssign);
 			
 			for (Room r : availableRooms){ // Create one child for each room
 				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
+				
+				
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}
-				ONode newNode = new ONode(unassigned, assigned, personToAssign, newAvailableRooms); // Create new node to add
+				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms); // Create new node to add
 				this.add(newNode);
 				//oTree.insertNodeInto(newNode, this, index); // Insert the node
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
@@ -122,11 +126,11 @@ public class ONode extends DefaultMutableTreeNode {
 	@Override
 	public String toString(){
 		String result = "";
-		for(int k = 0; k<this.getLevel(); k++)
+		for(int k = 0; k<this.getLevel(); k++){
 			result += "  ";
-		
+		}
 		for (int i = 0; i < assigned.size(); i++){
-			result = result + "(" + assigned.get(i).getName() + ":" + assigned.get(i).getRoom().getName() + ")";
+			result = result + "(" + assigned.get(i).getName() + ")";
 		}
 		result = result + " Penalty: " + f_leaf_value;
 		return result;
