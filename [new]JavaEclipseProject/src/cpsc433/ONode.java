@@ -25,8 +25,6 @@ public class ONode extends DefaultMutableTreeNode {
 	private int f_leaf_value;
 	
 	
-	//TODO: remove from room list if full
-	
 	/**
 	 * Constructor for an empty root node (no assignments).
 	 * @param availableRooms TODO
