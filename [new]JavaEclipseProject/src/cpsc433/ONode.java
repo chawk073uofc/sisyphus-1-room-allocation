@@ -190,7 +190,7 @@ public class ONode extends DefaultMutableTreeNode {
 		result = result + " Penalty: " + f_leaf_value;
 		return result;
 	}
-	
+	//asdfsdfdfs
 	public int get_f_leaf(){
 		return f_leaf_value;
 	}
