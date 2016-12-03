@@ -83,31 +83,22 @@ public class SisyphusI {
 
 		if (args.length>1) { // using command-line arguments
 			runCommandLineMode();
-			printIODemoInfo();
 			killShutdownHook();
 		}
 		else { // using interactive mode
 			runInteractiveMode();
-			printIODemoInfo();
 			killShutdownHook();
 		}
 	}
 
-	private void printIODemoInfo() {
-		String people = Person.peopleInfoString();
-		String rooms = Room.roomInfoString();
-		String groups = Group.groupInfoString();
-		String projects = Project.projectInfoString();
+	public static void writeOutputFile(String srtingToWrite) {
 		try{
 		    PrintWriter writer = new PrintWriter(out);
-		    writer.println(people);
-		    writer.println(rooms);
-		    writer.println(groups);
-		    writer.println(projects);
+		    writer.println(srtingToWrite);
 		    writer.close();
 		}catch(FileNotFoundException e){
 			File outFile = new File(out);
-			printIODemoInfo();
+			writeOutputFile(srtingToWrite);
 		}
 		
 		
@@ -165,6 +156,7 @@ public class SisyphusI {
 	 * @param timeLimit A time limit in milliseconds.
 	 */
 	protected void doSearch(Environment env, long timeLimit) {
+		long deadLine = System.currentTimeMillis() + timeLimit;
 		System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
 		if(Person.numberOfPeople() > Room.buildingCapacity()){
 			System.out.println("Number of people exceeds building capacity.");
@@ -188,7 +180,7 @@ public class SisyphusI {
 			System.out.println("Number of rooms:" + rooms.size());
 			//***//
 //			StringBuilder solutionStr = new StringBuilder();
-			root.search();
+			root.search(deadLine);
 			
 
 
@@ -270,27 +262,20 @@ public class SisyphusI {
 		}
 	
 	
-	public static void setAssignment(ArrayList<Person> assignment, int penalty){
+	public static void setAssignment(ArrayList<Person> assignment, int penalty, int totalNodes, int totalLeaves){
 		ArrayList<Person> current_assignment = new ArrayList<>(assignment);
 		current_penalty = penalty;
-		System.out.println("#################################");
 		System.out.println("### Printing Final Assignment ###");
 		StringBuilder stringtowrite = new StringBuilder();
 		for (Person p : current_assignment){
-			System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
-			
-			stringtowrite.append("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
+			//System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
+			stringtowrite.append("assign-to(" + p.getName() + ", " + p.getRoom().getName() + ")\n");
 		}
-		PrintWriter filewriter = null;
-		try {
-			filewriter = new PrintWriter(out);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		filewriter.write(stringtowrite.toString());
-		System.out.println("Total penalty for this assignment: " + current_penalty);
-		System.out.println("#################################");
+		stringtowrite.append("//Attributes: complete, solved, utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
+		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " leaves\n");
+		System.out.println(stringtowrite.toString());
+		writeOutputFile(stringtowrite.toString());
+
 	}
 	
 	

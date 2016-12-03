@@ -17,6 +17,12 @@ import officeEntities.Room;
  *
  */
 public class ONode extends DefaultMutableTreeNode {
+	private static int totalNodes = 0;
+	private static int totalLeaves = 0;
+	private static int totalAssigned = 0;
+	private static boolean oneSolFound = false;
+	
+	
 	private ArrayList<Person> unassigned = new ArrayList<Person>();
 	private ArrayList<Person> assigned = new ArrayList<Person>();
 	private ArrayList<Room> availableRooms = new ArrayList<Room>();
@@ -24,6 +30,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
 	private boolean checked = false;
+
 	
 	
 	/**
@@ -32,6 +39,7 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param avilableRooms TODO
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Room> availableRooms){
+		totalNodes++;
 		unassigned = unassignedPpl;
 		this.availableRooms = availableRooms;
 		f_leaf_value = 0;
@@ -46,6 +54,7 @@ public class ONode extends DefaultMutableTreeNode {
 	 * @param assigned
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, ArrayList<Room> availableRooms){
+		totalNodes++;
 		unassigned = unassignedPpl;
 		assigned = assignedPpl;
 		this.availableRooms = availableRooms;
@@ -64,6 +73,7 @@ public class ONode extends DefaultMutableTreeNode {
 		//	availabelRooms.remove(newlyAssigned.getRoom());
 			//this.availableRooms = availabelRooms;
 	//	}
+		totalNodes++;
 		this.thisNodesRoom = thisNodesRoom;
 		this.thisNodesPerson = thisNodesPerson;
 		
@@ -100,19 +110,31 @@ public class ONode extends DefaultMutableTreeNode {
 		} 
 	}
 	
-	public void search(){
+	public void search(long deadLine){
+		
+		if(System.currentTimeMillis()>=deadLine){
+			if(!oneSolFound){
+				StringBuilder tempStr = new StringBuilder();
+				// Attributes: complete, solved, utility=-407, 15/15 people assigned.
+				tempStr.append("//Attributes: incomplete, unsolved, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
+				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " leaves\n");
+				SisyphusI.writeOutputFile(tempStr.toString());
+			}
+			System.exit(0);
+		}
 		
 		if(this.isLeaf()){
+			totalLeaves++;
 			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
 				//System.out.println("saving");
-				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
+				oneSolFound = true;
+				SisyphusI.setAssignment(this.assigned, this.f_leaf_value, totalNodes, totalLeaves);
 			}
 			this.checked = true;
 			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 		}else{
-			
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
 				expandNode();
@@ -121,7 +143,7 @@ public class ONode extends DefaultMutableTreeNode {
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			
-			bestChild.search();
+			bestChild.search(deadLine);
 		}
 		
 		if(this.isRoot()){
@@ -133,7 +155,7 @@ public class ONode extends DefaultMutableTreeNode {
 		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		if(this.getChildCount()>0){
 			//System.out.println("Now checking other children of: " + this.hashCode());
-			this.search();
+			this.search(deadLine);
 		} else if(!this.isRoot()) {
 			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
@@ -222,7 +244,6 @@ public class ONode extends DefaultMutableTreeNode {
 			//return ((ONode) this.parent).get_f_leaf() + SearchControl.f_leaf(newlyAssigned, (Person[]) assigned.toArray());
 		}
 	else { 
-		//System.out.println("here");
 		return 0; }
 	}
 
