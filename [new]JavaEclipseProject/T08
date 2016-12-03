@@ -1,1 +1,7 @@
-j
+person(person2)
+person(person1)
+secretary(secratary1)
+secretary(secratary2)
+
+large-room(largeRm1)
+small-room(smallRm1)

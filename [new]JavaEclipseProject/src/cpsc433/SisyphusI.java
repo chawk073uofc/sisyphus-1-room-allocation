@@ -11,6 +11,7 @@ import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +53,7 @@ public class SisyphusI {
 	}
 	
 	protected final String[] args;
-	protected String out;
+	protected static String out;
 	protected Environment env;
 	private static ArrayList<Person> current_assignment;
 	private static int current_penalty = -100000; // large negative value to ensure it's changed
@@ -274,9 +275,20 @@ public class SisyphusI {
 		current_penalty = penalty;
 		System.out.println("#################################");
 		System.out.println("### Printing Final Assignment ###");
+		StringBuilder stringtowrite = new StringBuilder();
 		for (Person p : current_assignment){
 			System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
+			
+			stringtowrite.append("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
 		}
+		PrintWriter filewriter = null;
+		try {
+			filewriter = new PrintWriter(out);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		filewriter.write(stringtowrite.toString());
 		System.out.println("Total penalty for this assignment: " + current_penalty);
 		System.out.println("#################################");
 	}
