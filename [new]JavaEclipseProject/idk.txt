@@ -1,5 +1,4 @@
 
-
 heads-project(projHeadA, PROJECT)
 secretary(secC)
 secretary(secD)
