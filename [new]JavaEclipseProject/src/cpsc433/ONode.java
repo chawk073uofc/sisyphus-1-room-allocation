@@ -14,7 +14,7 @@ import officeEntities.Room;
 
 /**
  * A node in the or tree. Also known as a state.
- *
+ *ghhdg
  */
 public class ONode extends DefaultMutableTreeNode {
 	private static int totalNodes = 0;
