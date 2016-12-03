@@ -197,7 +197,7 @@ public class Room extends Entity{
 	 * @return true if no more people may be added to the room.
 	 */
 	public boolean isFull(){
-		System.out.println("Room:" + this.getName() + " occSize:" + occupants.size());
+		//System.out.println("Room:" + this.getName() + " occSize:" + occupants.size());
 		if (occupants.size() == 2 || occupantIsBoss())
 			return true;
 		else
