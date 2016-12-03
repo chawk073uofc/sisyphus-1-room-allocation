@@ -10,9 +10,6 @@ secretary(secD)
 person(secC)
 secretary(secC)
 
-person(researcherA)
-researcher(researcherA)
-
 
 
 room(lrgRoomA)

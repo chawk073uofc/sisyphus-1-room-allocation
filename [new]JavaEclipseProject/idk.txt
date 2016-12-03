@@ -1,21 +1,14 @@
-//secretary(secB)
-//secretary(secA)
-<<<<<<< HEAD
-//researcher(researcherA)
-=======
-//researcher(researcherA)
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
+
+
 heads-project(projHeadA, PROJECT)
 secretary(secC)
 secretary(secD)
 secretary(secE)
-researcher(researcherA)
-<<<<<<< HEAD
+//researcher(researcherA)
+
 //researcher(researcherB)
 //researcher(researcherC)
 medium-room (medRoomA)
 large-room (lrgRoomA)
 small-room (smlRoomA)
 //large-room (lrgRoomB)
-=======
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
