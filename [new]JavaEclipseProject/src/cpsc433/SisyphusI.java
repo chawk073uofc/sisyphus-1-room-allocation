@@ -163,108 +163,53 @@ public class SisyphusI {
 		}
 		else if(Person.numberOfPeople() > (Room.buildingCapacity() - Person.numberOfBosses())){
 			System.out.println("Not enough rooms for bosses.");		
-		}
-		 else { 
+		} else { 
 			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
+			if(Person.getAssignedPeople().isEmpty()){
+				System.out.println("Beginning search.");
+				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
+				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
 
-			System.out.println("Beginning search.");
-			ArrayList<Person> sortedPeople = getSortedPersonList();
-			ArrayList<Person> assignedPpl = new ArrayList<Person>();
-			ArrayList<Room> rooms = getSortedRoomList();	
-			ONode root = new ONode(sortedPeople, rooms);
-			OTree oTree = new OTree(root);
-			//ArrayList<ONode> childList = new ArrayList<ONode>(); // List for keeping track of the current level's children
-	//		childList.add(root);
-			//***Print number of people and rooms.
-			System.out.println("Number of people:" + sortedPeople.size());
-			System.out.println("Number of rooms:" + rooms.size());
-			//***//
-//			StringBuilder solutionStr = new StringBuilder();
-			root.search(deadLine);
-			
-
-
-	
-			
-			
-//			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
-//				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
-//				int childListSize = childList.size();
-//				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
-//					int index = 0;
-//					root = childList.remove(0);
-//					for (Room r : rooms){ // Create one child for each room
-//						ONode newNode = new ONode(sortedPeople, assignedPpl, p); // Create new node to add
-//						oTree.insertNodeInto(newNode, root, index); // Insert the node
-//						p.addRoomAssignment(r);
-//						newNode.set_f_leaf(newNode.calc_f_leaf(p)); //  Calculate the penalty score for the node
-//						childList.add(newNode); // Add the new node to the child list
-//						index++;
-//						System.out.println(newNode.get_f_leaf());
-//	
-//					}					
-//				}	
-//					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
-//			}	
-			
-
-
-			//System.out.println(solutionStr);
-
-//			while (!sortedPeople.isEmpty()){ // Loop until we're out of people to assign
-//				Person p = sortedPeople.remove(0); // Pop out the first person in the sorted list
-//				int childListSize = childList.size();
-//				for (int i = 0; i < childListSize; i++){ // Iterate for every child; initially just the root (one)
-//					int index = 0;
-//					root = childList.remove(0);
-//					for (Room r : rooms){ // Create one child for each room
-//						ONode newNode = new ONode(sortedPeople, assignedPpl, p, null); // Create new node to add
-//						oTree.insertNodeInto(newNode, root, index); // Insert the node
-//						p.addRoomAssignment(r);
-//						newNode.set_f_leaf(newNode.calc_f_leaf(p));
-//						childList.add(newNode); // Add the new node to the child list
-//						index++;
-//												
-//					}					
-//				}	
-//					assignedPpl.add(p); // Once we're done the assignments, we can add the person to the list of assigned people
-//			}	
-		
-			/*
-			// ----- FOR PRINTING PURPOSES ONLY ----- //
-			int it = 0;
-			ONode test_root = (ONode)oTree.getRoot();
-		//	Enumeration e = test_root.depthFirstEnumeration();
-		    Enumeration e = test_root.breadthFirstEnumeration();
-		    while(e.hasMoreElements()){
-		        System.out.println(e.nextElement().toString());
-		        it += 1;
-		    }
-		    System.out.println("Total # of nodes: " + it);
-		    // ---------------------------------------//
-		    */
-		 }
-			//While there are unassigned people and there is time left
-				//for all group heads
-				
-					//Select random group head head
+				ArrayList<Room> rooms = Room.getAvailableRooms();
+				ArrayList<Room> sotredRooms = getSortedRoomList(rooms);
+				ONode root = new ONode(sortedPeople, sotredRooms);
+				OTree oTree = new OTree(root);
+				//***Print number of people and rooms.
+				System.out.println("Number of people:" + sortedPeople.size());
+				System.out.println("Number of rooms:" + rooms.size());
+				//***//
+				root.search(deadLine);
+			}else{
+				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
+				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
+				ArrayList<Room> availRooms = Room.getAvailableRooms();
+				if(!unassignedPpl.isEmpty()){
+					ArrayList<Person> sortedUnassignedPeople = getSortedPersonList(unassignedPpl);
+					ArrayList<Room> sortedAvailRooms = getSortedRoomList(availRooms);
 					
-						//assign them a large room empty room (if one is available)
-						//remove this room from pool a available rooms
-						//calculate f_leaf for this node
-				//for all managers 
-					//same
-				//for all project head
-					//same
-				//---if we run out of rooms before all managers, heads are assigned, cancel search
-				//
+					ONode root = new ONode(sortedUnassignedPeople, assignedPpl, sortedAvailRooms);
+					OTree oTree = new OTree(root);
+					//***Print number of people and rooms.
+					System.out.println("Number of assigned people:" + assignedPpl.size());
+					System.out.println("Number of unassigned people:" + sortedUnassignedPeople.size());
+					System.out.println("Number of avail rooms:" + sortedAvailRooms.size());
+					//***//
+					root.search(deadLine);
+				} else {
+					//everyone is already assigned.
+					System.out.println("All assignments in the input file are already completed. Goodbye!");
+					writeOutputFile("All assignments in the input file are already completed.");
+				}
+				
+			}
+			
+
+		 }
 			
 		}
 	
 	
-	public static void setAssignment(ArrayList<Person> assignment, int penalty, int totalNodes, int totalLeaves){
-		ArrayList<Person> current_assignment = new ArrayList<>(assignment);
-		current_penalty = penalty;
+	public static String prepareWriteString(int totalNodes, int totalLeaves){
 		System.out.println("### Printing Final Assignment ###");
 		StringBuilder stringtowrite = new StringBuilder();
 		for (Person p : current_assignment){
@@ -272,10 +217,15 @@ public class SisyphusI {
 			stringtowrite.append("assign-to(" + p.getName() + ", " + p.getRoom().getName() + ")\n");
 		}
 		stringtowrite.append("//Attributes: complete, solved, utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
-		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " leaves\n");
+		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solution(s) found\n");
 		System.out.println(stringtowrite.toString());
-		writeOutputFile(stringtowrite.toString());
-
+		return stringtowrite.toString();
+		
+	}
+	
+	public static void setAssignment(ArrayList<Person> assignment, int penalty){
+		current_assignment = new ArrayList<>(assignment);
+		current_penalty = penalty;
 	}
 	
 	
@@ -317,20 +267,20 @@ public class SisyphusI {
 	/**
 	 * @return
 	 */
-	private ArrayList<Person> getSortedPersonList() {
-		ArrayList<Person> sortedPeople = new ArrayList<>((Person.getPersonList()).values());
-		Collections.sort(sortedPeople);
-		Collections.reverse(sortedPeople);
-		return sortedPeople;
+	private ArrayList<Person> getSortedPersonList(ArrayList<Person> unsortedPeople) {
+		//ArrayList<Person> sortedPeople = new ArrayList<>((Person.getPersonList()).values());
+		Collections.sort(unsortedPeople);
+		Collections.reverse(unsortedPeople);
+		return unsortedPeople;
 	}
 
 	/**
 	 * @return
 	 */
-	private ArrayList<Room> getSortedRoomList() {
-		ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
-		Collections.sort(rooms);
-		Collections.reverse(rooms);
-		return rooms;
+	private ArrayList<Room> getSortedRoomList(ArrayList<Room> unsortedRoom) {
+		//ArrayList<Room> rooms = new ArrayList<>((Room.getRooms()).values());
+		Collections.sort(unsortedRoom);
+		Collections.reverse(unsortedRoom);
+		return unsortedRoom;
 	}
 }

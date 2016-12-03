@@ -1,7 +1,9 @@
-person(person2)
-person(person1)
+heads-group(grpHead1,group1)
 secretary(secratary1)
-secretary(secratary2)
+
+assign-to(secratary1, largeRm1)
 
 large-room(largeRm1)
 small-room(smallRm1)
+
+close(largeRm1,smallRm1)

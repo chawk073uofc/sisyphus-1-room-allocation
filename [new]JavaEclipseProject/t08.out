@@ -1,24 +1,5 @@
-person(secratary2)
-secretary(secratary2)
-
-person(person2)
-
-person(person1)
-
-person(secratary1)
-secretary(secratary1)
-
-
-
-room(largeRm1)
-large-room(largeRm1)
-
-room(smallRm1)
-small-room(smallRm1)
-
-
-
-
-
-
+assign-to(secratary1, largeRm1)
+assign-to(grpHead1, smallRm1)
+//Attributes: complete, solved, utility=0, 2/2 people assgined.
+//searched 3 nodes, including 1 solution(s) found
 

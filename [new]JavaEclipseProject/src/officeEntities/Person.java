@@ -1,5 +1,6 @@
 package officeEntities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -226,6 +227,27 @@ public class Person extends Entity
 		return (this.hasAttribute(Attribute.GROUP_HEAD)
 				|| this.hasAttribute(Attribute.MANAGER)
 				|| this.hasAttribute(Attribute.PROJECT_HEAD));
+	}
+	
+	public static ArrayList<Person> getAssignedPeople(){
+		ArrayList<Person> assignedPeople = new ArrayList<>();
+		for(Person p: people.values()){
+			if(p.homeRoom!=null){
+				assignedPeople.add(p);
+			}
+		}
+		return assignedPeople;
+	}
+	
+	
+	public static ArrayList<Person> getUnAssignedPeople(){
+		ArrayList<Person> unassignedPeople = new ArrayList<>();
+		for(Person p: people.values()){
+			if(p.homeRoom==null){
+				unassignedPeople.add(p);
+			}
+		}
+		return unassignedPeople;
 	}
 	
 }

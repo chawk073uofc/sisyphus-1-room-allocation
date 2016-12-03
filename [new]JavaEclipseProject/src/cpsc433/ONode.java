@@ -55,10 +55,10 @@ public class ONode extends DefaultMutableTreeNode {
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, ArrayList<Room> availableRooms){
 		totalNodes++;
-		unassigned = unassignedPpl;
-		assigned = assignedPpl;
+		this.unassigned = unassignedPpl;
+		this.assigned = assignedPpl;
 		this.availableRooms = availableRooms;
-		f_leaf_value = SearchControl.f_leaf((Person[]) assignedPpl.toArray());
+		//this.f_leaf_value = SearchControl.f_leaf ((Person[])assignedPpl.toArray());
 	}
 	/**
 	 * Constructor for child node.
@@ -111,13 +111,12 @@ public class ONode extends DefaultMutableTreeNode {
 	}
 	
 	public void search(long deadLine){
-		
 		if(System.currentTimeMillis()>=deadLine){
 			if(!oneSolFound){
 				StringBuilder tempStr = new StringBuilder();
 				// Attributes: complete, solved, utility=-407, 15/15 people assigned.
 				tempStr.append("//Attributes: incomplete, unsolved, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
-				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " leaves\n");
+				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " 	");
 				SisyphusI.writeOutputFile(tempStr.toString());
 			}
 			System.exit(0);
@@ -129,7 +128,8 @@ public class ONode extends DefaultMutableTreeNode {
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
 				//System.out.println("saving");
 				oneSolFound = true;
-				SisyphusI.setAssignment(this.assigned, this.f_leaf_value, totalNodes, totalLeaves);
+				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
+				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
 			this.checked = true;
 			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
@@ -180,9 +180,16 @@ public class ONode extends DefaultMutableTreeNode {
 			} else {
 				//System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
 			}
+			
+			if(personToAssign.isBoss()){
+				if(!Room.hasEmptyRoom(availableRooms)){
+					System.out.println("Dead end situation");
+					System.exit(0);
+				}
+			}
+			
 			for (Room r : availableRooms){ // Create one child for each room
 				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
-
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 
