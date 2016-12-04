@@ -878,6 +878,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
+					if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho. //Added by ali on sat
 					if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if p is not close to that person: penalty
 						//System.out.println("Penalty 2 on person: " + p.getName());
 						return -2;
@@ -896,6 +897,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
 					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
+						if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho.
 						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
 							//System.out.println("Penalty 3 on person: " + p.getName());
 							return 0; // if a match is found, no penalty
@@ -926,6 +928,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
 					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
+						if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho.
 						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
 							return 0; // if a match is found, no penalty
 						}	
@@ -961,6 +964,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
+					if (person_entry.getValue().getRoom()==null) return 0;//added by ali on sat not sure if it is correct
 					if (!p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if the manager p isn't close to the member
 						//System.out.println("Penalty 7 on person: " + p.getName());
 						return -2;
@@ -997,6 +1001,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				for (Map.Entry<String, Group> g_entry: p_groups.entrySet()){ 
 					for (Map.Entry<String, Person> person_entry : g_entry.getValue().getMembers().entrySet()){ // for every person in the group
 						if (person_entry.getValue().hasAttribute(Attribute.SECRETARY)){
+							if (person_entry.getValue().getRoom()==null) return 0;//added by ali on sat not sure if it is correct
 							if (p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if large project head p is close to a secretary
 								return 0;
 							}
