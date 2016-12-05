@@ -171,8 +171,8 @@ public class SisyphusI {
 				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
 
 				ArrayList<Room> rooms = Room.getAvailableRooms();
-				ArrayList<Room> sotredRooms = getSortedRoomList(rooms);
-				ONode root = new ONode(sortedPeople, sotredRooms);
+				ArrayList<Room> sortedRooms = getSortedRoomList(rooms);
+				ONode root = new ONode(sortedPeople, sortedRooms);
 				OTree oTree = new OTree(root);
 				//***Print number of people and rooms.
 				System.out.println("Number of people:" + sortedPeople.size());
