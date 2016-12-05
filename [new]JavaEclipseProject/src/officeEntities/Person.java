@@ -148,6 +148,12 @@ public class Person extends Entity
 		homeRoom.addOccupant(this);
 	}
 	/**
+	 * Clears this persons home-room.
+	 */
+	public void clearRoomAssignment() {
+		this.homeRoom = null;
+	}
+	/**
 	 * String representation of person. String contains information about all the 
 	 * person's colleagues and attributes.
 	 * @return a string representation of a person

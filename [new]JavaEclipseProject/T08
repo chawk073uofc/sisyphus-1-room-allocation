@@ -1,9 +1,16 @@
-heads-group(grpHead1,group1)
-secretary(secratary1)
-
-assign-to(secratary1, largeRm1)
+person(andy)
+manager(manA)
+secretary(secB)
+person(Tom1)
+person(andy2)
+manager(manA2)
+secretary(secB2)
+person(Tom12)
 
 large-room(largeRm1)
 small-room(smallRm1)
+large-room(largeRm2)
+small-room(smallRm3)
+small-room(smallRm4)
 
 close(largeRm1,smallRm1)

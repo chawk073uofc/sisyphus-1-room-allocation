@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -22,7 +23,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private static int totalLeaves = 0;
 	private static int totalAssigned = 0;
 	private static boolean oneSolFound = false;
-	
+	public static boolean checkAllNodes = true;
 	
 	private ArrayList<Person> unassigned = new ArrayList<Person>();
 	private ArrayList<Person> assigned = new ArrayList<Person>();
@@ -31,7 +32,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
 	private boolean checked = false;
-
+	private ONode optimalReturnNode = null;
 	
 	
 	/**
@@ -87,119 +88,100 @@ public class ONode extends DefaultMutableTreeNode {
 			assigned.add(assignedPpl.get(i));
 		}
 	}
-	
-	private boolean isChecked(){
-		return checked;
-	}
-	private void setChecked(boolean checked){
-		this.checked = checked;
-	}
-	
-	private void clearOtherRooms(){
-		if(!this.isRoot()){
-			for(Room currRoom: availableRooms){
-				if(!currRoom.equals(this.getNodesRoom())){
-					//System.out.println("Removing 1"+ this.thisNodesPerson.getName() + " from room: " + currRoom.getName());
-					currRoom.getOccupants().remove(this.thisNodesPerson.getName());
-				}
-			}
-		} 
-	}
+
 	
 	public void search(long deadLine){
 		if(System.currentTimeMillis()>=deadLine){
 			if(!oneSolFound){
 				StringBuilder tempStr = new StringBuilder();
 				// Attributes: complete, solved, utility=-407, 15/15 people assigned.
-				tempStr.append("//Attributes: incomplete, unsolved, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
-				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " 	");
+				tempStr.append("//Attributes: incomplete, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
+				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solutions found");
 				SisyphusI.writeOutputFile(tempStr.toString());
 			}
 			System.exit(0);
 		}
-		
+		//ONCE a solution is found
 		if(this.isLeaf()){
 			totalLeaves++;
-			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			//save it if it is the best one
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
-				//System.out.println("saving");
+				System.out.println("saving");
 				oneSolFound = true;
 				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
+			//figure out how far to the tree to return, at the moment it is 90% of the way up
+			int returnToIndex = (int)Math.round(this.getLevel()*0.1);
+			ONode returnTo =(ONode) this.getPath()[returnToIndex];
+			returnTo.checked=false;
+			//set the return to and parent of return to as unchecked so when we climb we stop at them
+			if(returnToIndex-1>0) {
+				ONode returnToParent =(ONode) this.getPath()[returnToIndex-1];
+				returnToParent.checked=false;
+			 }
+			//set the parent and grandparent of the solution node as unchecked so we can look in the proximity for a better solution
+			ONode parentNode = (ONode) this.getParent();
+			ONode grandParentNode = (ONode) this.getParent();
 			this.checked = true;
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
-			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
+			parentNode.checked=false;
+			grandParentNode.checked=false;
 		}else{
+			//if there are no kids and it is set to unchecked then expand it
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
 				expandNode();
 			}
-			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
+			
 			ONode bestChild = SearchControl.f_select(this.children);
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
-			
 			bestChild.search(deadLine);
 		}
+		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		
-		if(this.isRoot()){
-			//System.out.println("##ROOT##");
-			for(Room currRoom: availableRooms){
-				currRoom.getOccupants().clear();
-			}
-		}
-		System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
-		if(this.getChildCount()>0){
-			ONode temp_Child = SearchControl.f_select(this.children);
-			try{
-				ONode temp_GrandChild = (ONode) temp_Child.getFirstChild();
-				//System.out.println("Now checking other children of: " + this.hashCode());
-				this.search(deadLine);
-			}catch(NoSuchElementException e){
-				if(temp_Child.getUnassignedList().isEmpty() == true){
-					this.removeFromParent();
-				}
-				else{
-					System.out.println("Now checking other children of: " + this.hashCode());
-					this.search(deadLine);
-				}	
-			}
+		//if there are kids and it is unchecked then search its kids remove the && checked == false to check everynode.
+		if((this.getChildCount()>0 && checked == false && checkAllNodes == false)|| (this.getChildCount()>0 && checked == true && checkAllNodes == true)){
+			this.search(deadLine);
 		} else if(!this.isRoot()) {
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
-			//System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			this.removeFromParent();
 		}
 	}
 	
 	private void expandNode(){
-		clearOtherRooms();
-		ArrayList<Person> newUnassigned = new ArrayList(unassigned);
-		ArrayList<Person> newAssigned = new ArrayList(assigned);
+		for(Room currRoom: availableRooms){
+			currRoom.getOccupants().clear();
+		}
+		for(Person unassignedPerson: unassigned){
+			unassignedPerson.clearRoomAssignment();
+		}
+		ArrayList<Person> newUnassigned = new ArrayList<Person>(unassigned);
+		ArrayList<Person> newAssigned = new ArrayList<Person>(assigned);
 			
 		Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			if(this.isRoot()){
-				System.out.println("Starting at Root HASH:" + this.hashCode());
+				//System.out.println("Starting at Root HASH:" + this.hashCode());
 			} else {
-				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
+				//System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
 			}
 			
 			if(personToAssign.isBoss()){
 				if(!Room.hasEmptyRoom(availableRooms)){
-					System.out.println("Dead end situation");
+					//System.out.println("Dead end situation");
 					System.exit(0);
 				}
 			}
 			
 			for (Room r : availableRooms){ // Create one child for each room
-				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
+				ArrayList<Room> newAvailableRooms = new ArrayList<Room>(availableRooms);
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 
 				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
 				this.add(newNode);
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
-				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
+				//System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}

@@ -171,13 +171,18 @@ public class SisyphusI {
 				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
 
 				ArrayList<Room> rooms = Room.getAvailableRooms();
-				ArrayList<Room> sotredRooms = getSortedRoomList(rooms);
-				ONode root = new ONode(sortedPeople, sotredRooms);
+				ArrayList<Room> sortedRooms = getSortedRoomList(rooms);
+				ONode root = new ONode(sortedPeople, sortedRooms);
 				OTree oTree = new OTree(root);
 				//***Print number of people and rooms.
 				System.out.println("Number of people:" + sortedPeople.size());
 				System.out.println("Number of rooms:" + rooms.size());
 				//***//
+				if(sortedPeople.size()>9 && rooms.size() > 9) {
+					ONode.checkAllNodes=false;
+				}else{
+					ONode.checkAllNodes=true;
+				}
 				root.search(deadLine);
 			}else{
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
@@ -188,6 +193,7 @@ public class SisyphusI {
 					ArrayList<Room> sortedAvailRooms = getSortedRoomList(availRooms);
 					
 					ONode root = new ONode(sortedUnassignedPeople, assignedPpl, sortedAvailRooms);
+					
 					OTree oTree = new OTree(root);
 					//***Print number of people and rooms.
 					System.out.println("Number of assigned people:" + assignedPpl.size());
@@ -198,14 +204,17 @@ public class SisyphusI {
 				} else {
 					//everyone is already assigned.
 					System.out.println("All assignments in the input file are already completed. Goodbye!");
+					// DELETE AFTER //
+					ArrayList<Person> test_ppl = Person.getAssignedPeople();
+					Person list[] = new Person[0];
+					for (Person p : test_ppl){
+						System.out.println(SearchControl.f_leaf(p, list));
+					}
+					// ************ //
 					writeOutputFile("All assignments in the input file are already completed.");
-				}
-				
+				}		
 			}
-			
-
-		 }
-			
+		 }	
 		}
 	
 	
@@ -216,9 +225,9 @@ public class SisyphusI {
 			//System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
 			stringtowrite.append("assign-to(" + p.getName() + ", " + p.getRoom().getName() + ")\n");
 		}
-		stringtowrite.append("//Attributes: complete, solved, utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
+		stringtowrite.append("//utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
 		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solution(s) found\n");
-		//System.out.println(stringtowrite.toString());
+		System.out.println(stringtowrite.toString());
 		return stringtowrite.toString();
 		
 	}
