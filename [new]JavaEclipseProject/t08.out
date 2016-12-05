@@ -1,5 +1,7 @@
-assign-to(secratary1, largeRm1)
-assign-to(grpHead1, smallRm1)
-//Attributes: complete, solved, utility=0, 2/2 people assgined.
-//searched 3 nodes, including 1 solution(s) found
+assign-to(manA, largeRm1)
+assign-to(secB, largeRm2)
+assign-to(andy, smallRm2)
+assign-to(Tom1, smallRm1)
+//Attributes: complete, solved, utility=-20, 4/4 people assgined.
+//searched 14 nodes, including 1 solution(s) found
 
