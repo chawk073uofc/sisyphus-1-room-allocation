@@ -1,0 +1,5 @@
+assign-to(B, r1)
+assign-to(A, r2)
+//utility=-75, 2/2 people assgined.
+//searched 4 nodes, including 1 solution(s) found
+

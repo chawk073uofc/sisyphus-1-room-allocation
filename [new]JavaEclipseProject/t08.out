@@ -1,24 +1,6 @@
-person(secratary2)
-secretary(secratary2)
-
-person(person2)
-
-person(person1)
-
-person(secratary1)
-secretary(secratary1)
-
-
-
-room(largeRm1)
-large-room(largeRm1)
-
-room(smallRm1)
-small-room(smallRm1)
-
-
-
-
-
-
+assign-to(manA, largeRm1)
+assign-to(secB, smallRm4)
+assign-to(andy, smallRm1)
+//utility=0, 3/3 people assgined.
+//searched 5 nodes, including 1 solution(s) found
 

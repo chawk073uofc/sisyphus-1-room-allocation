@@ -1,0 +1,8 @@
+project(A, "lol")
+heads-project(A, "lol")
+large-project("lol")
+large-room(r1)
+group(A, group)
+heads-group(B, group)
+large-room(r2)
+close(r1, r2)

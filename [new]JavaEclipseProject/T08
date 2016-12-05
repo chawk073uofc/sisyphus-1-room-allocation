@@ -1,7 +1,11 @@
-person(person2)
-person(person1)
-secretary(secratary1)
-secretary(secratary2)
+person(andy)
+manager(manA)
+secretary(secB)
+
+assign-to(manA, largeRm1)
 
 large-room(largeRm1)
 small-room(smallRm1)
+small-room(smallRm4)
+
+close(largeRm1,smallRm1)

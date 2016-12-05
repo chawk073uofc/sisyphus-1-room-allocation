@@ -1,5 +1,6 @@
 package officeEntities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
@@ -41,7 +42,7 @@ public class Person extends Entity
 		//people.add(this);
 	}
 	/**
-	 * Compares this Person object to the given object.
+	 * Compares this Person object to the given object on the basis of these peoples ranking attribute (see {@link #getRankingAttribute()}).
 	 * @param p	person object to compare
 	 * @return negative number if p has a higher-ranking ranking attribute than this person
 	 * 		   positive number if p has a lower-ranking ranking attribute than this person
@@ -55,7 +56,6 @@ public class Person extends Entity
 		}
 	    else throw new java.lang.ClassCastException();
 	}
-
 	/**
 	 * Adds the given attribute to the person's list of attributes if it is not already there. 
 	 * @param personAttribute	the attribute to be added (e.g. "smoker")
@@ -64,7 +64,6 @@ public class Person extends Entity
 		if(!attributes.contains(personAttribute))
 			attributes.add(personAttribute);
 	}
-
 	/**
 	 * Returns true if an Person object with the same name already exists.
 	 * @param name	the name of a person who may or may not exist
@@ -73,7 +72,6 @@ public class Person extends Entity
 	public static boolean exists(String name){
 		return people.containsKey(name);
 	}
-
 	/**
 	 * Returns an object representing a person with a given name , if such person exists.
 	 * @param name the name of a person who may or may not exist
@@ -92,9 +90,8 @@ public class Person extends Entity
 	 * @return true if the given attribute is included in the person's list of attributes.
 	 */
 	public boolean hasAttribute(Attribute personAttr) {
-		return attributes.contains(personAttr);//O(1)
+		return attributes.contains(personAttr);
 	}
-
 	/**
 	 * Adds the group with the given name to the list of groups with which this person is associated. 
 	 * Creates the group if it does not exist.
@@ -114,8 +111,8 @@ public class Person extends Entity
 	 * @param colleague the person to add to this person's list of colleagues
 	 */
 	public void addColleague(Person colleague) {
-		if (!colleagues.containsKey(colleague.getName())){ //O(1)
-			colleagues.put(colleague.getName(), colleague); //O(1)
+		if (!colleagues.containsKey(colleague.getName())){ 
+			colleagues.put(colleague.getName(), colleague); 
 		}
 	/**
 	 * Adds the project with the given name to this list of projects with which this person is associated. 
@@ -147,9 +144,15 @@ public class Person extends Entity
 		homeRoom.addOccupant(this);
 	}
 	/**
-	 * String representation of person. String contains information about all the 
-	 * person's colleagues and attributes.
-	 * @return a string representation of a person
+	 * Clears this persons home-room.
+	 */
+	public void clearRoomAssignment() {
+		this.homeRoom = null;
+	}
+	/**
+	 * String representation of person. String lists information about all the 
+	 * person's colleagues and attributes in the form of logical predicates.
+	 * @return personString a string representation of a person
 	 */
 	@Override
 	public String toString(){
@@ -164,8 +167,8 @@ public class Person extends Entity
 	}
 	/**
 	 * Builds a string representing all the Person objects instantiated by calling the
-	 * toString() method of each. 
-	 * @return a string representing all known information about all people
+	 * <code>toString()</code> method of each. 
+	 * @return peopleString a string representing all known information about all people
 	 */
 	public static String peopleInfoString(){
 		String peopleStr = "";
@@ -175,34 +178,45 @@ public class Person extends Entity
 		
 		return peopleStr;
 	}
-	
+	/**
+	 * Assesses the number of people that exist in the knowledge base. 
+	 * @return numPeople the number of people that exist in the knowledge base
+	 */
 	public static int numberOfPeople() {
 		return people.size();
 	}
+	/**
+	 * Getter for the room to which this person is assigned. 
+	 * @return homeRoom the room to which this person is assigned
+	 */
 	public Room getRoom(){
 		return homeRoom;
 	}
-	
+	/**
+	 * Getter for the list of projects of which this person is a member. 
+	 * @return projects the list of projects of which this person is a member.
+	 */
 	public Map<String,Project> getProjects(){
 		return projects;
 	}
-	
+	/**
+	 * not called?
+	 * @return
+	 */
 	public static HashMap<String, Person> getPersonList(){
 		return (HashMap<String, Person>) people;
 	}
-	
+	/**
+	 * Getter for the list of groups of which this person is a member. 
+	 * @return	groups	the list of groups of which this person is a member. 
+	 */
 	public Map<String, Group> getGroups(){
 		return groups;
 	}
 	/**
-	 * Computes the total soft  constraint penalty score for the person.
-	 * @return an integer representing the total penalty
+	 * Assesses the most important attribute (e.g. group-head, smoker) that this person has as defined by the {@link Attribute attribute} enum.
+	 * @return rankingAttribute the most important attribute (e.g. group-head, smoker) that this person has as defined by the <code>Attribute</code> enum
 	 */
-	public int computePenalty(){
-		int penalty = 0;	
-		return penalty;
-	}
-	
 	public Attribute getRankingAttribute(){ 
 		Attribute highest = Attribute.PERSON;
 		for(Attribute a: attributes){
@@ -212,7 +226,10 @@ public class Person extends Entity
 		}
 		return highest;
 	}
-	
+	/**
+	 * Assesses the number of people who are in a management position as defined by <code>isBoss()<\code>.
+	 * @return numBosses the number of people who are in a management position as defined by <code>isBoss()<\code>.
+	 */
 	public static int numberOfBosses() {
 		int numBosses = 0;
 		for (Person p: people.values()){
@@ -221,11 +238,41 @@ public class Person extends Entity
 		}
 		return numBosses;
 	}
-	
+	/**
+	 * Checks if the given person is in a management position (group-head, manager, or project-head)
+	 * @return true if the given person is either a group-head, manager, or project-head.
+	 */
 	public boolean isBoss(){
 		return (this.hasAttribute(Attribute.GROUP_HEAD)
 				|| this.hasAttribute(Attribute.MANAGER)
 				|| this.hasAttribute(Attribute.PROJECT_HEAD));
+	}
+	/**
+	 * Gets a list of people who have been assigned to a room.
+	 * @return assignedPeople	a list of people who have been assigned to a room
+	 */
+	public static ArrayList<Person> getAssignedPeople(){
+		ArrayList<Person> assignedPeople = new ArrayList<>();
+		for(Person p: people.values()){
+			if(p.homeRoom!=null){
+				assignedPeople.add(p);
+			}
+		}
+		return assignedPeople;
+	}
+	
+	/**
+	 * Gets a list of people who have not been assigned a room.
+	 * @return unassignedPeople	a list of people who have not been assigned a room.
+	 */
+	public static ArrayList<Person> getUnAssignedPeople(){
+		ArrayList<Person> unassignedPeople = new ArrayList<>();
+		for(Person p: people.values()){
+			if(p.homeRoom==null){
+				unassignedPeople.add(p);
+			}
+		}
+		return unassignedPeople;
 	}
 	
 }

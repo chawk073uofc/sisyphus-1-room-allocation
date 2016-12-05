@@ -1,0 +1,5 @@
+heads-group(gh1, pro1)
+small-room(r1)
+assign-to(gh1,r1)
+small-room(r2)
+person(p2)

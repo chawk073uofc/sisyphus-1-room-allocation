@@ -1,6 +1,7 @@
 
 package officeEntities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -132,7 +133,10 @@ public class Room extends Entity{
 	 * @return true if the person exists in the room.
 	 */
 	public boolean hasPerson(Person p){
-		return occupants.containsKey(p.getName());		
+		if(occupants.size()!=0){
+		return occupants.containsKey(p.getName());
+		}
+		return false;
 	}
 	
 	/**
@@ -209,10 +213,14 @@ public class Room extends Entity{
 	 * @return true if the person is a boss
 	 */
 	private boolean occupantIsBoss() {
-		Person occupant = (Person) occupants.values().toArray()[0];
-		return occupant.hasAttribute(Attribute.GROUP_HEAD) 
-				|| occupant.hasAttribute(Attribute.PROJECT_HEAD) 
-				|| occupant.hasAttribute(Attribute.MANAGER);
+		try{
+			Person occupant = (Person) occupants.values().toArray()[0];
+			return occupant.hasAttribute(Attribute.GROUP_HEAD) 
+					|| occupant.hasAttribute(Attribute.PROJECT_HEAD) 
+					|| occupant.hasAttribute(Attribute.MANAGER);
+		}catch(Exception e){
+			return false;
+		}
 	}
 	
 	public static HashMap<String, Room> getRooms(){
@@ -222,5 +230,27 @@ public class Room extends Entity{
 	public Map<String, Person> getOccupants(){
 		return occupants;
 	}
+	
+	public static ArrayList<Room> getAvailableRooms(){
+		ArrayList<Room> availableRooms = new ArrayList<>();
+		for(Room r: rooms.values()){
+			if(!r.isFull()){
+				availableRooms.add(r);
+			}
+		}
+		return availableRooms;
+	}
+	
+	public static boolean hasEmptyRoom(ArrayList<Room> roomsToCheck){
+		for(Room r: roomsToCheck){
+			if(r.isEmptyRoom()) return true;
+		}
+		return false;
+	}
+	
+	public boolean isEmptyRoom(){
+		return (occupants.size()==0);
+	}
+	
 	
 }

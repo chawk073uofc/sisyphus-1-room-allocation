@@ -1,53 +1,8 @@
-person(p1)
-secretary(p1)
-
-person(p2)
-secretary(p2)
-
-person(p3)
-secretary(p3)
-
-person(p4)
-secretary(p4)
-
-person(p5)
-secretary(p5)
-
-
-
-room(C5120)
-large-room(C5120)
-
-room(C5121)
-medium-room(C5121)
-
-room(C5122)
-medium-room(C5122)
-
-room(C5123)
-medium-room(C5123)
-
-room(C5113)
-small-room(C5113)
-
-room(C5114)
-small-room(C5114)
-
-room(C5115)
-small-room(C5115)
-
-room(C5116)
-small-room(C5116)
-
-room(C5117)
-large-room(C5117)
-
-room(C5119)
-large-room(C5119)
-
-
-
-
-
-
+assign-to(p5, C5119)
+assign-to(p4, C5117)
+assign-to(p3, C5120)
+assign-to(p2, C5123)
+assign-to(p1, C5122)
+//utility=0, 5/5 people assgined.
+//searched 51 nodes, including 1 solution(s) found
 
