@@ -163,7 +163,7 @@ public class SisyphusI {
 		}
 		else if(Person.numberOfPeople() > (Room.buildingCapacity() - Person.numberOfBosses())){
 			System.out.println("Not enough rooms for bosses.");		
-		} else { 
+		} else if(Person.numberOfPeople()>0){ 
 			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
 			if(Person.getAssignedPeople().isEmpty()){
 				System.out.println("Beginning search.");
@@ -184,7 +184,7 @@ public class SisyphusI {
 					ONode.checkAllNodes=true;
 				}
 				root.search(deadLine);
-			}else{
+			}else if(Person.numberOfPeople()>0){
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
 				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
 				ArrayList<Room> availRooms = Room.getAvailableRooms();

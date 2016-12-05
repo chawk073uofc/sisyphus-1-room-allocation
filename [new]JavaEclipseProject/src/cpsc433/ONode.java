@@ -32,7 +32,6 @@ public class ONode extends DefaultMutableTreeNode {
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
 	private boolean checked = false;
-
 	
 	/**
 	 * Constructor for an empty root node (no assignments).
@@ -98,7 +97,9 @@ public class ONode extends DefaultMutableTreeNode {
 				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solutions found");
 				SisyphusI.writeOutputFile(tempStr.toString());
 			}
+			System.out.println("Time expired! Total Nodes Searched " + totalNodes + " total leaves/solutions: " +totalLeaves);
 			System.exit(0);
+			
 		}
 		if(this.isRoot()){
 			for(Room currRoom: availableRooms){
@@ -116,7 +117,7 @@ public class ONode extends DefaultMutableTreeNode {
 		//ONCE a solution is found
 		if(this.isLeaf()){
 			totalLeaves++;
-			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
 			//save it if it is the best one
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
 				System.out.println("saving");
@@ -125,7 +126,7 @@ public class ONode extends DefaultMutableTreeNode {
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
 			//figure out how far to the tree to return, at the moment it is 90% of the way up
-			int returnToIndex = (int)Math.round(this.getLevel()*0.3);
+			int returnToIndex = (int)Math.round(this.getLevel()*0.5);
 			ONode returnTo =(ONode) this.getPath()[returnToIndex];
 			returnTo.checked=false;
 			//set the return to and parent of return to as unchecked so when we climb we stop at them
@@ -135,10 +136,13 @@ public class ONode extends DefaultMutableTreeNode {
 			 }
 			//set the parent and grandparent of the solution node as unchecked so we can look in the proximity for a better solution
 			ONode parentNode = (ONode) this.getParent();
-			ONode grandParentNode = (ONode) parentNode.getParent();
+			if(parentNode.parent!=null){
+				ONode grandParentNode = (ONode) parentNode.getParent();
+				grandParentNode.checked=false;
+			}
 			this.checked = true;
 			parentNode.checked=false;
-			grandParentNode.checked=false;
+			
 		}else{
 			//if there are no kids and it is set to unchecked then expand it
 			if(this.getChildCount()==0 && checked == false){
@@ -154,13 +158,14 @@ public class ONode extends DefaultMutableTreeNode {
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			bestChild.search(deadLine);
 		}
-		System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size() + " checked: " + this.checked);
+		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size() + " checked: " + this.checked);
 		//if there are kids and it is unchecked then search its kids remove the && checked == false to check everynode.
 		if(this.getChildCount()>0 && checked == false){
 			this.search(deadLine);
 		} else if(!this.isRoot()) {
 			this.removeFromParent();
 			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			thisNodesPerson.clearRoomAssignment();
 		}
 	}
 	
@@ -178,18 +183,18 @@ public class ONode extends DefaultMutableTreeNode {
 		Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			if(this.isRoot()){
-				System.out.println("Starting at Root HASH:" + this.hashCode());
+				//System.out.println("Starting at Root HASH:" + this.hashCode());
 			} else {
-				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
+				//System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
 			}
-			/*
+			
 			if(personToAssign.isBoss()){
 				if(!Room.hasEmptyRoom(availableRooms)){
 					System.out.println("Dead end situation");
 					System.exit(0);
 				}
 			}
-			*/
+			
 			
 			for (Room r : availableRooms){ // Create one child for each room
 				ArrayList<Room> newAvailableRooms = new ArrayList<Room>(availableRooms);
@@ -201,7 +206,7 @@ public class ONode extends DefaultMutableTreeNode {
 				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
 				this.add(newNode);
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
-				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
+				//System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
 			}					
 			
 	}	
