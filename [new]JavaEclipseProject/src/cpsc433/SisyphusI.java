@@ -184,6 +184,7 @@ public class SisyphusI {
 					ONode.checkAllNodes=true;
 				}
 				root.search(deadLine);
+				//asdfsadf
 			}else if(Person.numberOfPeople()>0){
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
 				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
