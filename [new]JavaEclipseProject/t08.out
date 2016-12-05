@@ -1,7 +1,11 @@
-assign-to(manA, smallRm2)
-assign-to(secB, largeRm1)
-assign-to(andy, smallRm1)
-assign-to(Tom1, largeRm1)
-//utility=-32, 4/4 people assgined.
-//searched 16 nodes, including 3 solution(s) found
+assign-to(manA2, smallRm4)
+assign-to(manA, largeRm1)
+assign-to(secB, smallRm3)
+assign-to(secB2, smallRm1)
+assign-to(andy, largeRm2)
+assign-to(andy2, largeRm2)
+assign-to(Tom1, largeRm2)
+assign-to(Tom12, largeRm2)
+//utility=-82, 8/8 people assgined.
+//searched 2703 nodes, including 595 solution(s) found
 

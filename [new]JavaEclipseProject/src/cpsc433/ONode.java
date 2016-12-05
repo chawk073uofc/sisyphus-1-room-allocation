@@ -23,7 +23,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private static int totalLeaves = 0;
 	private static int totalAssigned = 0;
 	private static boolean oneSolFound = false;
-	
+	public static boolean checkAllNodes = true;
 	
 	private ArrayList<Person> unassigned = new ArrayList<Person>();
 	private ArrayList<Person> assigned = new ArrayList<Person>();
@@ -140,8 +140,8 @@ public class ONode extends DefaultMutableTreeNode {
 		}
 		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		
-		//if there are kids and it is unchecked then search its kids
-		if(this.getChildCount()>0 && checked == false){
+		//if there are kids and it is unchecked then search its kids remove the && checked == false to check everynode.
+		if((this.getChildCount()>0 && checked == false && checkAllNodes == false)|| (this.getChildCount()>0 && checked == true && checkAllNodes == true)){
 			this.search(deadLine);
 		} else if(!this.isRoot()) {
 			this.removeFromParent();

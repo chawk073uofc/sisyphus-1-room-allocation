@@ -1,12 +1,12 @@
 assign-to(p10, r7)
-assign-to(p9, r6)
-assign-to(p11, r5)
-assign-to(p12, r1)
+assign-to(p9, r1)
+assign-to(p11, r6)
+assign-to(p12, r5)
 assign-to(p6, r4)
 assign-to(p5, r3)
 assign-to(p4, r2)
 assign-to(p3, r4)
-assign-to(p1, r2)
-//Attributes: complete, solved, utility=-119, 9/9 people assgined.
-//searched 221 nodes, including 55 solution(s) found
+assign-to(p1, r4)
+//utility=-101, 9/9 people assgined.
+//searched 110 nodes, including 10 solution(s) found
 

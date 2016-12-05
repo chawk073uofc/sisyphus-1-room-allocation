@@ -178,6 +178,11 @@ public class SisyphusI {
 				System.out.println("Number of people:" + sortedPeople.size());
 				System.out.println("Number of rooms:" + rooms.size());
 				//***//
+				if(sortedPeople.size()>9 && rooms.size() > 9) {
+					ONode.checkAllNodes=false;
+				}else{
+					ONode.checkAllNodes=true;
+				}
 				root.search(deadLine);
 			}else{
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
@@ -188,6 +193,7 @@ public class SisyphusI {
 					ArrayList<Room> sortedAvailRooms = getSortedRoomList(availRooms);
 					
 					ONode root = new ONode(sortedUnassignedPeople, assignedPpl, sortedAvailRooms);
+					
 					OTree oTree = new OTree(root);
 					//***Print number of people and rooms.
 					System.out.println("Number of assigned people:" + assignedPpl.size());
