@@ -84,6 +84,8 @@ public class Group extends Entity {
 		
 		//add group-head to person's attribute list
 		personObj.addAttribute(Attribute.GROUP_HEAD);
+		//add group to person's groups structure
+		personObj.addGroup(this.getName());
 		
 	}
 	/**

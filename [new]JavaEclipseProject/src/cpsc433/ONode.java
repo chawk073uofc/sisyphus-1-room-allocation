@@ -31,7 +31,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
 	private boolean checked = false;
-
+	private ONode optimalReturnNode = null;
 	
 	
 	/**
@@ -87,24 +87,7 @@ public class ONode extends DefaultMutableTreeNode {
 			assigned.add(assignedPpl.get(i));
 		}
 	}
-	
-	private boolean isChecked(){
-		return checked;
-	}
-	private void setChecked(boolean checked){
-		this.checked = checked;
-	}
-	
-	private void clearOtherRooms(){
-		if(!this.isRoot()){
-			for(Room currRoom: availableRooms){
-				if(!currRoom.equals(this.getNodesRoom())){
-					//System.out.println("Removing 1"+ this.thisNodesPerson.getName() + " from room: " + currRoom.getName());
-					currRoom.getOccupants().remove(this.thisNodesPerson.getName());
-				}
-			}
-		} 
-	}
+
 	
 	public void search(long deadLine){
 		if(System.currentTimeMillis()>=deadLine){
@@ -117,19 +100,19 @@ public class ONode extends DefaultMutableTreeNode {
 			}
 			System.exit(0);
 		}
-		
 		if(this.isLeaf()){
 			totalLeaves++;
-			System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
-				//System.out.println("saving");
+				System.out.println("saving");
 				oneSolFound = true;
 				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
 			this.checked = true;
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
+			
 		}else{
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
@@ -137,56 +120,38 @@ public class ONode extends DefaultMutableTreeNode {
 			}
 			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
 			ONode bestChild = SearchControl.f_select(this.children);
+			//if(bestChild==null) return;
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
-			
 			bestChild.search(deadLine);
 		}
-		
-		if(this.isRoot()){
-			//System.out.println("##ROOT##");
-			for(Room currRoom: availableRooms){
-				currRoom.getOccupants().clear();
-			}
-		}
-		System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
+		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		if(this.getChildCount()>0){
-			ONode temp_Child = SearchControl.f_select(this.children);
-			try{
-				ONode temp_GrandChild = (ONode) temp_Child.getFirstChild();
-				//System.out.println("Now checking other children of: " + this.hashCode());
-				this.search(deadLine);
-			}catch(NoSuchElementException e){
-				if(temp_Child.getUnassignedList().isEmpty() == true){
-					this.removeFromParent();
-				}
-				else{
-					System.out.println("Now checking other children of: " + this.hashCode());
-					this.search(deadLine);
-				}	
-			}
+			this.search(deadLine);
 		} else if(!this.isRoot()) {
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			this.removeFromParent();
 		}
 	}
 	
 	private void expandNode(){
-		clearOtherRooms();
+		for(Room currRoom: availableRooms){
+			currRoom.getOccupants().clear();
+		}
 		ArrayList<Person> newUnassigned = new ArrayList(unassigned);
 		ArrayList<Person> newAssigned = new ArrayList(assigned);
 			
 		Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
 			if(this.isRoot()){
-				System.out.println("Starting at Root HASH:" + this.hashCode());
+				//System.out.println("Starting at Root HASH:" + this.hashCode());
 			} else {
-				System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
+				//System.out.println("ExpandingNode: (" + this.thisNodesPerson.getName() + ":" + this.thisNodesRoom.getName() + ":" + this.f_leaf_value + ") HASH:" + this.hashCode() + " #ofroomsavail: " + availableRooms.size());
 			}
 			
 			if(personToAssign.isBoss()){
 				if(!Room.hasEmptyRoom(availableRooms)){
-					System.out.println("Dead end situation");
+					//System.out.println("Dead end situation");
 					System.exit(0);
 				}
 			}
@@ -199,7 +164,7 @@ public class ONode extends DefaultMutableTreeNode {
 				ONode newNode = new ONode(newUnassigned, newAssigned, personToAssign, newAvailableRooms, r, personToAssign); // Create new node to add
 				this.add(newNode);
 				newNode.set_f_leaf(newNode.calc_f_leaf(personToAssign));
-				System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
+				//System.out.println("ChildAdded: (" + newNode.thisNodesPerson.getName() + ":" + newNode.thisNodesRoom.getName() + ":" + newNode.f_leaf_value + ") HASH:" + newNode.hashCode() + " #ofroomsavail: " + newAvailableRooms.size());
 				if(r.isFull()){
 					newAvailableRooms.remove(r);
 				}

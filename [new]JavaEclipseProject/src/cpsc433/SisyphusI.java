@@ -218,7 +218,7 @@ public class SisyphusI {
 		}
 		stringtowrite.append("//Attributes: complete, solved, utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
 		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solution(s) found\n");
-		//System.out.println(stringtowrite.toString());
+		System.out.println(stringtowrite.toString());
 		return stringtowrite.toString();
 		
 	}
