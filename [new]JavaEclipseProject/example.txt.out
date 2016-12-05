@@ -1,18 +1,18 @@
 assign-to(Thomas, C5119)
 assign-to(Hans, C5117)
 assign-to(Joachim, C5120)
-assign-to(Katharina, C5121)
-assign-to(Eva, C5115)
-assign-to(Ulrike, C5114)
-assign-to(Monika, C5123)
-assign-to(Andy, C5116)
-assign-to(Uwe, C5116)
-assign-to(Michael, C5113)
-assign-to(Werner, C5122)
+assign-to(Katharina, C5122)
+assign-to(Eva, C5121)
+assign-to(Ulrike, C5116)
+assign-to(Monika, C5115)
+assign-to(Andy, C5114)
+assign-to(Uwe, C5114)
+assign-to(Michael, C5116)
+assign-to(Werner, C5113)
 assign-to(Jurgen, C5123)
-assign-to(Harry, C5113)
-assign-to(Marc, C5122)
-assign-to(Angi, C5122)
-//Attributes: complete, solved, utility=-746, 15/15 people assgined.
-//searched 22552414 nodes, including 4334010 solution(s) found
+assign-to(Harry, C5123)
+assign-to(Marc, C5113)
+assign-to(Angi, C5115)
+//Attributes: complete, solved, utility=-289, 15/15 people assgined.
+//searched 2488396 nodes, including 1990651 solution(s) found
 

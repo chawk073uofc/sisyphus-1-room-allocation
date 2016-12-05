@@ -31,7 +31,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private Person thisNodesPerson = null;
 	private int f_leaf_value;
 	private boolean checked = false;
-
+	private ONode optimalReturnNode = null;
 	
 	
 	/**
@@ -87,24 +87,7 @@ public class ONode extends DefaultMutableTreeNode {
 			assigned.add(assignedPpl.get(i));
 		}
 	}
-	
-	private boolean isChecked(){
-		return checked;
-	}
-	private void setChecked(boolean checked){
-		this.checked = checked;
-	}
-	
-	private void clearOtherRooms(){
-		if(!this.isRoot()){
-			for(Room currRoom: availableRooms){
-				if(!currRoom.equals(this.getNodesRoom())){
-					//System.out.println("Removing 1"+ this.thisNodesPerson.getName() + " from room: " + currRoom.getName());
-					currRoom.getOccupants().remove(this.thisNodesPerson.getName());
-				}
-			}
-		} 
-	}
+
 	
 	public void search(long deadLine){
 		if(System.currentTimeMillis()>=deadLine){
@@ -117,7 +100,6 @@ public class ONode extends DefaultMutableTreeNode {
 			}
 			System.exit(0);
 		}
-		
 		if(this.isLeaf()){
 			totalLeaves++;
 			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
@@ -128,34 +110,9 @@ public class ONode extends DefaultMutableTreeNode {
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
 			this.checked = true;
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
-
-			if(this.parent!=null){
-				ONode parentNode = (ONode)this.getParent();
-				
-				if(!parentNode.isRoot()){
-					//System.out.println("marking parent of " +  this.hashCode() +  " parent: " + parentNode.hashCode());
-					parentNode.checked=true;
-					parentNode.removeAllChildren();
-					
-					parentNode.thisNodesRoom.getOccupants().remove(parentNode.thisNodesPerson.getName());
-					parentNode.removeFromParent();
-					
-					/*
-					if(parentNode.parent!=null){
-						ONode ancestorNode = (ONode)parentNode.getParent();
-						if(!ancestorNode.isRoot()){
-							ancestorNode.removeAllChildren();
-							ancestorNode.checked =true;
-						}
-					}
-					*/
-					//System.out.println("Removing form parent"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
-				}
-			}
-			
-			
+			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
+			
 		}else{
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
@@ -163,32 +120,24 @@ public class ONode extends DefaultMutableTreeNode {
 			}
 			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
 			ONode bestChild = SearchControl.f_select(this.children);
+			//if(bestChild==null) return;
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
-			
 			bestChild.search(deadLine);
-		}
-		
-		if(this.isRoot()){
-			//System.out.println("##ROOT##");
-			for(Room currRoom: availableRooms){
-				currRoom.getOccupants().clear();
-			}
 		}
 		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		if(this.getChildCount()>0){
-
-					this.search(deadLine);
-
+			this.search(deadLine);
 		} else if(!this.isRoot()) {
-			thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
+			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			this.removeFromParent();
-			
 		}
 	}
 	
 	private void expandNode(){
-		clearOtherRooms();
+		for(Room currRoom: availableRooms){
+			currRoom.getOccupants().clear();
+		}
 		ArrayList<Person> newUnassigned = new ArrayList(unassigned);
 		ArrayList<Person> newAssigned = new ArrayList(assigned);
 			
