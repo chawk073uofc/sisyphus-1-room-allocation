@@ -1,1 +1,5 @@
-All assignments in the input file are already completed.
+assign-to(gh1, r1)
+assign-to(p2, r2)
+//Attributes: complete, solved, utility=0, 2/2 people assgined.
+//searched 2 nodes, including 1 solution(s) found
+
