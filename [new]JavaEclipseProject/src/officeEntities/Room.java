@@ -133,7 +133,10 @@ public class Room extends Entity{
 	 * @return true if the person exists in the room.
 	 */
 	public boolean hasPerson(Person p){
-		return occupants.containsKey(p.getName());		
+		if(occupants.size()!=0){
+		return occupants.containsKey(p.getName());
+		}
+		return false;
 	}
 	
 	/**
