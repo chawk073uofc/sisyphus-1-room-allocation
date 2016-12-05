@@ -216,7 +216,7 @@ public class SisyphusI {
 			//System.out.println("Person " + p.getName() + " is assigned to room: " + p.getRoom().getName());
 			stringtowrite.append("assign-to(" + p.getName() + ", " + p.getRoom().getName() + ")\n");
 		}
-		stringtowrite.append("//Attributes: complete, solved, utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
+		stringtowrite.append("//utility=" +current_penalty+ ", " + Person.numberOfPeople() + "/" + Person.numberOfPeople() + " people assgined.\n");
 		stringtowrite.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solution(s) found\n");
 		System.out.println(stringtowrite.toString());
 		return stringtowrite.toString();
