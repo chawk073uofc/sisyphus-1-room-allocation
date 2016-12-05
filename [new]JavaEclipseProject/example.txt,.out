@@ -1,25 +1,3 @@
-person(A)
-
-person(B)
-works-with(B, C)
-
-person(C)
-works-with(C, B)
-
-
-
-room(r2)
-small-room(r2)
-assigned-to(B, r2)
-assigned-to(C, r2)
-
-room(r1)
-medium-room(r1)
-assigned-to(A, r1)
-
-
-
-
-
-
+//utility=0, 0/0 people assgined.
+//searched 1 nodes, including 1 solution(s) found
 
