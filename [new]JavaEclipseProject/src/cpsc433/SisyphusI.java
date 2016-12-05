@@ -198,6 +198,13 @@ public class SisyphusI {
 				} else {
 					//everyone is already assigned.
 					System.out.println("All assignments in the input file are already completed. Goodbye!");
+					// DELETE AFTER //
+					ArrayList<Person> test_ppl = Person.getAssignedPeople();
+					Person list[] = new Person[0];
+					for (Person p : test_ppl){
+						System.out.println(SearchControl.f_leaf(p, list));
+					}
+					// ************ //
 					writeOutputFile("All assignments in the input file are already completed.");
 				}
 				

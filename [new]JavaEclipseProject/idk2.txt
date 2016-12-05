@@ -1,3 +1,7 @@
 manager(p9)
 large-room(r1)
+secretary(p1)
+large-room(r2)
+close(r1, r2)
 assign-to(p9, r1)
+assign-to(p1, r2)
