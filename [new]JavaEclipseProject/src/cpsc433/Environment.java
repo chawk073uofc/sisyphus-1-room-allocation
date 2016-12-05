@@ -871,12 +871,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	public static int getPenalty2(Person p){
 		Map<String, Group> p_groups = p.getGroups();
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
+			//System.out.println("here");
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
-				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
-					if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho. //Added by ali on sat
-					if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if p is not close to that person: penalty
-						//System.out.println("Penalty 2 on person: " + p.getName());
-						return -2;
+				if (entry.getValue().getMembers().size() == 1){ // if person p is the only member of the group we return 0
+					// do nothing
+				}
+				else{
+					for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
+						if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho. //Added by ali on sat
+						if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if p is not close to that person
+							if (p.getRoom().getName() != entry_person.getValue().getRoom().getName()){
+								return -2;
+							}
+						}
 					}
 				}
 			}
@@ -890,11 +897,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		Map<String, Group> p_groups = p.getGroups();
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
+				int iter = 0;
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
 					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
 						if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho.
-						if (p.getRoom().isCloseTo(entry_person.getValue().getRoom())){
-							//System.out.println("Penalty 3 on person: " + p.getName());
+						if ((p.getRoom().isCloseTo(entry_person.getValue().getRoom())) || (p.getRoom().getName() == entry_person.getValue().getRoom().getName())){
 							return 0; // if a match is found, no penalty
 						}
 					}
@@ -919,6 +926,9 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// managers should be close to at least one secretary in their group //
 	public static int getPenalty5(Person p){
 		if (p.hasAttribute(Attribute.MANAGER)){
+			if (p.getGroups().size() == 0){ // If the manager is not a member of any groups then the penalty is 0
+				return 0;
+			}
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
@@ -958,11 +968,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
 			for (Map.Entry<String, Group> entry : p_groups.entrySet()){
-				for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
-					if (person_entry.getValue().getRoom()==null) return 0;//added by ali on sat not sure if it is correct
-					if (!p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if the manager p isn't close to the member
-						//System.out.println("Penalty 7 on person: " + p.getName());
-						return -2;
+				if (entry.getValue().getMembers().size() == 1){
+					// do nothing
+				}
+				else{
+					for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
+						if (person_entry.getValue().getRoom()==null) return 0;//added by ali on sat not sure if it is correct
+						if (!p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if the manager p isn't close to the member
+							//System.out.println("Penalty 7 on person: " + p.getName());
+							return -2;
+						}
 					}
 				}
 			}

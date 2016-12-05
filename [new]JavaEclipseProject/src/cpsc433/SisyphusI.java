@@ -206,13 +206,9 @@ public class SisyphusI {
 					}
 					// ************ //
 					writeOutputFile("All assignments in the input file are already completed.");
-				}
-				
+				}		
 			}
-			
-
-		 }
-			
+		 }	
 		}
 	
 	
