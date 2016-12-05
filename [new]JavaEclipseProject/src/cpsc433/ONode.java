@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -94,26 +95,47 @@ public class ONode extends DefaultMutableTreeNode {
 			if(!oneSolFound){
 				StringBuilder tempStr = new StringBuilder();
 				// Attributes: complete, solved, utility=-407, 15/15 people assigned.
-				tempStr.append("//Attributes: incomplete, unsolved, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
-				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " 	");
+				tempStr.append("//Attributes: incomplete, utility=null, " + assigned.size() + "/" + Person.numberOfPeople() + " people assgined.\n");
+				tempStr.append("//searched " + totalNodes + " nodes, including " + totalLeaves + " solutions found");
 				SisyphusI.writeOutputFile(tempStr.toString());
 			}
 			System.exit(0);
 		}
+		//ONCE a solution is found
 		if(this.isLeaf()){
 			totalLeaves++;
 			//System.out.println("This Node: " + this.hashCode() + "  can not be expanded further Pentalty:" + this.f_leaf_value); //print to file
+			//save it if it is the best one
 			if(this.f_leaf_value>SisyphusI.getCurrentPenaltyScore()){
 				System.out.println("saving");
 				oneSolFound = true;
 				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
+			
+			
+			
+			//figure out how far to the tree to return, at the moment it is 90% of the way up
+			int returnToIndex = (int)Math.round(this.getLevel()*0.1);
+			ONode returnTo =(ONode) this.getPath()[returnToIndex];
+			returnTo.checked=false;
+			//set the return to and parent of return to as unchecked so when we climb we stop at them
+			if(returnToIndex-1>0) {
+				ONode returnToParent =(ONode) this.getPath()[returnToIndex-1];
+				returnToParent.checked=false;
+			 }
+			//set the parent and grandparent of the solution node as unchecked so we can look in the proximity for a solution
+			ONode parentNode = (ONode) this.getParent();
+			ONode grandParentNode = (ONode) this.getParent();
 			this.checked = true;
+			parentNode.checked=false;
+			grandParentNode.checked=false;
+			//System.out.println("Setting return to at node: " + returnTo.hashCode() + " at level: " + returnToIndex);
 			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
 			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			
 		}else{
+			//if there are no kids and it is set to unchecked then expand it
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
 				expandNode();
@@ -125,7 +147,9 @@ public class ONode extends DefaultMutableTreeNode {
 			bestChild.search(deadLine);
 		}
 		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
-		if(this.getChildCount()>0){
+		
+		//if there are kids and it is unchecked then search its kids
+		if(this.getChildCount()>0 && checked == false){
 			this.search(deadLine);
 		} else if(!this.isRoot()) {
 			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
@@ -138,8 +162,11 @@ public class ONode extends DefaultMutableTreeNode {
 		for(Room currRoom: availableRooms){
 			currRoom.getOccupants().clear();
 		}
-		ArrayList<Person> newUnassigned = new ArrayList(unassigned);
-		ArrayList<Person> newAssigned = new ArrayList(assigned);
+		for(Person unassignedPerson: unassigned){
+			unassignedPerson.clearRoomAssignment();
+		}
+		ArrayList<Person> newUnassigned = new ArrayList<Person>(unassigned);
+		ArrayList<Person> newAssigned = new ArrayList<Person>(assigned);
 			
 		Person personToAssign = newUnassigned.remove(0);
 			newAssigned.add(personToAssign);
@@ -157,7 +184,7 @@ public class ONode extends DefaultMutableTreeNode {
 			}
 			
 			for (Room r : availableRooms){ // Create one child for each room
-				ArrayList<Room> newAvailableRooms = new ArrayList(availableRooms);
+				ArrayList<Room> newAvailableRooms = new ArrayList<Room>(availableRooms);
 				personToAssign.addRoomAssignment(r);
 				//Check if placing the newlyAssigned person in his/her room has resulted in that room becoming full. If so, remove it from the list of available rooms
 
