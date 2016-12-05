@@ -1,5 +1,2 @@
-assign-to(secratary1, largeRm1)
-assign-to(grpHead1, smallRm1)
-//Attributes: complete, solved, utility=0, 2/2 people assgined.
-//searched 3 nodes, including 1 solution(s) found
-
+//Attributes: incomplete, unsolved, utility=null, 1/2 people assgined.
+//searched 1 nodes, including 0 	

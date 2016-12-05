@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import cpsc433.Predicate.ParamType;
@@ -294,7 +295,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 */
 	@Override
 	public void a_heads_group(String personName, String groupName) {
-		Group groupObj;
+		Group groupObj = null;
 		try {
 			groupObj = Group.getEntityWithName(groupName);
 		} catch (NoSuchGroupException e) {	
@@ -859,16 +860,10 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	// group heads should have a large room //
 	public static int getPenalty1(Person p){
-		Map<String, Group> p_groups = p.getGroups(); 
-		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
-			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
-				if (p.getRoom().getSize() != RoomSize.LARGE){
-					//System.out.println("Penalty 1 on person: " + p.getName());
-					return -40;
-				}
+		if (p.hasAttribute(Attribute.GROUP_HEAD)&&(p.getRoom().getSize() != RoomSize.LARGE)){
+			//System.out.println("Penalty 1 on person: " + p.getName());
+			return -40;
 			}
-		}
-		
 		return 0;
 	}
 	
