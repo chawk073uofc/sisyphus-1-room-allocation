@@ -12,7 +12,7 @@ package cpsc433;
  * <p>Copyright: Copyright (c) 2003-16, Department of Computer Science, University 
  * of Calgary.  Permission to use, copy, modify, distribute and sell this 
  * software and its documentation for any purpose is hereby granted without 
- * fee, provided that the above copyright notice appear in all copies and that
+ * fee, provided that  the above copyright notice appear in all copies and that
  * both that copyright notice and this permission notice appear in supporting 
  * documentation.  The Department of Computer Science makes no representations
  * about the suitability of this software for any purpose.  It is provided
