@@ -166,7 +166,7 @@ public class SisyphusI {
 		} else if(Person.numberOfPeople()>0){ 
 			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
 			if(Person.getAssignedPeople().isEmpty()){
-				System.out.println("Beginning search.");
+				System.out.println("Beginning Optimized search.");
 				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
 				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
 
@@ -178,12 +178,16 @@ public class SisyphusI {
 				System.out.println("Number of people:" + sortedPeople.size());
 				System.out.println("Number of rooms:" + rooms.size());
 				//***//
-				if(sortedPeople.size()>9 && rooms.size() > 9) {
-					ONode.checkAllNodes=false;
-				}else{
-					ONode.checkAllNodes=true;
-				}
+				ONode.checkAllNodes=false;
 				root.search(deadLine);
+				//OPTIMIZED SEARCH IS DONE//
+				root.search(deadLine);
+				
+				if(System.currentTimeMillis()<deadLine){
+						long timeRemaining = deadLine - System.currentTimeMillis();
+						System.out.println("Finished quick searching, Attempting thorough search.");
+						doFullSearch(env, timeRemaining);
+				}
 				//asdfsadfsadfsadf
 			}else if(Person.numberOfPeople()>0){
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
@@ -201,6 +205,74 @@ public class SisyphusI {
 					System.out.println("Number of unassigned people:" + sortedUnassignedPeople.size());
 					System.out.println("Number of avail rooms:" + sortedAvailRooms.size());
 					//***//
+					ONode.checkAllNodes=false;
+					root.search(deadLine);
+					
+					if(System.currentTimeMillis()<deadLine){
+							long timeRemaining = deadLine - System.currentTimeMillis();
+							System.out.println("Finished quick searching, Attempting thorough search.");
+							doFullSearch(env, timeRemaining);
+					}
+				} else {
+					//everyone is already assigned.
+					System.out.println("All assignments in the input file are already completed. Goodbye!");
+					// DELETE AFTER //
+					ArrayList<Person> test_ppl = Person.getAssignedPeople();
+					Person list[] = new Person[0];
+					for (Person p : test_ppl){
+						System.out.println(SearchControl.f_leaf(p, list));
+					}
+					// ************ //
+					writeOutputFile("All assignments in the input file are already completed.");
+				}		
+			}
+		 }	
+		}
+	protected void doFullSearch(Environment env, long timeLimit) {
+		long deadLine = System.currentTimeMillis() + timeLimit;
+		//System.out.println("Would do a search for "+timeLimit+" milliseconds here, but it's not defined yet.");
+		if(Person.numberOfPeople() > Room.buildingCapacity()){
+			System.out.println("Number of people exceeds building capacity.");
+		}
+		else if(Person.numberOfPeople() > (Room.buildingCapacity() - Person.numberOfBosses())){
+			System.out.println("Not enough rooms for bosses.");		
+		} else if(Person.numberOfPeople()>0){ 
+			//We (might) need to add a check to see if there are more managers/group heads/project leads than free rooms.
+			if(Person.getAssignedPeople().isEmpty()){
+				System.out.println("Beginning Normal search.");
+				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
+				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
+
+				ArrayList<Room> rooms = Room.getAvailableRooms();
+				ArrayList<Room> sortedRooms = getSortedRoomList(rooms);
+				ONode root = new ONode(sortedPeople, sortedRooms);
+				OTree oTree = new OTree(root);
+				//***Print number of people and rooms.
+				System.out.println("Number of people:" + sortedPeople.size());
+				System.out.println("Number of rooms:" + rooms.size());
+				//***//
+				ONode.checkAllNodes=true;
+				root.search(deadLine);
+				//OPTIMIZED SEARCH IS DONE//
+				
+				//asdfsadfsadfsadf
+			}else if(Person.numberOfPeople()>0){
+				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
+				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
+				ArrayList<Room> availRooms = Room.getAvailableRooms();
+				if(!unassignedPpl.isEmpty()){
+					ArrayList<Person> sortedUnassignedPeople = getSortedPersonList(unassignedPpl);
+					ArrayList<Room> sortedAvailRooms = getSortedRoomList(availRooms);
+					
+					ONode root = new ONode(sortedUnassignedPeople, assignedPpl, sortedAvailRooms);
+					
+					OTree oTree = new OTree(root);
+					//***Print number of people and rooms.
+					System.out.println("Number of assigned people:" + assignedPpl.size());
+					System.out.println("Number of unassigned people:" + sortedUnassignedPeople.size());
+					System.out.println("Number of avail rooms:" + sortedAvailRooms.size());
+					//***//
+					ONode.checkAllNodes=true;
 					root.search(deadLine);
 				} else {
 					//everyone is already assigned.
@@ -217,6 +289,7 @@ public class SisyphusI {
 			}
 		 }	
 		}
+	
 	
 	
 	public static String prepareWriteString(int totalNodes, int totalLeaves){

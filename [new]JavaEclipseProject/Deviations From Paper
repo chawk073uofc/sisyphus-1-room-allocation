@@ -16,10 +16,8 @@ calculate the f_leaf values of solutions close to the original solution. If ther
 the values, we go back to the root and begin the search again through a different node. If the results around the 
 original solution are promising, instead we continue searching in that general area. 
 
-In addition to this intelligence backtracking, once we find a solution we don't bother checking the siblings of that node -
-as we know that it's not possible to find a better solution in them (as f_select chooses the best child). Instead of wasting
-precious computational time looking at these children, we simply backtrack two levels up and continue the search at that node
-(thus skipping the search of these redundant children).
-
-
+Finally, we ranked the unassigned people based on their attributes and how these attributes affect the overall penalty (for
+example, group heads have a high penalty possibility, so they are ranked the highest in terms of urgency and are therefore assigned
+before everyone else. The ranking system is group heads -> project heads -> managers -> secretaries -> smokers -> hackers ->
+researches -> other people.
 
