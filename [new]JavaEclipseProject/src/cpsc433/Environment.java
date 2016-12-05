@@ -1059,13 +1059,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if p and q are members of the same project //
 	public static int getPenalty12(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			for (Map.Entry<String, Project> p_entry : p.getProjects().entrySet()) {
-				for (Map.Entry<String, Project> q_entry : q.getProjects().entrySet()){
-					if (p_entry.getValue().getName() == q_entry.getValue().getName()){
-						//System.out.println("Penalty 12 on person: " + p.getName());
-						return -7;
+			if (p.getName() != q.getName()){
+				for (Map.Entry<String, Project> p_entry : p.getProjects().entrySet()) {
+					for (Map.Entry<String, Project> q_entry : q.getProjects().entrySet()){
+						if (p_entry.getValue().getName() == q_entry.getValue().getName()){
+							return -7;
+						}
 					}
-				}
+				}	
 			}	
 		}
 		return 0;
@@ -1074,12 +1075,14 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	// if a non-secretary hacker/non-hacker shares an office with a hacker/non-hacker // TODO: possibly wrong
 	public static int getPenalty13(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
-			if (!p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)){
-				if ((p.hasAttribute(Attribute.HACKER) && !q.hasAttribute(Attribute.HACKER)) || q.hasAttribute(Attribute.HACKER) && !p.hasAttribute(Attribute.HACKER)){
-					//System.out.println("Penalty 13 on person: " + p.getName());
-					return -2;
+			if(p.getName() != q.getName()){
+				if (!p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)){
+					if ((p.hasAttribute(Attribute.HACKER) && !q.hasAttribute(Attribute.HACKER)) || q.hasAttribute(Attribute.HACKER) && !p.hasAttribute(Attribute.HACKER)){
+						//System.out.println("Penalty 13 on person: " + p.getName());
+						return -2;
+					}
 				}
-			}
+			}	
 		}
 		return 0;
 	}	

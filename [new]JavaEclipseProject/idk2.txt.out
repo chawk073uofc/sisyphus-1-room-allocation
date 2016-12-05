@@ -1,5 +1,5 @@
-assign-to(p2, r1)
-assign-to(p1, r2)
-//utility=-20, 2/2 people assgined.
+assign-to(B, r1)
+assign-to(A, r2)
+//utility=-75, 2/2 people assgined.
 //searched 4 nodes, including 1 solution(s) found
 
