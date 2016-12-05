@@ -23,7 +23,7 @@ public class ONode extends DefaultMutableTreeNode {
 	private static int totalLeaves = 0;
 	private static int totalAssigned = 0;
 	private static boolean oneSolFound = false;
-	
+	public static boolean checkAllNodes = true;
 	
 	private ArrayList<Person> unassigned = new ArrayList<Person>();
 	private ArrayList<Person> assigned = new ArrayList<Person>();
@@ -112,9 +112,6 @@ public class ONode extends DefaultMutableTreeNode {
 				SisyphusI.setAssignment(this.assigned, this.f_leaf_value);
 				SisyphusI.writeOutputFile(SisyphusI.prepareWriteString(totalNodes, totalLeaves));
 			}
-			
-			
-			
 			//figure out how far to the tree to return, at the moment it is 90% of the way up
 			int returnToIndex = (int)Math.round(this.getLevel()*0.1);
 			ONode returnTo =(ONode) this.getPath()[returnToIndex];
@@ -124,36 +121,29 @@ public class ONode extends DefaultMutableTreeNode {
 				ONode returnToParent =(ONode) this.getPath()[returnToIndex-1];
 				returnToParent.checked=false;
 			 }
-			//set the parent and grandparent of the solution node as unchecked so we can look in the proximity for a solution
+			//set the parent and grandparent of the solution node as unchecked so we can look in the proximity for a better solution
 			ONode parentNode = (ONode) this.getParent();
 			ONode grandParentNode = (ONode) this.getParent();
 			this.checked = true;
 			parentNode.checked=false;
 			grandParentNode.checked=false;
-			//System.out.println("Setting return to at node: " + returnTo.hashCode() + " at level: " + returnToIndex);
-			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
-			//System.out.println("Removing 2"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
-			
 		}else{
 			//if there are no kids and it is set to unchecked then expand it
 			if(this.getChildCount()==0 && checked == false){
 				checked = true;
 				expandNode();
 			}
-			//BIG problem is when there is a project manager and it takes that room out of circulation and the null pointer gets thrown.
+			
 			ONode bestChild = SearchControl.f_select(this.children);
-			//if(bestChild==null) return;
 			bestChild.getNodesPerson().addRoomAssignment(bestChild.getNodesRoom());
 			bestChild.search(deadLine);
 		}
 		//System.out.println("We are climbing up through node: " +  this.hashCode() + " #ofroomsavail:" + availableRooms.size());
 		
-		//if there are kids and it is unchecked then search its kids
-		if(this.getChildCount()>0 && checked == false){
+		//if there are kids and it is unchecked then search its kids remove the && checked == false to check everynode.
+		if((this.getChildCount()>0 && checked == false && checkAllNodes == false)|| (this.getChildCount()>0 && checked == true && checkAllNodes == true)){
 			this.search(deadLine);
 		} else if(!this.isRoot()) {
-			//thisNodesRoom.getOccupants().remove(thisNodesPerson.getName());
-			//System.out.println("Removing 3"+ thisNodesPerson.getName() + " from room: " + thisNodesRoom.getName());
 			this.removeFromParent();
 		}
 	}
