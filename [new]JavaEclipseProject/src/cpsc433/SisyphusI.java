@@ -242,7 +242,6 @@ public class SisyphusI {
 				System.out.println("Beginning Normal search.");
 				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
 				ArrayList<Person> sortedPeople = getSortedPersonList(unassignedPpl);
-
 				ArrayList<Room> rooms = Room.getAvailableRooms();
 				ArrayList<Room> sortedRooms = getSortedRoomList(rooms);
 				ONode root = new ONode(sortedPeople, sortedRooms);
