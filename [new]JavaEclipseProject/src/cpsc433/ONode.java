@@ -88,13 +88,13 @@ public class ONode extends DefaultMutableTreeNode {
 	 * 
 	 * Once it reaches a leaf node there are two tree transversal modes it can run on:
 	 * Exhaustive: If checkAllNodes each node in the tree will be checked and expanded. 
-	 * 		This method provides us with a generally good solution, quickly, for small to medium inputs.
-	 * 		However for large inputs this methods proves take very long.
-	 * Optimized: In this mode, once the first solution we mark every node in its path to checked, except for its
+	 * 			   This method provides us with a generally good solution, quickly, for small to medium inputs.
+	 * 			   However for large inputs this methods take very long.
+	 * Optimized: In this mode, once the first solution is found we mark every node in its path to checked. Except for its
 	 * 			  immediate parent and immediate grand-parent. We also calculate a return note, which is generally near the root.
 	 * 			  The idea behind it is not to waste too much time looking at nodes around a solution, once a solution is found
-	 * 			  we look at its immidiate family but we do not spend time expanding all the nodes, instead we try and explore 
-	 * 			  paths we could have taken closer to the top. 
+	 * 			  we look at its immediate family but we do not spend time expanding all the nodes, instead we return near to the top to explore 
+	 * 			  paths we could have taken.
 	 * 
 	 * This Optimized version was put into place after we observed that either solutions are really close to a 
 	 * current solution, or they are really far apart, meaning it is in a completely different subsection of the tree we have yet to explore.
