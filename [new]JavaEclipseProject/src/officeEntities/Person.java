@@ -11,16 +11,24 @@ import cpsc433.Entity;
  * This class represents a person in the office allocation problem. It includes a list of the person's
  * attributes (e.g. smoker, hacker, etc), a list of the people with whom the person works, and the office 
  * the person works in as well as the groups and projects he is associated with.
- * @author Chris Hawk
  *
+ *<p>The use of {@link java.util.HashMap} in this class allows for constant time checking if a person with a given name has already 
+ * been created which is critical during the input file parsing phase of the program when this must be done every time a person-related
+ * predicate is encountered. 
  */
 public class Person extends Entity 
 {
-	private static Map<String,Person> people = new HashMap<>(); //All instances of class Person currently instantiated.
-	private TreeSet<Attribute> attributes = new TreeSet<Attribute>(); //The attributes that this instance of Person has.
-	private Map<String,Person> colleagues = new HashMap<>(); //All the people this person works with.
-	private Map<String, Group> groups = new HashMap<>(); //All of the groups this person is assigned to.
-	private Map<String,Project> projects = new HashMap<>(); // All of the projects this person is assigned to.
+	/**All instances of class Person currently instantiated*/
+	private static Map<String,Person> people = new HashMap<>();
+	/**The attributes that this instance of Person has*/
+	private TreeSet<Attribute> attributes = new TreeSet<Attribute>();
+	/**All the people this person works with.*/
+	private Map<String,Person> colleagues = new HashMap<>();
+	/**All of the groups this person is assigned to or the head of.*/
+	private Map<String, Group> groups = new HashMap<>();
+	/**All of the projects this person is assigned to*/
+	private Map<String,Project> projects = new HashMap<>();
+	/**The office of this person*/
 	private Room homeRoom;
 	/**
 	 * Constructor for class person. Creates a Person object with a given name. 
@@ -39,10 +47,9 @@ public class Person extends Entity
 		super(name);
 		attributes.add(personAttribute);	
 		people.put(name,	 this);
-		//people.add(this);
 	}
 	/**
-	 * Compares this Person object to the given object.
+	 * Compares this Person object to the given object on the basis of these peoples ranking attribute (see {@link #getRankingAttribute()}).
 	 * @param p	person object to compare
 	 * @return negative number if p has a higher-ranking ranking attribute than this person
 	 * 		   positive number if p has a lower-ranking ranking attribute than this person
@@ -56,7 +63,6 @@ public class Person extends Entity
 		}
 	    else throw new java.lang.ClassCastException();
 	}
-
 	/**
 	 * Adds the given attribute to the person's list of attributes if it is not already there. 
 	 * @param personAttribute	the attribute to be added (e.g. "smoker")
@@ -65,7 +71,6 @@ public class Person extends Entity
 		if(!attributes.contains(personAttribute))
 			attributes.add(personAttribute);
 	}
-
 	/**
 	 * Returns true if an Person object with the same name already exists.
 	 * @param name	the name of a person who may or may not exist
@@ -74,7 +79,6 @@ public class Person extends Entity
 	public static boolean exists(String name){
 		return people.containsKey(name);
 	}
-
 	/**
 	 * Returns an object representing a person with a given name , if such person exists.
 	 * @param name the name of a person who may or may not exist
@@ -93,9 +97,8 @@ public class Person extends Entity
 	 * @return true if the given attribute is included in the person's list of attributes.
 	 */
 	public boolean hasAttribute(Attribute personAttr) {
-		return attributes.contains(personAttr);//O(1)
+		return attributes.contains(personAttr);
 	}
-
 	/**
 	 * Adds the group with the given name to the list of groups with which this person is associated. 
 	 * Creates the group if it does not exist.
@@ -115,8 +118,8 @@ public class Person extends Entity
 	 * @param colleague the person to add to this person's list of colleagues
 	 */
 	public void addColleague(Person colleague) {
-		if (!colleagues.containsKey(colleague.getName())){ //O(1)
-			colleagues.put(colleague.getName(), colleague); //O(1)
+		if (!colleagues.containsKey(colleague.getName())){ 
+			colleagues.put(colleague.getName(), colleague); 
 		}
 	/**
 	 * Adds the project with the given name to this list of projects with which this person is associated. 
@@ -154,9 +157,9 @@ public class Person extends Entity
 		this.homeRoom = null;
 	}
 	/**
-	 * String representation of person. String contains information about all the 
-	 * person's colleagues and attributes.
-	 * @return a string representation of a person
+	 * String representation of person. String lists information about all the 
+	 * person's colleagues and attributes in the form of logical predicates.
+	 * @return personString a string representation of a person
 	 */
 	@Override
 	public String toString(){
@@ -171,8 +174,8 @@ public class Person extends Entity
 	}
 	/**
 	 * Builds a string representing all the Person objects instantiated by calling the
-	 * toString() method of each. 
-	 * @return a string representing all known information about all people
+	 * <code>toString()</code> method of each. 
+	 * @return peopleString a string representing all known information about all people
 	 */
 	public static String peopleInfoString(){
 		String peopleStr = "";
@@ -182,34 +185,38 @@ public class Person extends Entity
 		
 		return peopleStr;
 	}
-	
+	/**
+	 * Assesses the number of people that exist in the knowledge base. 
+	 * @return numPeople the number of people that exist in the knowledge base
+	 */
 	public static int numberOfPeople() {
 		return people.size();
 	}
+	/**
+	 * Getter for the room to which this person is assigned. 
+	 * @return homeRoom the room to which this person is assigned
+	 */
 	public Room getRoom(){
 		return homeRoom;
 	}
-	
+	/**
+	 * Getter for the list of projects of which this person is a member. 
+	 * @return projects the list of projects of which this person is a member.
+	 */
 	public Map<String,Project> getProjects(){
 		return projects;
 	}
-	
-	public static HashMap<String, Person> getPersonList(){
-		return (HashMap<String, Person>) people;
-	}
-	
+	/**
+	 * Getter for the list of groups of which this person is a member. 
+	 * @return	groups	the list of groups of which this person is a member. 
+	 */
 	public Map<String, Group> getGroups(){
 		return groups;
 	}
 	/**
-	 * Computes the total soft  constraint penalty score for the person.
-	 * @return an integer representing the total penalty
+	 * Assesses the most important attribute (e.g. group-head, smoker) that this person has as defined by the {@link Attribute attribute} enum.
+	 * @return rankingAttribute the most important attribute (e.g. group-head, smoker) that this person has as defined by the <code>Attribute</code> enum
 	 */
-	public int computePenalty(){
-		int penalty = 0;	
-		return penalty;
-	}
-	
 	public Attribute getRankingAttribute(){ 
 		Attribute highest = Attribute.PERSON;
 		for(Attribute a: attributes){
@@ -219,7 +226,10 @@ public class Person extends Entity
 		}
 		return highest;
 	}
-	
+	/**
+	 * Assesses the number of people who are in a management position as defined by <code>isBoss()<\code>.
+	 * @return numBosses the number of people who are in a management position as defined by <code>isBoss()<\code>.
+	 */
 	public static int numberOfBosses() {
 		int numBosses = 0;
 		for (Person p: people.values()){
@@ -228,13 +238,19 @@ public class Person extends Entity
 		}
 		return numBosses;
 	}
-	
+	/**
+	 * Checks if the given person is in a management position (group-head, manager, or project-head)
+	 * @return true if the given person is either a group-head, manager, or project-head.
+	 */
 	public boolean isBoss(){
 		return (this.hasAttribute(Attribute.GROUP_HEAD)
 				|| this.hasAttribute(Attribute.MANAGER)
 				|| this.hasAttribute(Attribute.PROJECT_HEAD));
 	}
-	
+	/**
+	 * Gets a list of people who have been assigned to a room.
+	 * @return assignedPeople	a list of people who have been assigned to a room
+	 */
 	public static ArrayList<Person> getAssignedPeople(){
 		ArrayList<Person> assignedPeople = new ArrayList<>();
 		for(Person p: people.values()){
@@ -245,7 +261,10 @@ public class Person extends Entity
 		return assignedPeople;
 	}
 	
-	
+	/**
+	 * Gets a list of people who have not been assigned a room.
+	 * @return unassignedPeople	a list of people who have not been assigned a room.
+	 */
 	public static ArrayList<Person> getUnAssignedPeople(){
 		ArrayList<Person> unassignedPeople = new ArrayList<>();
 		for(Person p: people.values()){
