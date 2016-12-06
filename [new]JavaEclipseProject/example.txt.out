@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 assign-to(Person400, Room301)
 assign-to(Person414, Room306)
 assign-to(Person86, Room316)
@@ -501,42 +500,4 @@ assign-to(Person457, Room48)
 assign-to(Person215, Room297)
 //utility=-18100, 500/500 people assgined.
 //searched 89197 nodes, including 1 solution(s) found
-=======
-assign-to(Thomas, C5119)
-<<<<<<< HEAD
-assign-to(Hans, C5123)
-assign-to(Joachim, C5117)
-assign-to(Katharina, C5120)
-assign-to(Eva, C5122)
-assign-to(Ulrike, C5121)
-assign-to(Monika, C5116)
-assign-to(Andy, C5115)
-assign-to(Uwe, C5114)
-assign-to(Michael, C5121)
-assign-to(Werner, C5121)
-assign-to(Jurgen, C5121)
-assign-to(Harry, C5121)
-assign-to(Marc, C5113)
-assign-to(Angi, C5116)
-//utility=-176, 15/15 people assgined.
-//searched 2139 nodes, including 161 solution(s) found
-=======
-assign-to(Hans, C5117)
-assign-to(Joachim, C5120)
-assign-to(Katharina, C5121)
-assign-to(Eva, C5116)
-assign-to(Ulrike, C5122)
-assign-to(Monika, C5115)
-assign-to(Andy, C5123)
-assign-to(Uwe, C5123)
-assign-to(Michael, C5122)
-assign-to(Werner, C5114)
-assign-to(Jurgen, C5113)
-assign-to(Harry, C5113)
-assign-to(Marc, C5114)
-assign-to(Angi, C5115)
-//utility=-166, 15/15 people assgined.
-//searched 2625275 nodes, including 913101 solution(s) found
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
->>>>>>> branch 'master' of https://gitlab.com/chrishawk9/sisDist.git
 
