@@ -12,21 +12,24 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * This class serves as the search control for the search process, along with the summing of penalty points.
+ * Theoretical elements include fleaf and fselect.
+ * The f_leaf function takes in assignments and determines the penalty score of the scenario (node).
+ * The fselect function takes in child nodes, and returns the child node with the highest score.
+ * 
+ * @author Brandon Sieu
+ *
+ */
+
 public class SearchControl {
-	//f_select
-		//return child with best f_wert score
-	//f_leaf
-		//return sum of penalties for violated penalties 
-	//constraint1
-		//return penalty if violated
-	//constraint2
-	//...
+	
 	/**
 	 * Returns the total penalty associated with a state (partial or complete building assignment)
 	 * by determining which soft constraints are violated. 
-	 * @param personName
-	 * @param people
-	 * @return
+	 * @param personName person to be inserted into the building assignment state
+	 * @param people	existent people in the building assignment state
+	 * @return penalty score of the building assignment
 	 */
 	public static int f_leaf(Person personName, Person... people){
 		int penalty = 0;
@@ -54,31 +57,34 @@ public class SearchControl {
 	/**
 	 * Version of f_leaf to be called when the root node of the search tree is not empty
 	 * (input file contains room assignments).
-	 * @param array
-	 * @return
+	 * @param people the array of person objects that reside within the root node
+	 * @return penalty score of the building assignment
 	 */
 	public static int f_leaf(Person[] people) {
-		ArrayList<Person> peopleAL= new ArrayList<>(Arrays.asList(people));
+		ArrayList<Person> peopleAL= new ArrayList<>(Arrays.asList(people));	
 		int penalty = 0;
+		//Copies the array into an arraylist
 		for(int i=0; i<people.length; i++){
 			Person p = peopleAL.get(i);
 			ArrayList<Person> peopleALCpy = new ArrayList<>();
 			peopleALCpy.remove(i);
 			Person[] everythingBut_p = (Person[]) peopleALCpy.toArray();
+			//extracts a person each iteration, and calculates a total penalty by looping f_leaf
 			penalty += f_leaf(p, everythingBut_p);
 		}
 		return penalty;
 	}
+	
 	/**
-	 * performs fselect and returns the child with the highest fleaf value
+	 * Performs f_select and returns the child with the highest f_leaf value.
 	 * 
-	 * 
-	 * @param children
-	 * @return
+	 * @param children the vector of children nodes.
+	 * @return the child node with the best f_leaf value.
 	 */
 	public static ONode f_select(Vector children) {
 		int bestFLeaf = Integer.MIN_VALUE;
 		ONode bestNode = null;
+		//search for best f_leaf over vector of children
 		for(Object objNode: children){
 			ONode currNode = (ONode) objNode;
 			if(currNode.get_f_leaf()>bestFLeaf){
