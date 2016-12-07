@@ -11,16 +11,24 @@ import cpsc433.Entity;
  * This class represents a person in the office allocation problem. It includes a list of the person's
  * attributes (e.g. smoker, hacker, etc), a list of the people with whom the person works, and the office 
  * the person works in as well as the groups and projects he is associated with.
- * @author Chris Hawk
  *
+ *<p>The use of {@link java.util.HashMap} in this class allows for constant time checking if a person with a given name has already 
+ * been created which is critical during the input file parsing phase of the program when this must be done every time a person-related
+ * predicate is encountered. 
  */
 public class Person extends Entity 
 {
-	private static Map<String,Person> people = new HashMap<>(); //All instances of class Person currently instantiated.
-	private TreeSet<Attribute> attributes = new TreeSet<Attribute>(); //The attributes that this instance of Person has.
-	private Map<String,Person> colleagues = new HashMap<>(); //All the people this person works with.
-	private Map<String, Group> groups = new HashMap<>(); //All of the groups this person is assigned to.
-	private Map<String,Project> projects = new HashMap<>(); // All of the projects this person is assigned to.
+	/**All instances of class Person currently instantiated*/
+	private static Map<String,Person> people = new HashMap<>();
+	/**The attributes that this instance of Person has*/
+	private TreeSet<Attribute> attributes = new TreeSet<Attribute>();
+	/**All the people this person works with.*/
+	private Map<String,Person> colleagues = new HashMap<>();
+	/**All of the groups this person is assigned to or the head of.*/
+	private Map<String, Group> groups = new HashMap<>();
+	/**All of the projects this person is assigned to*/
+	private Map<String,Project> projects = new HashMap<>();
+	/**The office of this person*/
 	private Room homeRoom;
 	/**
 	 * Constructor for class person. Creates a Person object with a given name. 
@@ -39,7 +47,6 @@ public class Person extends Entity
 		super(name);
 		attributes.add(personAttribute);	
 		people.put(name,	 this);
-		//people.add(this);
 	}
 	/**
 	 * Compares this Person object to the given object on the basis of these peoples ranking attribute (see {@link #getRankingAttribute()}).
@@ -198,13 +205,6 @@ public class Person extends Entity
 	 */
 	public Map<String,Project> getProjects(){
 		return projects;
-	}
-	/**
-	 * not called?
-	 * @return
-	 */
-	public static HashMap<String, Person> getPersonList(){
-		return (HashMap<String, Person>) people;
 	}
 	/**
 	 * Getter for the list of groups of which this person is a member. 
