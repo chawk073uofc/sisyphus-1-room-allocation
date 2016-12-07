@@ -1,8 +1,2 @@
-assign-to(p5, C5119)
-assign-to(p4, C5117)
-assign-to(p3, C5120)
-assign-to(p2, C5123)
-assign-to(p1, C5122)
-//utility=0, 5/5 people assgined.
-//searched 51 nodes, including 1 solution(s) found
-
+//Attributes: incomplete, utility=null, 0/5 people assgined.
+//searched 1 nodes, including 0 solutions found
