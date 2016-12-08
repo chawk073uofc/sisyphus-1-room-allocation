@@ -188,7 +188,6 @@ public class SisyphusI {
 						System.out.println("Finished quick searching, Attempting thorough search.");
 						doFullSearch(env, timeRemaining);
 				}
-				//asdfsadfsadfsadf
 			}else if(Person.numberOfPeople()>0){
 				ArrayList<Person> assignedPpl = Person.getAssignedPeople();
 				ArrayList<Person> unassignedPpl = Person.getUnAssignedPeople();
