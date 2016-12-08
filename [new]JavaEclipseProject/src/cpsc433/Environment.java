@@ -896,7 +896,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		Map<String, Group> p_groups = p.getGroups();
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
-				int iter = 0;
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the group
 					if (entry_person.getValue().hasAttribute(Attribute.SECRETARY)){ 
 						if (entry_person.getValue().getRoom()==null) return 0;//Added by ali on sat. Not sure if it is correct tho.
