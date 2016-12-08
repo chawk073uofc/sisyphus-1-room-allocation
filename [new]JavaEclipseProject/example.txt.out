@@ -1,3 +1,4 @@
+
 assign-to(Person400, Room301)
 assign-to(Person414, Room306)
 assign-to(Person86, Room316)
@@ -498,6 +499,3 @@ assign-to(Person342, Room47)
 assign-to(Person459, Room296)
 assign-to(Person457, Room48)
 assign-to(Person215, Room297)
-//utility=-18100, 500/500 people assgined.
-//searched 89197 nodes, including 1 solution(s) found
-
