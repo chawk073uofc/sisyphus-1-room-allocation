@@ -845,33 +845,28 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return false;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// THE SOFT CONSTRAINTS //
 	
-	// group heads should have a large room //
+	/**
+	 * Checks to see if a group head isn't in a large room
+	 * @param person to check
+	 * @return int 
+	 */
 	public static int getPenalty1(Person p){
 		if (p.hasAttribute(Attribute.GROUP_HEAD)&&(p.getRoom().getSize() != RoomSize.LARGE)){
-			//System.out.println("Penalty 1 on person: " + p.getName());
 			return -40;
 			}
 		return 0;
 	}
 	
-	// group heads should be close to all members of their group //
+	/**
+	 * Checks to see if a group head isn't close to all members of their group
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty2(Person p){
 		Map<String, Group> p_groups = p.getGroups();
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
-			//System.out.println("here");
 			if (entry.getValue().hasGroupHead(p.getName())){ // if person p is the head of a group
 				if (entry.getValue().getMembers().size() == 1){ // if person p is the only member of the group we return 0
 					// do nothing
@@ -892,7 +887,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// group heads should be close to at least one secretary in the group //
+	/**
+	 * Checks to see if a group head isn't close to at least one secretary in their group
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty3(Person p){
 		Map<String, Group> p_groups = p.getGroups();
 		for (Map.Entry<String, Group> entry : p_groups.entrySet()){
@@ -912,18 +911,25 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0; 
 	}
 	
-	// if one person is a secretary and the other isn't //
+	/**
+	 * Checks to see if a secretary shares a room with a non-secretary
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty4(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if ((p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)) || (q.hasAttribute(Attribute.SECRETARY) && !p.hasAttribute(Attribute.SECRETARY))){
-				//System.out.println("Penalty 4 on person: " + p.getName());
 				return -5;
 			}
 		}
 		return 0;
 	}
 	
-	// managers should be close to at least one secretary in their group //
+	/**
+	 * Checks to see if a manager isn't close to at least one secretary in their group
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty5(Person p){
 		if (p.hasAttribute(Attribute.MANAGER)){
 			if (p.getGroups().size() == 0){ // If the manager is not a member of any groups then the penalty is 0
@@ -940,13 +946,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 					}
 				}
 			}
-			//System.out.println("Penalty 5 on person: " + p.getName());
 			return -20; // if a secretary is not found that's close, we return the penalty
 		}
 		return -0; 
 	}
 	
-	// managers should be close to their groups head //
+	/**
+	 * Checks to see if a manager isn't close to their group's head
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty6(Person p){
 		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
@@ -954,7 +963,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				Map<String, Person> groupHeads = entry.getValue().getGroupHeads();
 				for (Map.Entry<String, Person> groupHeads_entry : groupHeads.entrySet()){
 					if (!p.getRoom().isCloseTo(groupHeads_entry.getValue().getRoom())){ // if the manager p isn't close to his groups head
-						//System.out.println("Penalty 6 on person: " + p.getName());
 						return -20;
 					}
 				}
@@ -963,7 +971,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// managers should be close to all members of their group //
+	/**
+	 * Checks to see if a manager isn't close to all members of their group
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty7(Person p){
 		if (p.hasAttribute(Attribute.MANAGER)){
 			Map<String, Group> p_groups = p.getGroups();
@@ -975,7 +987,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 					for (Map.Entry<String, Person> person_entry : entry.getValue().getMembers().entrySet()){ // for every person in the group
 						if (person_entry.getValue().getRoom()==null) return 0;//added by ali on sat not sure if it is correct
 						if (!p.getRoom().isCloseTo(person_entry.getValue().getRoom())){ // if the manager p isn't close to the member
-							//System.out.println("Penalty 7 on person: " + p.getName());
 							return -2;
 						}
 					}
@@ -985,7 +996,11 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// the heads of projects should be close to all members of their project //
+	/**
+	 * Checks to see if a project head isn't close to all members of their project
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty8(Person p){
 		Map<String, Project> p_projects = p.getProjects();
 		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
@@ -993,16 +1008,19 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 				for (Map.Entry<String, Person> entry_person : entry.getValue().getMembers().entrySet()){ // for every member of the project
 					if (entry_person.getValue().getRoom()==null) return 0;
 					if (!p.getRoom().isCloseTo(entry_person.getValue().getRoom())){ // if the project head isn't close to the member
-						//System.out.println("Penalty 8 on person: " + p.getName());	
 						return -5; 
-						}
+					}
 					}
 			}
 		}
 		return 0;
 	}
 	
-	// the heads of large projects should be close to at least one secretary in their group //
+	/**
+	 * Checks to see if a large project head isn't close to at least one secretary in their group
+	 * @param person to check
+	 * @return int
+	 */
 	public static int getPenalty9(Person p){
 		Map<String, Project> p_projects = p.getProjects();
 		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
@@ -1019,14 +1037,18 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 						}
 					}
 				}
-				//System.out.println("Penalty 9 on person: " + p.getName());
 				return -10; // If a secretary was not found
 			}
 		}	
 		return 0;
 	}
 	
-	// the heads of large projects should be close to the head of their group
+	/**
+	 * Checks to see if a large project head is close to the head of their group
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty10(Person p, Person q){
 		Map<String, Project> p_projects = p.getProjects();
 		for (Map.Entry<String, Project> entry : p_projects.entrySet()){ // for every project person p is in;
@@ -1037,7 +1059,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 					for (Map.Entry<String, Person> groupHead_entry : g_entry.getValue().getGroupHeads().entrySet()){ // for every group head in the group
 						
 						if (!p.getRoom().isCloseTo(groupHead_entry.getValue().getRoom())){
-							//System.out.println("Penalty 10 on person: " + p.getName());
 							return -10;
 						}
 					}
@@ -1047,18 +1068,27 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// if one person is a smoker and the other isn't //
+	/**
+	 * Checks to see if a smoker and non-smoker share a room
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty11(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if ((p.hasAttribute(Attribute.SMOKER) && !q.hasAttribute(Attribute.SMOKER)) || (q.hasAttribute(Attribute.SMOKER) && !p.hasAttribute(Attribute.SMOKER))){
-				//System.out.println("Penalty 11 on person: " + p.getName());
 				return -50;
 			}
 		}
 		return 0;
 	}
 	
-	// if p and q are members of the same project //
+	/**
+	 * Checks to see if two people who are in the same project share a room
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty12(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if (p.getName() != q.getName()){
@@ -1074,13 +1104,17 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// if a non-secretary hacker/non-hacker shares an office with a hacker/non-hacker // TODO: possibly wrong
+	/**
+	 * Checks to see if a non-secretary hacker/non-hacker shares a room with a hacker/non-hacker
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty13(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if(p.getName() != q.getName()){
 				if (!p.hasAttribute(Attribute.SECRETARY) && !q.hasAttribute(Attribute.SECRETARY)){
 					if ((p.hasAttribute(Attribute.HACKER) && !q.hasAttribute(Attribute.HACKER)) || q.hasAttribute(Attribute.HACKER) && !p.hasAttribute(Attribute.HACKER)){
-						//System.out.println("Penalty 13 on person: " + p.getName());
 						return -2;
 					}
 				}
@@ -1089,23 +1123,31 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}	
 
-	// if person p shares a room with person q //
+	/**
+	 * Checks to see if two people share a room
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty14(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){ //  Make sure they're not the same person!
 			if(p.getName() != q.getName()){
-				//System.out.println("Penalty 14 on person: " + p.getName());
 				return -4;
 			}
 		}
 		return 0;
 	}
 	
-	// if person p does not work with person q //
+	/**
+	 * Checks to see if two people who don't work together share a room
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty15(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if(p.getName() != q.getName()){ //  Make sure they're not the same person!
 				if (!p.isColleague(q)){
-					//System.out.println("Penalty 15 on person: " + p.getName());
 					return -3;
 				}
 			}
@@ -1113,12 +1155,16 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		return 0;
 	}
 	
-	// if person p and q share a small room //
+	/**
+	 * Checks to see if two people share a small room
+	 * @param person to check
+	 * @param person to check against
+	 * @return int
+	 */
 	public static int getPenalty16(Person p, Person q){
 		if (p.getRoom().getName() == q.getRoom().getName()){
 			if (p.getName() != q.getName()){ //  Make sure they're not the same person!
 				if (p.getRoom().getSize() == RoomSize.SMALL){
-					//System.out.println("Penalty 16 on person: " + p.getName());
 					return -25;
 				}
 			}
