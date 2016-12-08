@@ -326,7 +326,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If person doesn't exist create it and add it
 	 * @param personName the name of the person
 	 * @param projectName the name of the project
-	 * @return void
 	 */
 	@Override
 	public void a_project(String personName, String projectName) {
@@ -360,8 +359,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If proj exists, simply add person to it and make him the head
 	 * If person doesn't exist create it and add it
 	 * @param personName the name of the person
-	 * @param projectName the name of the project
-	 * @return void
+	 * @param projName the name of the project
 	 */
 	@Override
 	public void a_heads_project(String personName, String projName) {
@@ -762,7 +760,6 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	/**
 	 * Creates a group with groupName.
 	 * @param groupName
-	 * @return void
 	 */
 	@Override
 	public void a_group(String groupName) {
@@ -772,8 +769,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 		
 	/**
 	 * Returns true if a group with groupName exists.
-	 * @param groupName
-	 * @return boolean
+	 * @param groupName the name of the group
+	 * @return true if the group already exists.
 	 */
 	@Override
 	public boolean e_group(String groupName) {
@@ -782,8 +779,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	/**
 	 * Creates a project with given project name.
-	 * @param projName
-	 * @return void
+	 * @param projName name of project
 	 */
 	@Override
 	public void a_project(String projName) {
@@ -793,8 +789,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	
 	/**
 	 * Returns true if a project with projName exists.
-	 * @param projName
-	 * @return boolean
+	 * @param projName project name
+	 * @return true if the project exists
 	 */
 	@Override
 	public boolean e_project(String projName) {
@@ -806,9 +802,7 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	 * If a project already exists with given name, 
 	 * it will check to see if that project is large.
 	 * If it is not large, it will set it to large.
-	 * 
 	 * @param projName
-	 * @return void
 	 */
 	@Override
 	public void a_large_project(String projName) {
@@ -828,8 +822,8 @@ public class Environment extends PredicateReader implements SisyphusPredicates {
 	}
 	/**
 	 * Returns true if a project with projName exists and is large.
-	 * @param projName
-	 * @return boolean
+	 * @param projName name of project
+	 * @return true if project exists
 	 */
 	@Override
 	public boolean e_large_project(String projName) {
