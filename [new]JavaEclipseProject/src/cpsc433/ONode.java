@@ -1,10 +1,4 @@
-/**
- * A node in the or tree. Also known as a state.
- * Each node stores a list of currently assigned people, unassigned people, available rooms.
- * Each node also has 2 variable that keep track of which person-room assignment this node handled thisNodesPerson, thisNodesRoom
- * Each node also has a checked boolean associated with them. This stores if this particular node has been check.
- * The f_leaf_value for each stored is also stored in each node. It stores the f-leaf value of the entire subtree before it.
- */
+
 package cpsc433;
 
 import java.util.ArrayList;
@@ -18,7 +12,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import officeEntities.Person;
 import officeEntities.Room;
 
-
+/**
+ * A node in the or tree. Also known as a state.
+ * Each node stores a list of currently assigned people, unassigned people, available rooms.
+ * Each node also has 2 variable that keep track of which person-room assignment this node handled thisNodesPerson, thisNodesRoom
+ * Each node also has a checked boolean associated with them. This stores if this particular node has been check.
+ * The f_leaf_value for each stored is also stored in each node. It stores the f-leaf value of the entire subtree before it.
+ */
 public class ONode extends DefaultMutableTreeNode {
 	private static int totalNodes = 0;
 	private static int totalLeaves = 0;
@@ -36,8 +36,7 @@ public class ONode extends DefaultMutableTreeNode {
 	
 	/**
 	 * Constructor for an empty root node (no assignments).
-	 * @param availableRooms TODO
-	 * @param avilableRooms TODO
+	 * @param unassignedPpl, availableRooms
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Room> availableRooms){
 		totalNodes++;
@@ -49,8 +48,7 @@ public class ONode extends DefaultMutableTreeNode {
 	/**
 	 * Constructor for non-empty root node (input file contains room assignments).
 	 * 
-	 * @param unassigned
-	 * @param assigned
+	 * @param unassigned, assignedPpl, availableRooms
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, ArrayList<Room> availableRooms){
 		totalNodes++;
@@ -61,10 +59,7 @@ public class ONode extends DefaultMutableTreeNode {
 	
 	/**
 	 * Constructor for child node.
-	 * @param availabelRooms TODO
-	 * @param unassigned
-	 * @param assigned
-	 * @param newlyAssinged
+	 * @param availabelRooms, unassigned, assigned, newlyAssinged
 	 */
 	public ONode(ArrayList<Person> unassignedPpl, ArrayList<Person> assignedPpl, Person newlyAssigned, ArrayList<Room> availableRooms, Room thisNodesRoom, Person thisNodesPerson){
 		totalNodes++;
@@ -264,7 +259,7 @@ public class ONode extends DefaultMutableTreeNode {
 	}
 	/**
 	 * Returns this node's fleaf value
-	 * @return int fLeafvalue
+	 * @return int
 	 */
 	public int get_f_leaf(){
 		return f_leaf_value;
@@ -279,7 +274,6 @@ public class ONode extends DefaultMutableTreeNode {
 	/**
 	 * Function that calculated the fleaf and returns it
 	 * @param newlyAssigned
-	 * @return int fleafvalue
 	 */
 	public int calc_f_leaf(Person newlyAssigned){
 		if(!this.isRoot()){

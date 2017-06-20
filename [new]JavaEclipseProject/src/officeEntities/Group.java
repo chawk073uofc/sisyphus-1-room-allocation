@@ -11,7 +11,11 @@ import java.util.TreeSet;
  *
  */
 import cpsc433.Entity;
-
+/**
+ * 
+ * @author chrishawk_MacBookAir
+ *
+ */
 public class Group extends Entity {
 	private static Map<String, Group> groups =new HashMap<>(); //All instances of class Group currently instantiated.
 	private Map<String, Person> members = new HashMap<>();
@@ -97,7 +101,7 @@ public class Group extends Entity {
 		return !groupHeads.isEmpty();
 	}
 	/**
-	 * Returns true if the named group exsists.
+	 * Returns true if the named group exists.
 	 * @param groupName
 	 * @return boolean
 	 */
